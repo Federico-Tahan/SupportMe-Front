@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { PublicLayoutComponent } from './public/public-layout/public-layout.component';
 import { IntranetLayoutComponent } from './intranet/intranet-layout/intranet-layout.component';
+import { authGuard } from './core/shared/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -17,6 +18,7 @@ export const routes: Routes = [
     {
       path: 'intranet',
       component: IntranetLayoutComponent,
+      canActivate: [authGuard],
       children: [
         {
           path: 'intra',

@@ -1,22 +1,9 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
+  DEFAULT_ENTRY_NAME,
   FirebaseApp,
   FirebaseAppModule,
   FirebaseApps,
-  deleteApp,
-  firebaseApp$,
-  getApp,
-  getApps,
-  initializeApp,
-  initializeServerApp,
-  onLog,
-  provideFirebaseApp,
-  registerVersion,
-  setLogLevel
-} from "./chunk-OXBBE2VF.js";
-import "./chunk-ENEUQWJI.js";
-import {
-  DEFAULT_ENTRY_NAME,
   FirebaseError,
   SDK_VERSION,
   _addComponent,
@@ -29,9 +16,19 @@ import {
   _isFirebaseServerApp,
   _registerComponent,
   _removeServiceInstance,
-  _serverApps
-} from "./chunk-6QSSKZXH.js";
-import "./chunk-F3ZXLKS4.js";
+  _serverApps,
+  deleteApp,
+  firebaseApp$,
+  getApp2 as getApp,
+  getApps,
+  initializeApp,
+  initializeServerApp,
+  onLog,
+  provideFirebaseApp,
+  registerVersion2 as registerVersion,
+  setLogLevel
+} from "./chunk-ZOTIWVWI.js";
+import "./chunk-JZ6QEGQJ.js";
 import "./chunk-LI6NGK76.js";
 export {
   FirebaseApp,
