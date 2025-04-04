@@ -1,0 +1,138 @@
+:root {
+    --primary-color: #6366f1;
+    --light-pink: #ffe6ed;
+    --text-dark: #222;
+    --text-muted: #666;
+    --border-color: #ddd;
+  }
+  
+  .hero-section {
+    position: relative;
+    padding: 4rem 0;
+    overflow: hidden;
+  }
+  
+  .silla-rueda {
+    position: absolute; 
+    top: 293px; 
+    left: 623px; 
+    width: 237px; 
+    height: 339px; 
+    border-radius: 0px;
+    z-index: 5;
+  }
+  
+  .hero-text-container {
+    position: relative;
+    display: inline-block;
+    border-left: 3px solid var(--primary-color);
+  }
+  
+  .hero-text-container h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  
+  /* Decorative circle */
+  .decorative-circle {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background-color: var(--light-pink);
+    border-radius: 50%;
+    top: -80px;
+    right: -80px;
+    z-index: -1;
+  }
+  
+  
+  /* Tarjetas de proyectos */
+  .project-cards {
+    margin-left: 120px;
+    position: relative;
+    z-index: 3;
+  }
+  
+  .card {
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+    margin-bottom: 15px;
+  }
+  
+  .card-title {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+  }
+  
+  .category {
+    font-size: 0.75rem;
+    color: var(--primary-color);
+  }
+  
+  .view-more {
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .btn-primary {
+    background-color: #6366f1;
+    border-color: #6366f1;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: white;
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+  }
+  
+  .btn-primary:hover {
+    background-color: #5152d0;
+    border-color: #5152d0;
+  }
+
+  .btn-outline-secondary {
+    border-color: #ccc;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+  .btn-outline-secondary:hover {
+    background-color:  #fcfafa;
+  }
+
+  .donation-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4rem;
+  }
+
+  .donation-button-container {
+    display: flex;
+    justify-content: left;
+  }
+
+  .img-fluid {
+    width: auto;
+    max-width: 45%;
+    height: auto; 
+  }
+  
+  @media (min-width: 768px) and (max-width: 1024px) {
+
+  }
+  @media (max-width: 992px) {
+    .donation-button-container {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .img-fluid {
+      width: auto;
+      max-width: 100%;
+      height: auto; 
+    }
+  }

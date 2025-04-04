@@ -1,0 +1,70 @@
+{
+  "hash": "6f2aeaa5",
+  "configHash": "9bd45f8c",
+  "lockfileHash": "9503bc0c",
+  "browserHash": "9b5af420",
+  "optimized": {
+    "@angular/common/http": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
+      "file": "@angular_common_http.js",
+      "fileHash": "d774f20b",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "852c9011",
+      "needsInterop": false
+    },
+    "@angular/fire/app": {
+      "src": "../../../../../../node_modules/@angular/fire/fesm2022/angular-fire-app.mjs",
+      "file": "@angular_fire_app.js",
+      "fileHash": "e77228f0",
+      "needsInterop": false
+    },
+    "@angular/fire/auth": {
+      "src": "../../../../../../node_modules/@angular/fire/fesm2022/angular-fire-auth.mjs",
+      "file": "@angular_fire_auth.js",
+      "fileHash": "0b567110",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "72aa0379",
+      "needsInterop": false
+    },
+    "@angular/platform-server": {
+      "src": "../../../../../../node_modules/@angular/platform-server/fesm2022/platform-server.mjs",
+      "file": "@angular_platform-server.js",
+      "fileHash": "d1e01c3d",
+      "needsInterop": false
+    },
+    "@angular/router": {
+      "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
+      "file": "@angular_router.js",
+      "fileHash": "42e5feec",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-RCJJS3RG": {
+      "file": "chunk-RCJJS3RG.js"
+    },
+    "chunk-L4QQ7O7C": {
+      "file": "chunk-L4QQ7O7C.js"
+    },
+    "chunk-XJLKPY6L": {
+      "file": "chunk-XJLKPY6L.js"
+    },
+    "chunk-RXXAIXEW": {
+      "file": "chunk-RXXAIXEW.js"
+    },
+    "xhr2-VXOH6PK5": {
+      "file": "xhr2-VXOH6PK5.js"
+    },
+    "chunk-LI6NGK76": {
+      "file": "chunk-LI6NGK76.js"
+    }
+  }
+}
