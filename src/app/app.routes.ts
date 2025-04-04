@@ -16,12 +16,12 @@ export const routes: Routes = [
       ]
     },
     {
-      path: 'intranet',
+      path: '',
       component: IntranetLayoutComponent,
       canActivate: [authGuard],
       children: [
         {
-          path: 'intra',
+          path: '',
           loadChildren: () => import('./intranet/intranet.routes').then(m => m.INTRANET_ROUTES)
         }
       ]
