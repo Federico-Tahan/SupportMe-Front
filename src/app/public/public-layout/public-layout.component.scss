@@ -1,0 +1,6 @@
+@import '../components/navbar/navbar.component.scss';
+
+
+.content{
+    height: calc(100vh - #{$navbar-height});
+}
