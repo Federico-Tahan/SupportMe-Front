@@ -1,13 +1,20 @@
 import {
-  Component,
-  ErrorFactory,
   FirebaseApp,
   FirebaseApps,
+  VERSION,
+  ɵAngularFireSchedulers,
+  ɵAppCheckInstances,
+  ɵgetAllInstancesOf,
+  ɵgetDefaultInstanceOf,
+  ɵzoneWrap
+} from "./chunk-5FJECG2V.js";
+import {
+  Component,
+  ErrorFactory,
   FirebaseError,
   LogLevel,
   Logger,
   SDK_VERSION,
-  VERSION,
   _getProvider,
   _isFirebaseServerApp,
   _registerComponent,
@@ -28,34 +35,33 @@ import {
   isReactNative,
   querystring,
   querystringDecode,
-  registerVersion,
-  ɵAngularFireSchedulers,
-  ɵAppCheckInstances,
-  ɵgetAllInstancesOf,
-  ɵgetDefaultInstanceOf,
-  ɵzoneWrap
-} from "./chunk-L74TONTU.js";
+  registerVersion
+} from "./chunk-TI4MPPNV.js";
 import {
   InjectionToken,
   Injector,
   NgModule,
   NgZone,
-  Observable,
   Optional,
-  __async,
+  makeEnvironmentProviders,
+  setClassMetadata,
+  ɵɵdefineInjector,
+  ɵɵdefineNgModule
+} from "./chunk-K4D27MSH.js";
+import {
+  Observable,
   __rest,
-  __superGet,
   concatMap,
   distinct,
   from,
-  makeEnvironmentProviders,
   of,
-  setClassMetadata,
   switchMap,
-  timer,
-  ɵɵdefineInjector,
-  ɵɵdefineNgModule
-} from "./chunk-FURPV2EI.js";
+  timer
+} from "./chunk-L7O5LDHY.js";
+import {
+  __async,
+  __superGet
+} from "./chunk-5K356HEJ.js";
 
 // node_modules/@firebase/auth/dist/esm2017/index-68602d24.js
 var FactorId = {

@@ -1,20 +1,3 @@
-import { createRequire } from 'module';const require = createRequire(import.meta.url);
-import {
-  FirebaseApp,
-  FirebaseAppModule,
-  FirebaseApps,
-  deleteApp,
-  firebaseApp$,
-  getApp,
-  getApps,
-  initializeApp,
-  initializeServerApp,
-  onLog,
-  provideFirebaseApp,
-  registerVersion,
-  setLogLevel
-} from "./chunk-OXBBE2VF.js";
-import "./chunk-ENEUQWJI.js";
 import {
   DEFAULT_ENTRY_NAME,
   FirebaseError,
@@ -29,14 +12,18 @@ import {
   _isFirebaseServerApp,
   _registerComponent,
   _removeServiceInstance,
-  _serverApps
-} from "./chunk-6QSSKZXH.js";
-import "./chunk-F3ZXLKS4.js";
-import "./chunk-LI6NGK76.js";
+  _serverApps,
+  deleteApp,
+  getApp,
+  getApps,
+  initializeApp,
+  initializeServerApp,
+  onLog,
+  registerVersion,
+  setLogLevel
+} from "./chunk-TI4MPPNV.js";
+import "./chunk-5K356HEJ.js";
 export {
-  FirebaseApp,
-  FirebaseAppModule,
-  FirebaseApps,
   FirebaseError,
   SDK_VERSION,
   DEFAULT_ENTRY_NAME as _DEFAULT_ENTRY_NAME,
@@ -52,14 +39,12 @@ export {
   _removeServiceInstance,
   _serverApps,
   deleteApp,
-  firebaseApp$,
   getApp,
   getApps,
   initializeApp,
   initializeServerApp,
   onLog,
-  provideFirebaseApp,
   registerVersion,
   setLogLevel
 };
-//# sourceMappingURL=@angular_fire_app.js.map
+//# sourceMappingURL=firebase_app.js.map

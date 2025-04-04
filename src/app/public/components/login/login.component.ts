@@ -24,11 +24,8 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  async onSubmit(){
-    
+  async onSubmit(){  
     const form = this.form.value;
-    await this.authService.login(form.user, form.password);
-
-
+    var userCredential = await this.authService.login(form.user, form.password);    
   }
 }

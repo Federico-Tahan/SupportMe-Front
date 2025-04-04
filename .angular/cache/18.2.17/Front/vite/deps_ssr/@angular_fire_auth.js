@@ -1,14 +1,33 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
-  Component,
-  ErrorFactory,
   FirebaseApp,
   FirebaseApps,
+  VERSION,
+  ɵAngularFireSchedulers,
+  ɵAppCheckInstances,
+  ɵgetAllInstancesOf,
+  ɵgetDefaultInstanceOf,
+  ɵzoneWrap
+} from "./chunk-OXBBE2VF.js";
+import {
+  InjectionToken,
+  Injector,
+  NgModule,
+  NgZone,
+  Optional,
+  makeEnvironmentProviders,
+  require_operators,
+  setClassMetadata,
+  ɵɵdefineInjector,
+  ɵɵdefineNgModule
+} from "./chunk-ENEUQWJI.js";
+import {
+  Component,
+  ErrorFactory,
   FirebaseError,
   LogLevel,
   Logger,
   SDK_VERSION,
-  VERSION,
   _getProvider,
   _isFirebaseServerApp,
   _registerComponent,
@@ -26,26 +45,11 @@ import {
   isReactNative,
   querystring,
   querystringDecode,
-  registerVersion,
-  ɵAngularFireSchedulers,
-  ɵAppCheckInstances,
-  ɵgetAllInstancesOf,
-  ɵgetDefaultInstanceOf,
-  ɵzoneWrap
-} from "./chunk-ZOTIWVWI.js";
+  registerVersion
+} from "./chunk-6QSSKZXH.js";
 import {
-  InjectionToken,
-  Injector,
-  NgModule,
-  NgZone,
-  Optional,
-  makeEnvironmentProviders,
-  require_cjs,
-  require_operators,
-  setClassMetadata,
-  ɵɵdefineInjector,
-  ɵɵdefineNgModule
-} from "./chunk-JZ6QEGQJ.js";
+  require_cjs
+} from "./chunk-F3ZXLKS4.js";
 import {
   __async,
   __asyncGenerator,
