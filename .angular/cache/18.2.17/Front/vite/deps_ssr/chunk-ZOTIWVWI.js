@@ -1,3 +1,4 @@
+import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   Inject,
   Injectable,
@@ -5,32 +6,41 @@ import {
   Injector,
   NgModule,
   NgZone,
-  Observable,
   Optional,
   PLATFORM_ID,
   VERSION,
   Version,
-  __async,
-  __spreadProps,
-  __spreadValues,
-  asyncScheduler,
-  concatMap,
-  distinct,
-  from,
   makeEnvironmentProviders,
-  observeOn,
-  queueScheduler,
+  require_cjs,
+  require_operators,
   setClassMetadata,
-  subscribeOn,
-  tap,
-  timer,
   ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-LHQCCBLS.js";
+} from "./chunk-JZ6QEGQJ.js";
+import {
+  __async,
+  __spreadProps,
+  __spreadValues,
+  __toESM
+} from "./chunk-LI6NGK76.js";
 
-// ../../../node_modules/@firebase/util/dist/index.esm2017.js
+// node_modules/@firebase/util/dist/node-esm/index.node.esm.js
+var CONSTANTS = {
+  /**
+   * @define {boolean} Whether this is the client Node.js SDK.
+   */
+  NODE_CLIENT: false,
+  /**
+   * @define {boolean} Whether this is the Admin Node.js SDK.
+   */
+  NODE_ADMIN: false,
+  /**
+   * Firebase SDK Version
+   */
+  SDK_VERSION: "${JSCORE_VERSION}"
+};
 var stringToByteArray$1 = function(str) {
   const out = [];
   let p = 0;
@@ -330,10 +340,6 @@ var getDefaultAppConfig = () => {
   var _a;
   return (_a = getDefaults()) === null || _a === void 0 ? void 0 : _a.config;
 };
-var getExperimentalSetting = (name3) => {
-  var _a;
-  return (_a = getDefaults()) === null || _a === void 0 ? void 0 : _a[`_${name3}`];
-};
 var Deferred = class {
   constructor() {
     this.reject = () => {
@@ -396,10 +402,6 @@ function isBrowserExtension() {
 }
 function isReactNative() {
   return typeof navigator === "object" && navigator["product"] === "ReactNative";
-}
-function isIE() {
-  const ua = getUA();
-  return ua.indexOf("MSIE ") >= 0 || ua.indexOf("Trident/") >= 0;
 }
 function isIndexedDBAvailable() {
   try {
@@ -469,14 +471,6 @@ function replaceTemplate(template, data) {
   });
 }
 var PATTERN = /\{\$([^}]+)}/g;
-function isEmpty(obj) {
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      return false;
-    }
-  }
-  return true;
-}
 function deepEqual(a, b) {
   if (a === b) {
     return true;
@@ -696,8 +690,9 @@ function getModularInstance(service) {
     return service;
   }
 }
+CONSTANTS.NODE_CLIENT = true;
 
-// ../../../node_modules/@firebase/component/dist/esm/index.esm2017.js
+// node_modules/@firebase/component/dist/esm/index.esm2017.js
 var Component = class {
   /**
    *
@@ -992,7 +987,7 @@ var ComponentContainer = class {
   }
 };
 
-// ../../../node_modules/@firebase/logger/dist/esm/index.esm2017.js
+// node_modules/@firebase/logger/dist/esm/index.esm2017.js
 var instances = [];
 var LogLevel;
 (function(LogLevel2) {
@@ -1142,7 +1137,7 @@ function setUserLogHandler(logCallback, options) {
   }
 }
 
-// ../../../node_modules/idb/build/wrap-idb-value.js
+// node_modules/idb/build/wrap-idb-value.js
 var instanceOfAny = (object, constructors) => constructors.some((c) => object instanceof c);
 var idbProxyableTypes;
 var cursorAdvanceMethods;
@@ -1268,7 +1263,7 @@ function wrap(value) {
 }
 var unwrap = (value) => reverseTransformCache.get(value);
 
-// ../../../node_modules/idb/build/index.js
+// node_modules/idb/build/index.js
 function openDB(name3, version3, {
   blocked,
   upgrade,
@@ -1332,7 +1327,7 @@ replaceTraps((oldTraps) => __spreadProps(__spreadValues({}, oldTraps), {
   has: (target, prop) => !!getMethod(target, prop) || oldTraps.has(target, prop)
 }));
 
-// ../../../node_modules/@firebase/app/dist/esm/index.esm2017.js
+// node_modules/@firebase/app/dist/esm/index.esm2017.js
 var PlatformLoggerServiceImpl = class {
   constructor(container) {
     this.container = container;
@@ -2111,12 +2106,18 @@ function registerCoreComponents(variant) {
 }
 registerCoreComponents("");
 
-// ../../../node_modules/firebase/app/dist/esm/index.esm.js
+// node_modules/firebase/app/dist/index.mjs
 var name2 = "firebase";
 var version2 = "10.14.1";
 registerVersion(name2, version2, "app");
 
-// ../../../node_modules/@angular/fire/fesm2022/angular-fire.mjs
+// node_modules/@angular/fire/fesm2022/angular-fire-app.mjs
+var import_rxjs2 = __toESM(require_cjs(), 1);
+var import_operators2 = __toESM(require_operators(), 1);
+
+// node_modules/@angular/fire/fesm2022/angular-fire.mjs
+var import_rxjs = __toESM(require_cjs(), 1);
+var import_operators = __toESM(require_operators(), 1);
 var VERSION2 = new Version("ANGULARFIRE2_VERSION");
 function ɵgetDefaultInstanceOf(identifier, provided, defaultApp) {
   if (provided) {
@@ -2158,7 +2159,7 @@ function noop2() {
 var ɵZoneScheduler = class {
   zone;
   delegate;
-  constructor(zone, delegate = queueScheduler) {
+  constructor(zone, delegate = import_rxjs.queueScheduler) {
     this.zone = zone;
     this.delegate = delegate;
   }
@@ -2185,7 +2186,7 @@ var BlockUntilFirstOperator = class {
   call(subscriber, source) {
     const unscheduleTask = this.unscheduleTask.bind(this);
     this.task = this.zone.run(() => Zone.current.scheduleMacroTask("firebaseZoneBlock", noop2, {}, noop2, noop2));
-    return source.pipe(tap({
+    return source.pipe((0, import_operators.tap)({
       next: unscheduleTask,
       complete: unscheduleTask,
       error: unscheduleTask
@@ -2207,7 +2208,7 @@ var ɵAngularFireSchedulers = class _ɵAngularFireSchedulers {
   constructor(ngZone) {
     this.ngZone = ngZone;
     this.outsideAngular = ngZone.runOutsideAngular(() => new ɵZoneScheduler(Zone.current));
-    this.insideAngular = ngZone.run(() => new ɵZoneScheduler(Zone.current, asyncScheduler));
+    this.insideAngular = ngZone.run(() => new ɵZoneScheduler(Zone.current, import_rxjs.asyncScheduler));
     globalThis.ɵAngularFireScheduler ||= this;
   }
   static ɵfac = function ɵAngularFireSchedulers_Factory(__ngFactoryType__) {
@@ -2251,9 +2252,9 @@ function ɵkeepUnstableUntilFirstFactory(schedulers) {
     obs$ = obs$.lift(new BlockUntilFirstOperator(schedulers.ngZone));
     return obs$.pipe(
       // Run the subscribe body outside of Angular (e.g. calling Firebase SDK to add a listener to a change event)
-      subscribeOn(schedulers.outsideAngular),
+      (0, import_operators.subscribeOn)(schedulers.outsideAngular),
       // Run operators inside the angular zone (e.g. side effects via tap())
-      observeOn(schedulers.insideAngular)
+      (0, import_operators.observeOn)(schedulers.insideAngular)
       // INVESTIGATE https://github.com/angular/angularfire/pull/2315
       // share()
     );
@@ -2287,14 +2288,14 @@ var ɵzoneWrap = (it, blockUntilFirst) => {
     }
     const ret = runOutsideAngular(() => it.apply(this, _arguments));
     if (!blockUntilFirst) {
-      if (ret instanceof Observable) {
+      if (ret instanceof import_rxjs.Observable) {
         const schedulers = getSchedulers();
-        return ret.pipe(subscribeOn(schedulers.outsideAngular), observeOn(schedulers.insideAngular));
+        return ret.pipe((0, import_operators.subscribeOn)(schedulers.outsideAngular), (0, import_operators.observeOn)(schedulers.insideAngular));
       } else {
         return run(() => ret);
       }
     }
-    if (ret instanceof Observable) {
+    if (ret instanceof import_rxjs.Observable) {
       return ret.pipe(keepUnstableUntilFirst);
     } else if (ret instanceof Promise) {
       return run(() => new Promise((resolve, reject) => ret.then((it2) => run(() => resolve(it2)), (reason) => run(() => reject(reason)))));
@@ -2313,7 +2314,7 @@ var ɵzoneWrap = (it, blockUntilFirst) => {
   };
 };
 
-// ../../../node_modules/@angular/fire/fesm2022/angular-fire-app.mjs
+// node_modules/@angular/fire/fesm2022/angular-fire-app.mjs
 var FirebaseApp = class {
   constructor(app) {
     return app;
@@ -2324,7 +2325,7 @@ var FirebaseApps = class {
     return getApps();
   }
 };
-var firebaseApp$ = timer(0, 300).pipe(concatMap(() => from(getApps())), distinct());
+var firebaseApp$ = (0, import_rxjs2.timer)(0, 300).pipe((0, import_operators2.concatMap)(() => (0, import_rxjs2.from)(getApps())), (0, import_operators2.distinct)());
 function defaultFirebaseAppFactory(provided) {
   if (provided && provided.length === 1) {
     return provided[0];
@@ -2402,16 +2403,13 @@ var setLogLevel3 = ɵzoneWrap(setLogLevel2, true);
 export {
   base64Decode,
   getDefaultEmulatorHost,
-  getExperimentalSetting,
   getUA,
   isMobileCordova,
   isCloudflareWorker,
   isBrowserExtension,
   isReactNative,
-  isIE,
   FirebaseError,
   ErrorFactory,
-  isEmpty,
   deepEqual,
   querystring,
   querystringDecode,
@@ -2458,7 +2456,7 @@ export {
 };
 /*! Bundled license information:
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2476,7 +2474,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2494,25 +2492,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
-  (**
-   * @license
-   * Copyright 2017 Google LLC
-   *
-   * Licensed under the Apache License, Version 2.0 (the "License");
-   * you may not use this file except in compliance with the License.
-   * You may obtain a copy of the License at
-   *
-   *   http://www.apache.org/licenses/LICENSE-2.0
-   *
-   * Unless required by applicable law or agreed to in writing, software
-   * distributed under the License is distributed on an "AS IS" BASIS,
-   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   * See the License for the specific language governing permissions and
-   * limitations under the License.
-   *)
-
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2022 Google LLC
@@ -2530,7 +2510,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2564,7 +2544,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2582,7 +2562,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2600,7 +2580,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2618,7 +2598,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2636,7 +2616,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2022 Google LLC
@@ -2654,7 +2634,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2672,7 +2652,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2690,7 +2670,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2017 Google LLC
@@ -2708,7 +2688,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2022 Google LLC
@@ -2726,7 +2706,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2019 Google LLC
@@ -2744,7 +2724,7 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2020 Google LLC
@@ -2762,10 +2742,26 @@ export {
    * limitations under the License.
    *)
 
-@firebase/util/dist/index.esm2017.js:
+@firebase/util/dist/node-esm/index.node.esm.js:
   (**
    * @license
    * Copyright 2021 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2017 Google LLC
    *
    * Licensed under the Apache License, Version 2.0 (the "License");
    * you may not use this file except in compliance with the License.
@@ -2866,7 +2862,7 @@ export {
    * limitations under the License.
    *)
 
-firebase/app/dist/esm/index.esm.js:
+firebase/app/dist/index.mjs:
   (**
    * @license
    * Copyright 2020 Google LLC
@@ -2884,4 +2880,4 @@ firebase/app/dist/esm/index.esm.js:
    * limitations under the License.
    *)
 */
-//# sourceMappingURL=chunk-TQTPIEQX.js.map
+//# sourceMappingURL=chunk-ZOTIWVWI.js.map

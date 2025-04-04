@@ -1,0 +1,52 @@
+<div class="container-custom">
+    <div class="img-login">
+      <img src="https://supporme-fede.s3.sa-east-1.amazonaws.com/Selection.png">
+    </div>
+
+    <div class="login-container">
+      <div class="login-card">
+        <h1 class="title">Bienvenido de nuevo <span class="wave">👋</span></h1>
+        <p class="subtitle">Ingresa a tu cuenta</p>
+        
+        <form class="login-form" [formGroup]="form" (submit)="onSubmit()">
+          <div class="input-group">
+            <span class="input-icon">
+              <i class="far fa-envelope"></i>
+            </span>
+            <input type="email" placeholder="Cual es tu e-mail?" formControlName="user">
+          </div>
+          @if(form.get('user')?.errors?.['required'] && form.get('user')?.touched){
+            <span class="text-danger">El usuario es requerido</span>
+          }
+          <div class="input-group">
+            <span class="input-icon">
+              <i class="fas fa-lock"></i>
+            </span>
+            <input [type]="showPassword ? 'text' : 'password'" id="password" placeholder="Ingresa tu contraseña" formControlName="password">
+            <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+              <i class="far fa-eye"></i>
+            </button>
+          </div>
+          @if(form.get('password')?.errors?.['required'] && form.get('password')?.touched){
+            <span class="text-danger">La contraseña es requerida</span>
+          }
+          <div class="form-options">
+            <div class="remember-me">
+              <input type="checkbox" id="remember" class="checkbox">
+              <label for="remember">Recordarme</label>
+            </div>
+            <a href="#" class="forgot-password">Recuperar contraseña?</a>
+          </div>
+          
+          <button type="submit" class="btn-continue">Iniciar sesion</button>
+          
+          <div class="sign-up">
+            <p>No tienes una cuenta? <a href="#">Registrate!</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+ 
