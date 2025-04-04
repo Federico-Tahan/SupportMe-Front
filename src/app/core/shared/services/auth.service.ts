@@ -50,4 +50,8 @@ export class AuthService {
   loginbk(token : string) : Observable<any>{
      return this.http.post<any>(environment.backApi + 'user/login', {token : token});
   }
+
+  checkJwt(): boolean {
+    return localStorage.getItem('firebase_token') == null || localStorage.getItem('firebase_token') === undefined ? false : true;
+  }
 }
