@@ -1,0 +1,17 @@
+<!-- category-navigation.component.html -->
+<div class="category-nav-container">
+    <div class="header-row">
+      <div class="category-title">Explorar proyectos:</div>
+      <div class="category-list">
+        @for (item of categories; track $index) {
+          <button class="category-button limited-category">{{ item.name }}</button>
+        }
+        <div>
+            <button class="see-all-button" style="color: rgba(33, 37, 41, 0.75);">
+                <span>Ver todo  </span>
+                <i class="fas fa-chevron-right" style="color: rgba(33, 37, 41, 0.75); padding-left: 0.6rem;"></i>
+              </button>
+        </div>
+      </div>
+    </div>
+  </div>

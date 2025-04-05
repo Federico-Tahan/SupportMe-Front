@@ -26,6 +26,14 @@ export class LoginComponent {
 
   async onSubmit(){  
     const form = this.form.value;
-    var userCredential = await this.authService.login(form.user, form.password);    
+    this.authService.login(form.user, form.password)
+    .then(() => {
+      if(this.authService.checkJwt()) {
+        this.router.navigate(['']);
+      }
+    })
+    .catch(error => {
+      console.error('Error en login:', error);
+    });
   }
 }

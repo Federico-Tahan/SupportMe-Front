@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { PublicLayoutComponent } from './public/public-layout/public-layout.component';
 import { IntranetLayoutComponent } from './intranet/intranet-layout/intranet-layout.component';
 import { authGuard } from './core/shared/guards/auth.guard';
+import { publicGuard } from './core/shared/guards/public.guard';
 
 export const routes: Routes = [
     {

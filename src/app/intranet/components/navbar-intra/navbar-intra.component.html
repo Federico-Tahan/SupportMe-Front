@@ -1,0 +1,11 @@
+<!-- navbar-intra.component.html -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container-fluid">     
+      <div class="flex-grow-1"></div>
+      <app-profile-component 
+        [currentUser]="currentUser" 
+        (logoutEvent)="onLogout()"
+        class="ms-auto">
+      </app-profile-component>
+    </div>
+  </nav>

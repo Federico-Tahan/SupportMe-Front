@@ -1,0 +1,35 @@
+<!-- profile-component.component.html -->
+<div class="dropdown">
+  <div class="profile-display" data-bs-toggle="dropdown" aria-expanded="false" id="profileDropdown">
+    @if (currentUser?.profilePic) {
+      <img [src]="currentUser.profilePic" alt="Profile" class="profile-image">
+    } @else {
+      <div class="initials-avatar">{{ getInitials() }}</div>
+    }
+  </div>
+  
+  <ul class="dropdown-menu dropdown-menu-end dropdown-custom" aria-labelledby="profileDropdown">
+    <li class="p-2">
+      <div class="d-flex align-items-center">
+        <div class="user-avatar me-2">
+          @if (currentUser?.profilePic) {
+            <img [src]="currentUser.profilePic" alt="Profile" class="profile-image">
+          } @else {
+            <div class="initials-avatar">{{ getInitials() }}</div>
+          }
+        </div>
+        <div>
+          <div class="fw-bold">{{ currentUser?.firstName }}</div>
+          <div class="text-muted small"> 
+            {{ (currentUser?.email?.length > 20) ? 
+                (currentUser?.email.substring(0, 17)) + '...' : 
+                currentUser?.email }}
+          </div>
+        </div>
+      </div>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" routerLink="home"><i class="fa fa-cog me-2" aria-hidden="true"></i>Administrar campañas</a></li>
+    <li><a class="dropdown-item" (click)="logout()"><i class="fa fa-angle-right me-2"></i>Cerrar sesión</a></li>
+  </ul>
+</div>

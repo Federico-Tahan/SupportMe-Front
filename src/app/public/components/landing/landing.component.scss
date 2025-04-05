@@ -7,11 +7,14 @@
   }
   
   .hero-section {
-    position: relative;
     padding: 4rem 0;
     overflow: hidden;
   }
   
+  .category {
+    margin-bottom: 5rem;
+  }
+
   .silla-rueda {
     position: absolute; 
     top: 293px; 
@@ -131,8 +134,6 @@
     }
     
     .img-fluid {
-      width: auto;
-      max-width: 100%;
-      height: auto; 
+      display: none;
     }
   }

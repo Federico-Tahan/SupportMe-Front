@@ -1,17 +1,44 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { UserToken } from '../../../core/shared/interfaces/user-token';
+import { AuthService } from '../../../core/shared/services/auth.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ProfileComponentComponent } from '../../../components/profile-component/profile-component.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink],
+  imports: [ProfileComponentComponent, CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
-  isProjectDropdownOpen: boolean = false;
+export class NavbarComponent implements OnInit {
+  currentUser: UserToken | null = null;
+  authService = inject(AuthService);
 
-  toggleProjectDropdown(): void {
-    this.isProjectDropdownOpen = !this.isProjectDropdownOpen;
+  ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
+        this.authService.userChanges$.subscribe(user => {
+      this.currentUser = user;
+    });
+  }
+  
+  private loadUser(): void {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      try {
+        this.currentUser = JSON.parse(userJson) as UserToken;
+      } catch (error) {
+        console.error('Error parsing user from localStorage:', error);
+        this.currentUser = null;
+      }
+    } else {
+      this.currentUser = null;
+    }
+  }
+  
+  async onLogout() {
+    await this.authService.logout();
+    this.currentUser = null;
   }
 }
