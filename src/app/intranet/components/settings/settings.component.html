@@ -1,0 +1,19 @@
+<!-- settings.component.html -->
+<div class="settings-container">
+    <h1>Configuración</h1>
+  
+    <div class="settings-section">
+      <div class="settings-grid">
+        @for (card of mainSettings; track card.title) {
+            <app-card-settings 
+              [title]="card.title"
+              [description]="card.description"
+              [icon]="card.icon"
+              [iconColor]="card.iconColor"
+              (click)="navigateTo(card.route)"
+            ></app-card-settings>
+          }
+      </div>
+    </div>
+  
+  </div>

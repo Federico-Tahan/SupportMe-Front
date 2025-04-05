@@ -15,11 +15,10 @@ export class SideBarComponent {
   projectName = 'SupportMe';
   
   navItems = [
-    { icon: 'motorcycle', label: 'Dasborad', route: '/backlog' },
-    { icon: 'motorcycle', label: 'Board', route: '/board' },
-    { icon: 'motorcycle', label: 'Report', route: '/report' },
-    { icon: 'motorcycle', label: 'Inbox', route: '/inbox', badge: 8 },
-    { icon: 'motorcycle', label: 'Settings', route: '/settings' }
+    { icon: 'line-chart', label: 'Dashboard', route: '/backlog' },
+    { icon: 'bullhorn', label: 'Campañas', route: '/board' },
+    { icon: 'credit-card', label: 'Pagos', route: '/report' },
+    { icon: 'gear', label: 'Configuración', route: '/settings', badge: 1 }
   ];
   
   labels = [
