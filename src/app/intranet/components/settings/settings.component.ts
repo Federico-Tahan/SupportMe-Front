@@ -16,7 +16,7 @@ export class SettingsComponent {
   mainSettings: SettingsCard[] = [
     {
       title: 'Perfil',
-      description: 'Ingresa a tu perfil, podrás ver un resumen de tus campañas y editar tus datos',
+      description: 'Ingresa a tu perfil, podrás ver un resumen de tus campañas y modificar tus datos',
       icon: 'user-circle',
       iconColor: 'purple',
       route: '/commission'
