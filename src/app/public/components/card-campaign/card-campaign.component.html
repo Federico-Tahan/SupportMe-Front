@@ -1,0 +1,26 @@
+<!-- fundraising-card.component.html -->
+<div class="card">
+    <img [src]="imageUrl" class="card-img-top" alt="Imagen de campaña">
+    
+    <div class="card-body">
+      <div class="card-tags">
+        <span class="category-tag">{{ category }}</span>
+        <span class="location-tag">{{ location }}</span>
+      </div>
+      
+      <h2 class="card-title">{{ title }}</h2>
+      <p class="card-description">{{ description }}</p>
+      
+      <div class="progress-container">
+        <div class="progress">
+          <div class="progress-bar" 
+               [style.width.%]="progressPercentage"
+               [style.background-color]="'#e91e63'"></div>
+        </div>
+      </div>
+      
+      <div class="fundraising-status">
+        <strong>${{ amountRaised  }} raised</strong> of ${{ goalAmount }} goal
+      </div>
+    </div>
+  </div>

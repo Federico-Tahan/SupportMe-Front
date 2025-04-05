@@ -1,0 +1,69 @@
+/* fundraising-card.component.scss */
+.card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 360px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    padding: 16px;
+  }
+  
+  .card-tags {
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+  
+  .category-tag, .location-tag {
+    padding: 4px 12px;
+    border-radius: 16px;
+    background-color: #f0f0ff;
+    color: #6950a1;
+    border: 1px solid #e0e0ff;
+    margin-right: 8px;
+    display: inline-block;
+  }
+  
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .card-description {
+    font-size: 14px;
+    color: #757575;
+    margin-bottom: 16px;
+  }
+  
+  .progress-container {
+    margin-bottom: 10px;
+  }
+  
+  .progress {
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    border-radius: 3px;
+  }
+  
+  .fundraising-status {
+    font-size: 14px;
+    color: #757575;
+  }

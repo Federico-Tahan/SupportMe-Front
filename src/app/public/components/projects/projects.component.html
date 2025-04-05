@@ -33,11 +33,12 @@
       </div>
     </div>
     
-    <!-- Sección de proyectos/cards -->
     <div class="projects-section">
       <div class="projects-grid">
-        <!-- Aquí insertarías tu componente de cards existente -->
-
+            @for (item of campaigns; track $index) {
+                <app-card-campaign></app-card-campaign>
+            }
+        
       </div>
     </div>
   </div>
