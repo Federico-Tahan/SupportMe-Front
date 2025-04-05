@@ -32,7 +32,7 @@
     width: 40px;
     height: 40px;
     border-radius: 6px;
-    background-color: #1e6285;
+    background-color: #f9fdff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,6 +43,12 @@
     }
   }
   
+  .logo-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
   .project-info {
     display: flex;
     flex-direction: column;
@@ -51,6 +57,7 @@
   .project-name {
     font-weight: bold;
     font-size: 16px;
+    color: #6366f1;
   }
   
   .project-category {
@@ -120,6 +127,7 @@
     margin-left: auto;
     font-size: 11px;
     padding: 3px 6px;
+    background-color: rgba(109, 90, 202, 0.7);
   }
   
   /* Label section styles */

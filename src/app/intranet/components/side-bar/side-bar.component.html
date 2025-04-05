@@ -4,7 +4,7 @@
     <div class="project-header">
       <div class="project-logo">
         <div class="logo-container">
-          <i class="fa-solid fa-play"></i>
+          <img src="https://supportme2.s3.sa-east-1.amazonaws.com/Group+408.png">
         </div>
       </div>
       <div class="project-info" [class.d-none]="collapsed">
@@ -18,19 +18,14 @@
         <li *ngFor="let item of navItems" class="nav-item" [routerLink]="item.route" routerLinkActive="active">
           <i class="fa-solid fa-{{ item.icon }}"></i>
           <span class="item-label" [class.d-none]="collapsed">{{ item.label }}</span>
-          <span *ngIf="item.badge && !collapsed" class="badge bg-primary">{{ item.badge }}</span>
+          <span *ngIf="item.badge && !collapsed" class="badge">{{ item.badge }}</span>
         </li>
       </ul>
     </nav>
   
     <!-- Label section -->
     <div class="label-section" [class.labels-collapsed]="collapsed">
-      <div class="section-header" *ngIf="!collapsed">
-        <span>LABEL</span>
-        <button class="btn btn-sm">
-          <i class="fa-solid fa-circle-plus"></i>
-        </button>
-      </div>
+
       <nav class="label-nav">
         <ul class="nav flex-column">
           <li *ngFor="let label of labels" class="nav-item" [routerLink]="label.route" routerLinkActive="active">

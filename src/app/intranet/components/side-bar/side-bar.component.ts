@@ -15,9 +15,9 @@ export class SideBarComponent {
   projectName = 'SupportMe';
   
   navItems = [
-    { icon: 'line-chart', label: 'Dashboard', route: '/backlog' },
-    { icon: 'bullhorn', label: 'Campañas', route: '/board' },
-    { icon: 'credit-card', label: 'Pagos', route: '/report' },
+    { icon: 'line-chart', label: 'Dashboard', route: '/dashboard' },
+    { icon: 'bullhorn', label: 'Campañas', route: '/campaign' },
+    { icon: 'credit-card', label: 'Pagos', route: '/payments' },
     { icon: 'gear', label: 'Configuración', route: '/settings', badge: 1 }
   ];
   
