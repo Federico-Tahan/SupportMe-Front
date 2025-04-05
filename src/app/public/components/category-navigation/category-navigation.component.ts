@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { Category } from '../../../core/shared/interfaces/category';
+import { Component, inject, OnInit } from '@angular/core';
+import { SimpleCategory } from '../../../core/shared/interfaces/simple-category';
+import { CategoryService } from '../../../core/shared/services/category.service';
 
 @Component({
   selector: 'app-category-navigation',
@@ -8,20 +9,20 @@ import { Category } from '../../../core/shared/interfaces/category';
   templateUrl: './category-navigation.component.html',
   styleUrl: './category-navigation.component.scss'
 })
-export class CategoryNavigationComponent {
-  categories: Category[] = [
-    { name: 'Featured', active: true },
-    { name: 'Nearly Funded', active: false },
-    { name: 'Child Protection', active: false },
-    { name: 'Disaster Response', active: false },
-    { name: 'Education', active: false },
-    { name: 'Climate Action', active: false },
-    { name: 'Gender Equality', active: false },
-    { name: 'Physical Health', active: false },
-    { name: 'Food Security', active: false },
-    { name: 'Animal Welfare', active: false },
-    { name: 'Ecosystem Restoration', active: false }
-  ];
+export class CategoryNavigationComponent implements OnInit{
+  
+  categoryService = inject(CategoryService);
+  
+  categories: SimpleCategory[] = [];
   constructor() { }
+  
+  
+  ngOnInit(): void {
+    this.categoryService.getCategories().subscribe({
+      next:(data) => {
+        this.categories = data;
+      }
+    })
+  }
 
 }

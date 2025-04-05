@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NavbarIntraComponent } from "../components/navbar-intra/navbar-intra.component";
+import { SideBarComponent } from "../components/side-bar/side-bar.component";
 
 @Component({
   selector: 'app-intranet-layout',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, NavbarIntraComponent],
+  imports: [RouterLink, RouterOutlet, NavbarIntraComponent, SideBarComponent],
   templateUrl: './intranet-layout.component.html',
   styleUrl: './intranet-layout.component.scss'
 })

@@ -1,8 +1,10 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+<!-- app.component.html -->
 <div class="app-container">
+  <app-side-bar></app-side-bar>
+  <div class="content-wrapper">
     <app-navbar-intra></app-navbar-intra>
-    <div class="content">
+    <div class="content-area">
       <router-outlet></router-outlet>
     </div>
+  </div>
 </div>

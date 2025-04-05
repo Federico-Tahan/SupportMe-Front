@@ -1,8 +1,9 @@
 // profile-component.component.ts
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserToken } from '../../core/shared/interfaces/user-token';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../core/shared/services/auth.service';
 
 @Component({
   selector: 'app-profile-component',
@@ -13,10 +14,10 @@ import { RouterLink } from '@angular/router';
 })
 export class ProfileComponentComponent implements OnInit {
   @Input() currentUser: UserToken;
-  @Output() logoutEvent = new EventEmitter<void>();
+  authService = inject(AuthService);
+  router = inject(Router);
 
   ngOnInit(): void {
-    // Inicialización si es necesaria
   }
 
   getInitials(): string {
@@ -34,7 +35,9 @@ export class ProfileComponentComponent implements OnInit {
     }
   }
   
-  logout(): void {
-    this.logoutEvent.emit();
+  async logout() {
+    await this.authService.logout();    
+    localStorage.removeItem('user');
+    this.router.navigate(['']);
   }
 }

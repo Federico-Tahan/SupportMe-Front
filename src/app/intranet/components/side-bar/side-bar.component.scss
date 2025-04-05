@@ -1,0 +1,209 @@
+/* sidebar.component.scss */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    height: 100vh;
+    background-color: #fff;
+    color: #333;
+    font-family: var(--bs-body-font-family);
+    overflow-y: auto;
+    transition: width 0.3s ease;
+    position: relative;
+  }
+  
+  .sidebar.collapsed {
+    width: 60px;
+  }
+  
+  /* Project header styles */
+  .project-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 8px 8px 16px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .project-logo {
+    margin-right: 12px;
+  }
+  
+  .logo-container {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background-color: #1e6285;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    
+    i {
+      font-size: 16px;
+    }
+  }
+  
+  .project-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .project-name {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .project-category {
+    font-size: 12px;
+    color: #757575;
+  }
+  
+  /* Navigation styles */
+  .main-nav, .label-nav {
+    padding: 8px 0;
+    width: 100%;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    cursor: pointer;
+    position: relative;
+    color: #5f6368;
+    font-size: 14px;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  
+  .nav-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .nav-item.active {
+    color: #4285f4;
+    background-color: #e8f0fe;
+  }
+  
+  .sidebar.collapsed .nav-item {
+    justify-content: center;
+    padding: 10px 0;
+  }
+  
+  i.fa-solid {
+    margin-right: 12px;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .sidebar.collapsed i.fa-solid {
+    margin-right: 0;
+  }
+  
+  .item-label {
+    transition: opacity 0.2s ease;
+  }
+  
+  .d-none {
+    display: none !important;
+  }
+  
+  .badge {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+  
+  /* Label section styles */
+  .label-section {
+    margin-top: 16px;
+  }
+  
+  .label-section.labels-collapsed {
+    margin-top: 8px;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    color: #5f6368;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .btn-sm {
+    padding: 0;
+    background: none;
+    border: none;
+    color: #5f6368;
+    font-size: 14px;
+  }
+  
+  /* Invite button styles */
+  .invite-section {
+    margin-top: auto;
+    padding: 16px;
+  }
+  
+  .invite-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f0f4f8;
+    color: #4285f4;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .invite-button:hover {
+    background-color: #e8f0fe;
+  }
+  
+  .invite-button i {
+    font-size: 14px;
+    margin-right: 8px;
+  }
+  
+  /* Sidebar resizer - the border that acts as collapse control */
+  .sidebar-resizer {
+    position: absolute;
+    top: 0;
+    right: -3px;
+    width: 6px;
+    height: 100%;
+    background-color: transparent;
+    cursor: col-resize;
+    z-index: 100;
+    transition: background-color 0.2s;
+  }
+  
+  .sidebar-resizer:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar-resizer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 2px;
+    width: 1px;
+    height: 100%;
+    background-color: #e0e0e0;
+  }

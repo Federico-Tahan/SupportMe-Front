@@ -1,0 +1,45 @@
+<!-- sidebar.component.html -->
+<div class="sidebar" [class.collapsed]="collapsed">
+    <!-- Project header -->
+    <div class="project-header">
+      <div class="project-logo">
+        <div class="logo-container">
+          <i class="fa-solid fa-play"></i>
+        </div>
+      </div>
+      <div class="project-info" [class.d-none]="collapsed">
+        <div class="project-name">{{ projectName }}</div>
+      </div>
+    </div>
+  
+    <!-- Main navigation -->
+    <nav class="main-nav">
+      <ul class="nav flex-column">
+        <li *ngFor="let item of navItems" class="nav-item" [routerLink]="item.route" routerLinkActive="active">
+          <i class="fa-solid fa-{{ item.icon }}"></i>
+          <span class="item-label" [class.d-none]="collapsed">{{ item.label }}</span>
+          <span *ngIf="item.badge && !collapsed" class="badge bg-primary">{{ item.badge }}</span>
+        </li>
+      </ul>
+    </nav>
+  
+    <!-- Label section -->
+    <div class="label-section" [class.labels-collapsed]="collapsed">
+      <div class="section-header" *ngIf="!collapsed">
+        <span>LABEL</span>
+        <button class="btn btn-sm">
+          <i class="fa-solid fa-circle-plus"></i>
+        </button>
+      </div>
+      <nav class="label-nav">
+        <ul class="nav flex-column">
+          <li *ngFor="let label of labels" class="nav-item" [routerLink]="label.route" routerLinkActive="active">
+            <i class="fa-solid fa-{{ label.icon }}"></i>
+            <span class="item-label" [class.d-none]="collapsed">{{ label.label }}</span>
+          </li>
+        </ul>
+      </nav>
+    </div>
+      <!-- Colapsable border control -->
+    <div class="sidebar-resizer" (click)="toggleSidebar()"></div>
+  </div>
