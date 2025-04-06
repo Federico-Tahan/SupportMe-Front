@@ -1,21 +1,39 @@
-<div> 
-    <app-header-form></app-header-form>
-    <div class="campaign-container">
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-        <app-card-campaign class="campaing-card "></app-card-campaign>    
-
+<div class="campaign-page"> 
+    <app-header-form
+        title="Mis campañas"
+        searchPlaceholder="Buscar campañas"
+        [showDateRange]="false"
+        (search)="onSearch($event)"
+        (filterChange)="onFilterChange($event)"
+        (export)="onExport()">
+    </app-header-form>
+    
+    <div class="campaign-list">
+        @if (isLoading && campaigns.length === 0) {
+            <div class="loading-container">
+                <p>Cargando campañas...</p>
+            </div>
+        }
+        
+        @if (campaigns.length === 0 && !isLoading) {
+            <div class="no-results">
+                <p>No se encontraron campañas{{ searchText ? ' para "' + searchText + '"' : '' }}</p>
+            </div>
+        }
+        
+        <div class="campaign-container">
+            @for (campaign of campaigns; track campaign.id) {
+                <app-card-campaign [campaign]="campaign"></app-card-campaign>
+            }
+        </div>
+        
+        @if (isLoading && campaigns.length > 0) {
+            <div class="scroll-loader">
+                <p>Cargando más campañas...</p>
+            </div>
+        }
+        
+        <!-- Elemento centinela para la detección de IntersectionObserver -->
+        <div #scrollSentinel class="scroll-sentinel"></div>
     </div>
 </div>

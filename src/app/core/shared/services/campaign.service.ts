@@ -5,15 +5,22 @@ import { Campaign } from '../interfaces/campaign';
 import { environment } from '../../../../environment/environment';
 import { Observable } from 'rxjs';
 import { ProjectFilter } from '../filters/project-filter';
+import { AuthContextService } from '../interceptor/auth-context';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CampaignService {
   http = inject(HttpClient);
+  authContextService = inject(AuthContextService);
   constructor() { }
 
-  getCampaigns(filter?: ProjectFilter): Observable<Pagination<Campaign>> {
+  getCampaigns(filter?: ProjectFilter, isPublic : boolean = true): Observable<Pagination<Campaign>> {
+    if (isPublic) {
+      this.authContextService.withoutAuth();
+    } else {
+      this.authContextService.withAuth();
+    }
     let params = new HttpParams();
     
     if (filter) {

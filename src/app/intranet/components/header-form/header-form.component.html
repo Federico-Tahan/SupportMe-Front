@@ -10,6 +10,7 @@
           type="text" 
           class="search-input" 
           [placeholder]="searchPlaceholder"
+          [(ngModel)] = "searchText"
           (input)="onSearch()">
       </div>
       

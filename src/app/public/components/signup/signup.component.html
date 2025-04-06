@@ -1,0 +1,115 @@
+<div class="container-custom">
+    <div class="img-login">
+      <img src="https://supportme2.s3.sa-east-1.amazonaws.com/regist.png">
+    </div>
+  
+    <div class="login-container">
+      <div class="login-card">
+        <h1 class="title">Crea tu cuenta <span class="wave">👋</span></h1>
+        <p class="subtitle">Completa tus datos para registrarte</p>
+        
+        <form class="login-form" [formGroup]="form" (submit)="onSubmit()">
+          <div class="input-row">
+            <div>
+                <div class="input-group">
+                    <span class="input-icon">
+                      <i class="far fa-user"></i>
+                    </span>
+                    <input type="text" formControlName="firstName" placeholder="Nombre">
+                  </div>
+                <div>
+                    @if(form.get('firstName')?.errors?.['required'] && form.get('firstName')?.touched){
+                      <span class="text-danger">El nombre es requerido</span>
+                    }
+                  </div>
+            </div>
+
+            <div>
+                <div class="input-group">
+                    <span class="input-icon">
+                      <i class="far fa-user"></i>
+                    </span>
+                    <input type="text" formControlName="lastName" placeholder="Apellido">
+                  </div>
+                <div>
+                    @if(form.get('lastName')?.errors?.['required'] && form.get('lastName')?.touched){
+                      <span class="text-danger">El apellido es requerido</span>
+                    }
+                  </div>
+            </div>
+
+        </div>
+          
+          <div class="input-group">
+            <span class="input-icon">
+              <i class="far fa-calendar"></i>
+            </span>
+            <input type="date" formControlName="dateOfBirth">
+          </div>
+          @if(form.get('dateOfBirth')?.errors?.['required'] && form.get('dateOfBirth')?.touched){
+            <span class="text-danger">La fecha de nacimiento es requerida</span>
+          }
+          @if(form.get('dateOfBirth')?.errors?.['minAge'] && form.get('dateOfBirth')?.touched){
+            <span class="text-danger">Debes tener al menos 18 años para registrarte</span>
+          }
+          @if(form.get('dateOfBirth')?.errors?.['invalidDate'] && form.get('dateOfBirth')?.touched){
+            <span class="text-danger">Fecha de nacimiento inválida</span>
+          }
+          <div class="input-group">
+            <span class="input-icon">
+              <i class="far fa-envelope"></i>
+            </span>
+            <input type="email" formControlName="email" placeholder="Correo electrónico">
+          </div>
+          <!-- Mensajes de error para email -->
+          @if(form.get('email')?.errors?.['required'] && form.get('email')?.touched){
+            <span class="text-danger">El correo electrónico es requerido</span>
+          }
+          @if(form.get('email')?.errors?.['email'] && form.get('email')?.touched){
+            <span class="text-danger">Ingresa un correo electrónico válido</span>
+          }
+          @if(form.get('email')?.errors?.['emailTaken'] && form.get('email')?.touched){
+            <span class="text-danger">Este correo electrónico ya está registrado</span>
+          }
+          @if(form.get('email')?.pending){
+            <span class="text-warning">Verificando disponibilidad...</span>
+          }
+          
+          <div class="input-group">
+            <span class="input-icon">
+              <i class="fas fa-lock"></i>
+            </span>
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Contraseña">
+            <button type="button" class="password-toggle" (click)="togglePasswordVisibility('password')">
+              <i class="far" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </button>
+          </div>
+          @if(form.get('password')?.errors?.['required'] && form.get('password')?.touched){
+            <span class="text-danger">La contraseña es requerida</span>
+          }
+          @if(form.get('password')?.errors?.['minlength'] && form.get('password')?.touched){
+            <span class="text-danger">La contraseña debe tener al menos 8 caracteres</span>
+          }
+          
+          <div class="input-group">
+            <span class="input-icon">
+              <i class="fas fa-lock"></i>
+            </span>
+            <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmPassword" placeholder="Confirmar contraseña">
+            <button type="button" class="password-toggle" (click)="togglePasswordVisibility('confirmPassword')">
+              <i class="far" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+            </button>
+          </div>
+          @if(form.get('confirmPassword')?.errors?.['required'] && form.get('confirmPassword')?.touched){
+            <span class="text-danger">Confirma tu contraseña</span>
+          }
+          <div id="passwordError" class="text-danger" style="display: none;">Las contraseñas no coinciden</div>
+          
+          <button type="submit" class="btn-continue">Registrarme</button>
+          <div class="sign-up">
+            <p>¿Ya tienes una cuenta? <a routerLink="/login">Iniciar sesión</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

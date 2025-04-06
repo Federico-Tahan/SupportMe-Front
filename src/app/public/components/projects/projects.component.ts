@@ -116,7 +116,7 @@ export class ProjectsComponent implements OnInit{
     this.loadInitialData();
   }
   
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('document:scroll', ['$event'])
   onScroll(): void {
     if (this.isLoading || !this.hasMoreItems) return;
     

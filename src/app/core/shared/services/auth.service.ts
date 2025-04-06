@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, getAuth, onIdTokenChanged } from '@angular/fire/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -16,10 +16,8 @@ export class AuthService {
   http = inject(HttpClient);
 
   constructor() {
-    // Intentar cargar el usuario desde localStorage al iniciar
     this.loadUserFromStorage();
     
-    // Configurar listener para cambios en el token de Firebase
     onIdTokenChanged(this.auth, async (user) => {
       if (user) {
         const token = await user.getIdToken();
@@ -27,13 +25,13 @@ export class AuthService {
         this.loginbk(token).subscribe({
           next: (res) => {
             localStorage.setItem('user', JSON.stringify(res));
-            this.userSubject.next(res); // Actualizar el observable
+            this.userSubject.next(res);
           },
           error: (err) => console.error("Error al actualizar token en backend:", err)
         });
       } else {
         localStorage.removeItem('user');
-        this.userSubject.next(null); // Actualizar el observable
+        this.userSubject.next(null);
         console.log("Usuario deslogueado, token eliminado.");
       }
     });
@@ -83,18 +81,27 @@ export class AuthService {
   async logout() {
     await this.auth.signOut();
     localStorage.removeItem('user');
-    this.userSubject.next(null); // Actualizar el observable
+    this.userSubject.next(null); 
   }
+
+  registerAccount(form: any): Observable<boolean> {
+    return this.http.post<boolean>(environment.backApi + 'user',form);
+  }
+
 
   loginbk(token: string): Observable<UserToken> {
     return this.http.post<UserToken>(environment.backApi + 'user/login', {token: token});
+  }
+
+  isAvailableEmail(email: string): Observable<UserToken> {
+    const params = new HttpParams().set('email', email);
+    return this.http.get<UserToken>(environment.backApi + 'user/email/available', { params });
   }
 
   checkJwt(): boolean {
     return localStorage.getItem('user') != null;
   }
   
-  // Método para obtener el usuario actual
   getCurrentUser(): UserToken | null {
     const userJson = localStorage.getItem('user');
     if (userJson) {

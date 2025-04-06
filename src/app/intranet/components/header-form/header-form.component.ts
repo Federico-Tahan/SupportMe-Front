@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header-form',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './header-form.component.html',
   styleUrl: './header-form.component.scss'
 })
