@@ -49,9 +49,6 @@ import {
   require_cjs
 } from "./chunk-F3ZXLKS4.js";
 import {
-  __rest
-} from "./chunk-KJEVBEMX.js";
-import {
   __async,
   __asyncGenerator,
   __await,
@@ -18435,6 +18432,16 @@ var require_undici = __commonJS({
 // node_modules/@angular/fire/fesm2022/angular-fire-auth.mjs
 var import_rxjs2 = __toESM(require_cjs(), 1);
 var import_operators2 = __toESM(require_operators(), 1);
+
+// node_modules/tslib/tslib.es6.mjs
+function __rest(s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+}
 
 // node_modules/@firebase/auth/dist/node-esm/totp-219bb96f.js
 var import_undici = __toESM(require_undici(), 1);

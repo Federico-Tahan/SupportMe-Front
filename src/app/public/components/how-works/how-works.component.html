@@ -1,0 +1,87 @@
+<!-- como-funciona.component.html -->
+<div class="como-funciona-container">
+    <!-- Header principal -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Cómo Funciona</h1>
+        <p class="subtitle">Te ayudamos a crear, compartir y gestionar tu campaña de recaudación de fondos de manera efectiva.</p>
+      </div>
+      <div class="hero-image">
+        <img src="https://supportme2.s3.sa-east-1.amazonaws.com/colaborando.png" alt="Personas colaborando" />
+      </div>
+    </section>
+  
+    <!-- Pasos principales -->
+    <section class="pasos-section">
+      <div class="pasos-container">
+        @for (paso of pasos; track paso.numero) {
+          <div class="paso">
+            <div class="paso-numero">
+              <span>{{ paso.numero }}</span>
+            </div>
+            <div class="paso-content">
+              <h2>{{ paso.titulo }}</h2>
+              <ul>
+                @for (item of paso.items; track item) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- seccion-como-funciona.component.html -->
+<div class="seccion-instrucciones">
+    <h2 class="titulo-seccion">Inicia tu campaña de recaudación de fondos</h2>
+    
+    <p class="instruccion-intro">
+      El primer paso para recaudar fondos es empezar tu campaña. Crea tu cuenta en SupportMe y:
+    </p>
+    
+    <ol class="pasos-lista">
+      <li class="paso-item">
+        <span class="paso-titulo">Define tu objetivo.</span> 
+        <span class="paso-descripcion">¿Cuánto necesitas recaudar? Puedes ajustar la meta si alcanzas la cantidad inicial.</span>
+      </li>
+      
+      <li class="paso-item">
+        <span class="paso-titulo">Cuenta tu historia.</span> 
+        <span class="paso-descripcion">Explica por qué estás recaudando fondos y por qué es importante para ti. Puede ser para ayudar a un amigo o una causa benéfica cercana a tu corazón.</span>
+      </li>
+      
+      <li class="paso-item">
+        <span class="paso-titulo">Añade una foto o video.</span> 
+        <span class="paso-descripcion">Esto refuerza tu mensaje y conecta más con tu audiencia.</span>
+      </li>
+    </ol>
+    
+    <div class="seccion-compartir">
+      <h3 class="subtitulo-seccion">Comparte con tus amigos</h3>
+      <p class="compartir-intro">Compartir tu campaña es clave para el éxito. Usa todas las herramientas posibles:</p>
+      
+      <ul class="metodos-compartir">
+        <li class="metodo-item">
+          <span class="metodo-titulo">Correos electrónicos:</span>
+          <span class="metodo-descripcion">Envía tu enlace con un mensaje breve explicando la causa.</span>
+        </li>
+        
+        <li class="metodo-item">
+          <span class="metodo-titulo">Mensajes de texto:</span>
+          <span class="metodo-descripcion">Comparte el enlace en chats grupales.</span>
+        </li>
+        
+        <li class="metodo-item">
+          <span class="metodo-titulo">Redes sociales:</span>
+          <span class="metodo-descripcion">Publica regularmente en Facebook, Instagram y Twitter. Aprovecha las historias y los hashtags.</span>
+        </li>
+        
+        <li class="metodo-item">
+          <span class="metodo-titulo">Carteles con QR:</span>
+          <span class="metodo-descripcion">Promociona offline con carteles que incluyan códigos QR.</span>
+        </li>
+      </ul>
+    </div>
+    
+  </div>

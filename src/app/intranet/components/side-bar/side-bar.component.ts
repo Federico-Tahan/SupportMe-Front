@@ -16,7 +16,7 @@ export class SideBarComponent {
   
   navItems = [
     { icon: 'line-chart', label: 'Dashboard', route: '/dashboard' },
-    { icon: 'bullhorn', label: 'Campañas', route: '/campaign' },
+    { icon: 'bullhorn', label: 'Mis campañas', route: '/campaign' },
     { icon: 'credit-card', label: 'Pagos', route: '/payments' },
     { icon: 'gear', label: 'Configuración', route: '/settings', badge: 1 }
   ];

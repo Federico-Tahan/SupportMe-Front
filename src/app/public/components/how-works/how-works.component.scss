@@ -1,0 +1,784 @@
+/* como-funciona.component.scss */
+:host {
+    display: block;
+  }
+  
+  // Variables actualizadas según la nueva imagen de referencia
+  $primary-color: #6247AA;
+  $secondary-color: #A5A6F6;
+  $accent-color: #5F67FF;
+  $background-color: #ffffff;
+  $light-bg: #f8f7ff;
+  $dark-text: #333333;
+  $light-text: #ffffff;
+  $border-radius: 8px;
+  $box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  
+  // Estilos generales
+  .como-funciona-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: $dark-text;
+    background-color: $background-color;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  // Estilos de botones actualizados
+  .primary-button {
+    background-color: $accent-color;
+    color: $light-text;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  
+    &:hover {
+      background-color: darken($accent-color, 10%);
+    }
+  }
+  
+  .secondary-button {
+    background-color: $light-bg;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+    }
+  }
+  
+  .outline-button {
+    background-color: transparent;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+    }
+  }
+  
+  // Sección hero actualizada
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem 0;
+    gap: 2rem;
+  
+    @media (max-width: 768px) {
+      flex-direction: column-reverse;
+      text-align: center;
+      padding: 2rem 0;
+    }
+  
+    .hero-content {
+      flex: 1;
+  
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: $dark-text;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+  
+        @media (max-width: 768px) {
+          font-size: 2rem;
+        }
+      }
+  
+      .subtitle {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        color: lighten($dark-text, 20%);
+        margin-bottom: 2rem;
+        max-width: 600px;
+      }
+  
+      .button-group {
+        display: flex;
+        gap: 1rem;
+  
+        @media (max-width: 576px) {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    }
+  
+    .hero-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+      img {
+        max-width: 80%;
+        height: auto;
+      }
+    }
+  }
+  
+  // Sección de categorías tipo pills
+  .category-pills {
+    background-color: $light-bg;
+    padding: 2rem 0;
+    border-radius: $border-radius;
+    margin: 2rem 0;
+  
+    h2 {
+      text-align: center;
+      color: $primary-color;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+  
+    .pills-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      padding: 0 1rem;
+    }
+  
+    .pill {
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 30px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      color: $dark-text;
+      cursor: pointer;
+      transition: all 0.3s;
+  
+      &:hover {
+        background-color: $primary-color;
+        color: white;
+        border-color: $primary-color;
+      }
+    }
+  
+    .ver-todo {
+      display: flex;
+      align-items: center;
+      color: $primary-color;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 0.9rem;
+  
+      .arrow {
+        margin-left: 5px;
+      }
+    }
+  }
+  
+  // Sección de pasos actualizada con el nuevo diseño
+  .pasos-section {
+    padding: 4rem 0;
+  
+    @media (max-width: 768px) {
+      padding: 2rem 0;
+    }
+  
+    .pasos-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 2rem;
+      margin-bottom: 3rem;
+  
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  
+    .paso {
+      background-color: white;
+      border-radius: $border-radius;
+      box-shadow: $box-shadow;
+      padding: 2rem;
+      max-width: 300px;
+      width: 100%;
+      border: 1px solid #f0f0f0;
+  
+      @media (max-width: 768px) {
+        max-width: 100%;
+      }
+  
+      .paso-numero {
+        width: 40px;
+        height: 40px;
+        background-color: $accent-color;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        
+        span {
+          color: $light-text;
+          font-size: 1.2rem;
+          font-weight: bold;
+        }
+      }
+  
+      h2 {
+        color: $dark-text;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+  
+      ul {
+        padding-left: 1.5rem;
+        margin-top: 1rem;
+        
+        li {
+          margin-bottom: 0.8rem;
+          line-height: 1.4;
+          color: lighten($dark-text, 20%);
+        }
+      }
+    }
+  
+    .action-button {
+      text-align: center;
+      margin-top: 2rem;
+    }
+  }
+  
+  // Sección de proyectos destacados
+  .proyectos-section {
+    padding: 4rem 0;
+  
+    .section-title {
+      text-align: center;
+      color: $dark-text;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      font-weight: 700;
+    }
+  
+    .proyectos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      
+      @media (max-width: 992px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      @media (max-width: 576px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  
+    .proyecto-card {
+      background-color: white;
+      border-radius: $border-radius;
+      overflow: hidden;
+      box-shadow: $box-shadow;
+      border: 1px solid #f0f0f0;
+      transition: transform 0.3s;
+      
+      &:hover {
+        transform: translateY(-5px);
+      }
+      
+      .proyecto-image {
+        height: 180px;
+        overflow: hidden;
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      
+      .proyecto-content {
+        padding: 1.5rem;
+        
+        .tag {
+          display: inline-block;
+          background-color: $light-bg;
+          color: $primary-color;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 0.8rem;
+          margin-bottom: 0.8rem;
+        }
+        
+        h3 {
+          color: $dark-text;
+          margin-bottom: 0.8rem;
+          font-weight: 600;
+        }
+        
+        .view-more {
+          display: inline-block;
+          color: $accent-color;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.9rem;
+          margin-top: 0.8rem;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  // Sección de llamada a la acción
+  .cta-section {
+    background-color: $light-bg;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: $border-radius;
+    margin: 2rem 0 4rem;
+    
+    .cta-content {
+      max-width: 800px;
+      margin: 0 auto;
+      
+      h2 {
+        color: $dark-text;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+      
+      p {
+        color: lighten($dark-text, 20%);
+        margin-bottom: 2rem;
+        line-height: 1.5;
+      }
+    }
+  }
+  
+  // Footer
+  .footer {
+    background-color: $primary-color;
+    color: white;
+    padding: 3rem 2rem;
+    
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 2rem;
+      }
+    }
+    
+    .footer-column {
+      h3 {
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+      }
+      
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        li {
+          margin-bottom: 0.8rem;
+          
+          a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+            
+            &:hover {
+              color: white;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Animaciones para mejorar la experiencia de usuario
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .proyecto-card, .paso {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  // Estilos para sección de proyectos destacados (similar a la imagen de referencia)
+  .featured-projects {
+    padding: 3rem 0;
+    
+    .featured-container {
+      display: flex;
+      align-items: stretch;
+      gap: 2rem;
+      
+      @media (max-width: 992px) {
+        flex-direction: column;
+      }
+      
+      .project-illustration {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        
+        .illustration-bg {
+          position: absolute;
+          width: 80%;
+          height: 80%;
+          background-color: rgba($secondary-color, 0.2);
+          border-radius: 50%;
+          z-index: 0;
+        }
+        
+        .illustration-people {
+          position: relative;
+          z-index: 1;
+          max-width: 100%;
+        }
+      }
+      
+      .projects-list {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        
+        .project-item {
+          display: flex;
+          background-color: white;
+          border-radius: $border-radius;
+          overflow: hidden;
+          box-shadow: $box-shadow;
+          transition: transform 0.3s;
+          
+          &:hover {
+            transform: translateY(-3px);
+          }
+          
+          .project-image {
+            width: 120px;
+            height: 120px;
+            
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+          
+          .project-details {
+            padding: 1rem;
+            flex: 1;
+            
+            h3 {
+              margin-bottom: 0.5rem;
+              font-size: 1rem;
+              font-weight: 600;
+            }
+            
+            .category {
+              display: inline-block;
+              font-size: 0.8rem;
+              color: lighten($dark-text, 30%);
+              margin-bottom: 1rem;
+              background-color: $light-bg;
+              padding: 3px 8px;
+              border-radius: 4px;
+            }
+            
+            .view-more {
+              color: $accent-color;
+              font-size: 0.9rem;
+              text-decoration: none;
+              font-weight: 600;
+              
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Estilos para menú de navegación
+  .main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: $primary-color;
+      font-size: 1.2rem;
+      text-decoration: none;
+      
+      .logo-icon {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, $primary-color, $accent-color);
+        border-radius: 50%;
+      }
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      
+      @media (max-width: 768px) {
+        display: none;
+      }
+      
+      a {
+        color: $dark-text;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+        
+        &:hover, &.active {
+          color: $primary-color;
+        }
+      }
+    }
+    
+    .mobile-toggle {
+      display: none;
+      
+      @media (max-width: 768px) {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: $dark-text;
+      }
+    }
+    
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+  
+  // Mobile navigation dropdown
+  .mobile-nav {
+    display: none;
+    
+    @media (max-width: 768px) {
+      &.active {
+        display: block;
+        background-color: white;
+        padding: 1rem;
+        border-radius: $border-radius;
+        box-shadow: $box-shadow;
+        position: absolute;
+        top: 70px;
+        right: 1rem;
+        left: 1rem;
+        z-index: 10;
+        
+        ul {
+          list-style: none;
+          padding: 0;
+          
+          li {
+            margin-bottom: 1rem;
+            
+            a {
+              display: block;
+              padding: 0.5rem;
+              color: $dark-text;
+              text-decoration: none;
+              transition: all 0.3s;
+              
+              &:hover {
+                background-color: $light-bg;
+                color: $primary-color;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* seccion-como-funciona.component.scss */
+
+.seccion-instrucciones {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #333;
+    line-height: 1.5;
+  }
+  
+  .titulo-seccion {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .instruccion-intro {
+    margin-bottom: 1.5rem;
+  }
+  
+  .pasos-lista {
+    counter-reset: paso-counter;
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+  }
+  
+  .paso-item {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+    counter-increment: paso-counter;
+  }
+  
+  .paso-item::before {
+    content: counter(paso-counter) ".";
+    position: absolute;
+    left: 0;
+    font-weight: 600;
+  }
+  
+  .paso-titulo {
+    font-weight: 600;
+  }
+  
+  .nota-adicional {
+    margin-bottom: 2rem;
+  }
+  
+  .seccion-compartir,
+  .seccion-donaciones {
+    margin-bottom: 2rem;
+  }
+  
+  .subtitulo-seccion {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .compartir-intro {
+    margin-bottom: 1rem;
+  }
+  
+  .metodos-compartir {
+    list-style-type: none;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .metodo-item {
+    position: relative;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .metodo-item::before {
+    content: "•";
+    position: absolute;
+    left: -1.5rem;
+    color: #333;
+  }
+  
+  .metodo-titulo {
+    font-weight: 600;
+    margin-right: 0.3rem;
+  }
+  
+  .tutoriales-link,
+  .donaciones-descripcion,
+  .actualizaciones-info {
+    margin-bottom: 1rem;
+  }
+  
+  .llamado-accion {
+    font-weight: 600;
+    margin-top: 2rem;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .seccion-instrucciones {
+      padding: 1.5rem 1rem;
+    }
+    
+    .titulo-seccion {
+      font-size: 1.5rem;
+    }
+    
+    .metodo-item {
+      display: block;
+    }
+    
+    .metodo-titulo {
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+  }
+  
+  /* Estilos para resaltar enlaces o términos importantes */
+  a, .texto-resaltado {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }

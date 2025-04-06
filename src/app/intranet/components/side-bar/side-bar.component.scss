@@ -7,7 +7,6 @@
     background-color: #fff;
     color: #333;
     font-family: var(--bs-body-font-family);
-    overflow-y: auto;
     transition: width 0.3s ease;
     position: relative;
   }
@@ -16,7 +15,6 @@
     width: 60px;
   }
   
-  /* Project header styles */
   .project-header {
     display: flex;
     align-items: center;
