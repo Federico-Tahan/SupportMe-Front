@@ -26,10 +26,8 @@ export class ProfileComponentComponent implements OnInit {
     const firstName = this.currentUser.firstName || '';
     const lastName = this.currentUser.lastName || '';
     
-    if (firstName && lastName) {
-      return (firstName[0] + lastName[0]).toUpperCase();
-    } else if (firstName) {
-      return firstName[0].toUpperCase();
+    if (firstName) {
+      return (firstName[0] )
     } else {
       return '?';
     }

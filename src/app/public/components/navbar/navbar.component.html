@@ -28,17 +28,30 @@
 
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav ms-3">
-        <li class="nav-item"><a class="nav-link" routerLink="/projects">Proyectos</a></li>
-        <li class="nav-item"><a class="nav-link" href="/how-works">Cómo funciona</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="projects">Proyectos</a></li>
+        <li class="nav-item"><a class="nav-link" href="how-works">Cómo funciona</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Preguntas frecuentes</a></li>
+        <!-- Mostrar solo en móvil y cuando NO hay usuario autenticado -->
+        <li class="nav-item d-lg-none" *ngIf="!currentUser">
+          <a class="nav-link mobile-auth-link" href="login">
+            <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
+          </a>
+        </li>
+        <li class="nav-item d-lg-none" *ngIf="!currentUser">
+          <a class="nav-link mobile-auth-link" href="signup">
+            <i class="fas fa-user-plus me-2"></i> Crear cuenta
+          </a>
+        </li>
       </ul>
-
+    
       <div class="d-flex align-items-center ms-auto">
+        <!-- Mostrar solo en desktop y cuando NO hay usuario autenticado -->
         <div *ngIf="!currentUser" class="login-buttons d-none d-lg-flex">
           <button class="btn btn-primary" routerLink="login">Iniciar sesión</button>
           <button class="btn btn-primary" routerLink="signup">Crear cuenta</button>
         </div>
-
+    
+        <!-- Componente de perfil - solo visible cuando hay usuario autenticado -->
         <app-profile-component 
           *ngIf="currentUser" 
           [currentUser]="currentUser" 
