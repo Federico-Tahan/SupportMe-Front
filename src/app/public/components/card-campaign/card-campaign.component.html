@@ -1,15 +1,15 @@
 <!-- fundraising-card.component.html -->
 <div class="card">
-    <img [src]="imageUrl" class="card-img-top" alt="Imagen de campaña">
+    <img [src]="campaign.mainImage" class="card-img-top" alt="Imagen de campaña">
     
     <div class="card-body">
       <div class="card-tags">
-        <span class="category-tag">{{ category }}</span>
-        <span class="location-tag">{{ location }}</span>
+        <span class="category-tag">{{ campaign.category }}</span>
+        <span class="location-tag">{{ campaign.location }}</span>
       </div>
       
-      <h2 class="card-title">{{ title }}</h2>
-      <p class="card-description">{{ description }}</p>
+      <h2 class="card-title">{{ campaign.name }}</h2>
+      <p class="card-description">{{ campaign.description }}</p>
       
       <div class="progress-container">
         <div class="progress">
@@ -20,7 +20,7 @@
       </div>
       
       <div class="fundraising-status">
-        <strong>${{ amountRaised  }} raised</strong> of ${{ goalAmount }} goal
+        <strong>${{ campaign.amountRaised  }} raised</strong> of ${{ campaign.goalAmount }} goal
       </div>
     </div>
   </div>

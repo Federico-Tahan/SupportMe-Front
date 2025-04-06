@@ -1,44 +1,62 @@
 <div class="education-page">
-    <div class="banner-section">
-      <div class="icon-lightbulb">
-        <img src="https://supportme2.s3.sa-east-1.amazonaws.com/foco.png">
-      </div>
-      
-      <div class="icon-book">
-        <img src="https://supportme2.s3.sa-east-1.amazonaws.com/book.png">
-      </div>
-      
-      <div class="search-filter-container">
-        <div class="search-box">
-          <input 
-            type="text" 
-            placeholder="Search" >
-          <button class="search-button">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        
-        <div class="dropdown-container">
-          <button class="dropdown-button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 9L12 15L18 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="dropdown-content">
-
-          </div>
-        </div>
-      </div>
+  <div class="banner-section">
+    <div class="icon-lightbulb">
+      <img src="https://supportme2.s3.sa-east-1.amazonaws.com/foco.png">
     </div>
     
-    <div class="projects-section">
-      <div class="projects-grid">
-            @for (item of campaigns; track $index) {
-                <app-card-campaign></app-card-campaign>
-            }
-        
+    <div class="icon-book">
+      <img src="https://supportme2.s3.sa-east-1.amazonaws.com/book.png">
+    </div>
+    
+    <div class="search-filter-container">
+      <div class="search-box">
+        <input 
+          type="text" 
+          placeholder="Search"
+          [ngModel]="searchText"
+          (ngModelChange)="onSearchChange($event)">
+        <button class="search-button">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="dropdown">
+        <button class="dropdown-button dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ selectedCategory }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9L12 15L18 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="dropdown-menu dropdown-content" aria-labelledby="categoryDropdown">
+          <li><a class="dropdown-item" (click)="selectCategory(null)">Todas</a></li>
+          @for (item of categories; track $index) {
+            <li><a class="dropdown-item" (click)="selectCategory(item)">{{ item.name }}</a></li>
+          }
+        </ul>
       </div>
     </div>
   </div>
+  
+  <div class="projects-section">
+    @if (campaigns.length === 0 && !isLoading) {
+      <div class="no-results">
+        <p>No se encontraron resultados para tu búsqueda.</p>
+      </div>
+    }
+    
+    <div class="projects-grid">
+      @for (item of campaigns; track item.id) {
+        <app-card-campaign [campaign]="item"></app-card-campaign>
+      }
+    </div>
+    
+    @if (isLoading) {
+      <div class="loading-indicator">
+        <div class="spinner"></div>
+        <p>Cargando más resultados...</p>
+      </div>
+    }
+  </div>
+</div>

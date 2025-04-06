@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Pagination } from '../interfaces/pagination';
 import { Campaign } from '../interfaces/campaign';
 import { environment } from '../../../../environment/environment';
 import { Observable } from 'rxjs';
+import { ProjectFilter } from '../filters/project-filter';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,30 @@ export class CampaignService {
   http = inject(HttpClient);
   constructor() { }
 
-    getCampaigns() : Observable<Pagination<Campaign>>{
-      return this.http.get<Pagination<Campaign>>(environment.backApi + "campaign");
+  getCampaigns(filter?: ProjectFilter): Observable<Pagination<Campaign>> {
+    let params = new HttpParams();
+    
+    if (filter) {
+      if (filter.categoryId) {
+        params = params.set('categoryId', filter.categoryId.toString());
+      }
+      
+      if (filter.limit) {
+        params = params.set('limit', filter.limit.toString());
+      }
+      
+      if (filter.skip !== undefined && filter.skip !== null) {
+        params = params.set('skip', filter.skip.toString());
+      }
+      
+      if (filter.textFilter) {
+        params = params.set('textFilter', filter.textFilter.toString());
+      }
     }
+    
+    return this.http.get<Pagination<Campaign>>(
+      environment.backApi + "campaign", 
+      { params }
+    );
+  }
 }
