@@ -1,0 +1,10 @@
+<div class="notification-card" [ngClass]="cardTypeClass">
+    <div class="notification-icon">
+      <i [class]="iconClass"></i>
+    </div>
+    <div class="notification-content">
+      <h3 class="notification-title" *ngIf="title">{{ title }}</h3>
+      <p class="notification-message" *ngIf="message">{{ message }}</p>
+      <ng-content></ng-content>
+    </div>
+  </div>

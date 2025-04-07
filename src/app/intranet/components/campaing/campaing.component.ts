@@ -6,18 +6,22 @@ import { HeaderFormComponent } from "../header-form/header-form.component";
 import { CampaignService } from '../../../core/shared/services/campaign.service';
 import { ProjectFilter } from '../../../core/shared/filters/project-filter';
 import { Campaign } from '../../../core/shared/interfaces/campaign';
+import { SettingsComponent } from "../settings/settings.component";
+import { CardSettingsComponent } from "../card-settings/card-settings.component";
+import { InfoCardComponent } from "../../../components/info-card/info-card.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-campaing',
   standalone: true,
-  imports: [CommonModule, CardCampaignComponent, HeaderFormComponent],
+  imports: [CommonModule, CardCampaignComponent, HeaderFormComponent, SettingsComponent, CardSettingsComponent, InfoCardComponent, RouterLink],
   templateUrl: './campaing.component.html',
   styleUrl: './campaing.component.scss'
 })
 export class CampaingComponent implements OnInit, AfterViewInit, OnDestroy {
   campaignService = inject(CampaignService);
-  
-  // Referencia al elemento centinela para IntersectionObserver
+  isMpConfigured = false;
+
   @ViewChild('scrollSentinel') scrollSentinel: ElementRef;
   
   campaigns: Campaign[] = [];

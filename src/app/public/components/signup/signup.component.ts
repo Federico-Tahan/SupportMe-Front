@@ -3,12 +3,12 @@ import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ReactiveForm
 import { catchError, debounceTime, first, map, Observable, of, switchMap } from 'rxjs';
 import { AuthService } from '../../../core/shared/services/auth.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })

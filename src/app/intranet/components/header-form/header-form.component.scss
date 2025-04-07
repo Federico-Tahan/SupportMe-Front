@@ -128,13 +128,22 @@
     color: #374151;
     cursor: pointer;
     transition: all 0.2s;
-    
-    &:hover {
-      background-color: #f9fafb;
-      border-color: #9ca3af;
-    }
   }
   
+  .export-button:disabled,
+  .export-button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    border-color: #e5e7eb;
+  }
+  
+  .export-button:disabled:hover,
+  .export-button[disabled]:hover {
+    background-color: #f3f4f6;
+    border-color: #e5e7eb;
+  }
   /* Responsive */
   @media screen and (max-width: 768px) {
     .header-top, .header-filters {

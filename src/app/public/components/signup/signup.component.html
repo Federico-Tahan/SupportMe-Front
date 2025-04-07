@@ -44,7 +44,8 @@
             <span class="input-icon">
               <i class="far fa-calendar"></i>
             </span>
-            <input type="date" formControlName="dateOfBirth">
+            <input type="date" style="padding-left: 37px;
+    color: gray;" formControlName="dateOfBirth">
           </div>
           @if(form.get('dateOfBirth')?.errors?.['required'] && form.get('dateOfBirth')?.touched){
             <span class="text-danger">La fecha de nacimiento es requerida</span>

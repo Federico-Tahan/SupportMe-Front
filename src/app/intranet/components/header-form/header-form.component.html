@@ -24,7 +24,7 @@
       </div>
       
       <div class="export-container">
-        <button class="export-button" (click)="onExport()">
+        <button class="export-button" (click)="onExport()" [disabled]="disabledButton">
           Agregar Campaña
         </button>
       </div>

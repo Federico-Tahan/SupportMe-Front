@@ -1,10 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './header-form.component.html',
   styleUrl: './header-form.component.scss'
 })
@@ -15,7 +16,8 @@ export class HeaderFormComponent {
   @Input() showDateRange: boolean = true;
   @Input() searchPlaceholder: string = 'Buscar';
   @Input() filterOptions: { label: string, value: string }[] = [];
-  
+  @Input() disabledButton: boolean = false;
+
   @Output() search = new EventEmitter<string>();
   @Output() dateChange = new EventEmitter<{ start: Date, end: Date }>();
   @Output() filterChange = new EventEmitter<string>();

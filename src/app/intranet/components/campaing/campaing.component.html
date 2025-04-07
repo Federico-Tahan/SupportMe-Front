@@ -1,13 +1,23 @@
+@if(!isMpConfigured){
+    <app-info-card
+    [title]="'Mercado Pago'"
+    [message]="'Debes configurar tus credenciales de Mercado Pago antes de poder generar tus campañas'"
+    [type]="'warning'"
+    routerLink = '/settings'>
+  </app-info-card>
+}
+
+
 <div class="campaign-page"> 
     <app-header-form
-        title="Mis campañas"
-        searchPlaceholder="Buscar campañas"
-        [showDateRange]="false"
-        (search)="onSearch($event)"
-        (filterChange)="onFilterChange($event)"
-        (export)="onExport()">
-    </app-header-form>
-    
+    title="Mis campañas"
+    searchPlaceholder="Buscar campañas"
+    [showDateRange]="false"
+    [disabledButton]="!isMpConfigured"
+    (search)="onSearch($event)"
+    (filterChange)="onFilterChange($event)"
+    (export)="onExport()">
+</app-header-form>
     <div class="campaign-list">
         @if (isLoading && campaigns.length === 0) {
             <div class="loading-container">
