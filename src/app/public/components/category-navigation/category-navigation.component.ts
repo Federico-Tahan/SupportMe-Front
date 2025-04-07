@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SimpleCategory } from '../../../core/shared/interfaces/simple-category';
 import { CategoryService } from '../../../core/shared/services/category.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-category-navigation',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './category-navigation.component.html',
   styleUrl: './category-navigation.component.scss'
 })
