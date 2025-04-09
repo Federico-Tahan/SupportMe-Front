@@ -32,7 +32,6 @@ export class AuthService {
       } else {
         localStorage.removeItem('user');
         this.userSubject.next(null);
-        console.log("Usuario deslogueado, token eliminado.");
       }
     });
   }

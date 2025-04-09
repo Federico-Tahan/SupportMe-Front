@@ -46,26 +46,20 @@ export class CampaingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   ngAfterViewInit(): void {
-    // Encontrar el contenedor de scroll correcto (content-area)
     this.findScrollContainer();
     
-    // Configurar el observer para el elemento centinela
     this.setupIntersectionObserver();
     
-    // Configurar también un listener de scroll manual como respaldo
     this.setupScrollListener();
   }
   
   private findScrollContainer(): void {
-    // Intentamos obtener el contenedor de contenido (.content-area)
     this.scrollContainer = document.querySelector('.content-area');
-    console.log('Contenedor de scroll encontrado:', this.scrollContainer);
   }
   
   private setupIntersectionObserver(): void {
-    // Configuración para IntersectionObserver
     const options = {
-      root: this.scrollContainer, // Usar el contenedor de contenido como root
+      root: this.scrollContainer, 
       rootMargin: '100px',
       threshold: 0.1
     };
@@ -73,7 +67,6 @@ export class CampaingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !this.isLoading && this.hasMoreItems) {
-          console.log('Elemento centinela visible - cargando más campañas');
           this.loadMoreCampaigns();
         }
       });
@@ -81,24 +74,19 @@ export class CampaingComponent implements OnInit, AfterViewInit, OnDestroy {
     
     if (this.scrollSentinel) {
       this.observer.observe(this.scrollSentinel.nativeElement);
-      console.log('Observer configurado para:', this.scrollSentinel.nativeElement);
     } else {
       console.error('Elemento centinela no encontrado');
     }
   }
   
   private setupScrollListener(): void {
-    // Si encontramos el contenedor de scroll, configurar el listener ahí
     if (this.scrollContainer) {
-      console.log('Configurando listener de scroll en content-area');
       fromEvent(this.scrollContainer, 'scroll')
         .pipe(takeUntil(this.destroy$))
         .subscribe(() => {
           this.checkScrollPosition();
         });
     } else {
-      // De lo contrario, usar window como respaldo
-      console.log('Configurando listener de scroll en window');
       fromEvent(window, 'scroll')
         .pipe(takeUntil(this.destroy$))
         .subscribe(() => {
@@ -113,41 +101,20 @@ export class CampaingComponent implements OnInit, AfterViewInit, OnDestroy {
     let shouldLoadMore = false;
     
     if (this.scrollContainer) {
-      // Obtener dimensiones del contenedor
       const containerHeight = this.scrollContainer.clientHeight;
       const scrollHeight = this.scrollContainer.scrollHeight;
       const scrollTop = this.scrollContainer.scrollTop;
-      
-      console.log('Scroll Debug (contenedor):', {
-        containerHeight,
-        scrollHeight,
-        scrollTop,
-        triggerPoint: scrollHeight - 200,
-        currentPosition: containerHeight + scrollTop,
-        shouldTrigger: (containerHeight + scrollTop >= scrollHeight - 200)
-      });
-      
+            
       shouldLoadMore = (containerHeight + scrollTop >= scrollHeight - 200);
     } else {
-      // Usar dimensiones de window como respaldo
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      
-      console.log('Scroll Debug (window):', {
-        windowHeight,
-        documentHeight,
-        scrollTop,
-        triggerPoint: documentHeight - 200,
-        currentPosition: windowHeight + scrollTop,
-        shouldTrigger: (windowHeight + scrollTop >= documentHeight - 200)
-      });
-      
+            
       shouldLoadMore = (windowHeight + scrollTop >= documentHeight - 200);
     }
     
     if (shouldLoadMore) {
-      console.log('Posición de scroll alcanzada - cargando más campañas');
       this.loadMoreCampaigns();
     }
   }
@@ -190,11 +157,9 @@ export class CampaingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   onFilterChange(filterValue: string): void {
-    console.log('Filtro seleccionado:', filterValue);
   }
   
   onExport(): void {
-    console.log('Exportando datos...');
   }
   
   private loadMoreCampaigns(): void {

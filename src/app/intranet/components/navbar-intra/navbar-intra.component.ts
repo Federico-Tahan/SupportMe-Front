@@ -21,7 +21,6 @@ export class NavbarIntraComponent implements OnInit {
     if (userJson) {
       try {
         this.currentUser = JSON.parse(userJson) as UserToken;
-        console.log(this.currentUser);
       } catch (error) {
         console.error('Error parsing user from localStorage:', error);
       }

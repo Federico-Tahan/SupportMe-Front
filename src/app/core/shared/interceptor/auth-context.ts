@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 
 export interface AuthContext {
-  // Si es true, forzar la inclusión del token
-  // Si es false, forzar la exclusión del token
-  // Si es undefined, usar comportamiento por defecto
   forceAuth?: boolean;
 }
 

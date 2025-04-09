@@ -45,7 +45,6 @@ export class LoginComponent {
         console.error('Error en login:', error);
       }
     } else {
-      console.log('Formulario inválido. Por favor, complete todos los campos requeridos.');
     }
   }
 }

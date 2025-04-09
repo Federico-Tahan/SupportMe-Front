@@ -5,7 +5,6 @@ import { AuthService } from '../services/auth.service';
 import { AuthContextService } from './auth-context';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
-  console.log('TokenInterceptor: Interceptando petición a', req.url);
   
   const authService = inject(AuthService);
   const authContextService = inject(AuthContextService);
@@ -48,11 +47,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     }
   }
   
-  authContextService.clearAuthContext();
-  
-  console.log('TokenInterceptor: Petición procesada', 
-    modifiedReq.headers.has('Authorization') ? 'CON token' : 'SIN token');
-  
+  authContextService.clearAuthContext();  
   return next(modifiedReq);
 };
 

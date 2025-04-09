@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CardSettingsComponent } from "../card-settings/card-settings.component";
 import { SettingsCard } from '../../../core/shared/interfaces/settingscard';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -11,6 +12,7 @@ import { SettingsCard } from '../../../core/shared/interfaces/settingscard';
 })
 export class SettingsComponent {
 
+  router = inject(Router);
   constructor() { }
 
   mainSettings: SettingsCard[] = [
@@ -26,14 +28,14 @@ export class SettingsComponent {
       description: 'Configura tus credenciales de Mercado Pago',
       icon: 'handshake',
       iconColor: 'purple',
-      route: '/commission'
+      route: '/setup/mercadopago'
     },
     
   ];
 
   navigateTo(route: string): void {
     if (route) {
-      console.log(`Navigating to ${route}`);
+      this.router.navigate([route]);
     }
   }
 }

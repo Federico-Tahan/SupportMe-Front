@@ -3,7 +3,6 @@
     display: block;
   }
   
-  // Variables actualizadas según la nueva imagen de referencia
   $primary-color: #6247AA;
   $secondary-color: #A5A6F6;
   $accent-color: #5F67FF;
@@ -14,7 +13,6 @@
   $border-radius: 8px;
   $box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   
-  // Estilos generales
   .como-funciona-container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: $dark-text;
@@ -24,7 +22,6 @@
     padding: 0 1rem;
   }
   
-  // Estilos de botones actualizados
   .primary-button {
     background-color: $accent-color;
     color: $light-text;
@@ -70,7 +67,6 @@
     }
   }
   
-  // Sección hero actualizada
   .hero {
     display: flex;
     align-items: center;
@@ -131,7 +127,6 @@
     }
   }
   
-  // Sección de categorías tipo pills
   .category-pills {
     background-color: $light-bg;
     padding: 2rem 0;
@@ -186,7 +181,6 @@
     }
   }
   
-  // Sección de pasos actualizada con el nuevo diseño
   .pasos-section {
     padding: 4rem 0;
   
@@ -262,7 +256,6 @@
     }
   }
   
-  // Sección de proyectos destacados
   .proyectos-section {
     padding: 4rem 0;
   
@@ -346,7 +339,6 @@
     }
   }
   
-  // Sección de llamada a la acción
   .cta-section {
     background-color: $light-bg;
     padding: 4rem 2rem;
@@ -373,7 +365,6 @@
     }
   }
   
-  // Footer
   .footer {
     background-color: $primary-color;
     color: white;
@@ -419,7 +410,6 @@
     }
   }
   
-  // Animaciones para mejorar la experiencia de usuario
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -435,7 +425,6 @@
     animation: fadeIn 0.5s ease-in-out;
   }
   
-  // Estilos para sección de proyectos destacados (similar a la imagen de referencia)
   .featured-projects {
     padding: 3rem 0;
     
@@ -536,7 +525,6 @@
     }
   }
   
-  // Estilos para menú de navegación
   .main-nav {
     display: flex;
     justify-content: space-between;
@@ -608,7 +596,6 @@
     }
   }
   
-  // Mobile navigation dropdown
   .mobile-nav {
     display: none;
     

@@ -98,12 +98,10 @@ export class SignupComponent {
   }
   
   onSubmit() {
-    // Marcar todos los campos como tocados para activar las validaciones
     Object.keys(this.form.controls).forEach(key => {
       this.form.get(key)?.markAsTouched();
     });
     
-    // Mostrar error de contraseñas si no coinciden
     if (this.form.errors?.['passwordMismatch']) {
       document.getElementById('passwordError')!.style.display = 'block';
     } else {
@@ -129,7 +127,6 @@ export class SignupComponent {
         }
       })
     } else {
-      console.log('Formulario inválido. Por favor, corrija los errores.');
     }
   }
 }
