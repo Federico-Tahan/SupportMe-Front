@@ -1,0 +1,42 @@
+name: Deploy to Windows Server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Windows Server
+    runs-on: self-hosted  # Asegúrate de usar un runner autoalojado en tu servidor Windows
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 📦 Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: 📦 Install dependencies
+        run: npm install --force
+
+      - name: 🏗️ Build Angular production
+        env:
+          MERCADO_PAGO_SECRET: ${{ secrets.PRIVATE_TOKEN_GENERICO_NEGOCIO }}
+        run: npm run build -- --configuration=production
+
+      - name: 🚀 Deploy to IIS
+        run: |
+          # Limpiar la carpeta de destino en IIS (C:\inetpub\supportme-front)
+          Remove-Item -Recurse -Force "C:\inetpub\supportme-front\*"
+
+          # Copiar los archivos generados por Angular (dist) a la carpeta de IIS
+          Copy-Item -Recurse -Force "dist/front/browser/*" "C:\inetpub\supportme-front"
+
+      - name: 🔄 Restart IIS
+        run: |
+          # Reiniciar IIS para aplicar los cambios
+          net stop w3svc /y
+          net start w3svc
