@@ -1,4 +1,4 @@
-@if(isMpConfigured !== undefined && !isMpConfigured){
+@if(isMpConfigured == undefined || !isMpConfigured){
     <div class="info-text">
         <h2>Vincular Mercado Pago</h2>
         <p>Conecta tu cuenta de Mercado Pago para recibir donaciones directamente en tu cuenta bancaria.</p>
@@ -12,7 +12,6 @@
     </div>
     
 }@else{
-    <!-- Pantalla de cuenta vinculada -->
 <div class="mercado-pago-container">
     <div class="estado-vinculacion">
       <div class="icono-exito">
@@ -32,7 +31,7 @@
       </div>
       
       <div class="acciones">
-        <button class="boton-desvincular">
+        <button class="boton-desvincular" (click)='deleteToken()'> 
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6L6 18"></path>
             <path d="M6 6l12 12"></path>

@@ -15,5 +15,8 @@ export class PaymentServiceService {
   vinculateMP(code : string) : Observable<BaseValidation>{
     return this.http.post<BaseValidation>(this.paymentAPI + 'mercadopago/oauth/token/generate?code=' + code, null);
    }
+   DeleteTokenMP() : Observable<BaseValidation>{
+    return this.http.delete<BaseValidation>(this.paymentAPI + 'mercadopago/oauth/token');
+   }
   
   }
