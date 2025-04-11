@@ -10,14 +10,12 @@ export const INTRANET_ROUTES: Routes = [
     {path : 'settings', component: SettingsComponent},
     {path : 'dashboard', component: DashboardComponent},
     {
-        path: 'campaign',
-        loadComponent: () =>
+        path: 'campaign', loadComponent: () =>
           import('./components/campaing/campaing.component').then(m => m.CampaingComponent)
       },
     {path : 'payments', component: PaymentsComponent},
     {
-      path: 'setup/mercadopago',
-      loadComponent: () =>
+      path: 'setup/mercadopago', loadComponent: () =>
         import('./components/mercadopagoconfig/mercadopagoconfig.component').then(m => m.MercadopagoconfigComponent)
     },    
     {path: 'mercadopago/callback', component: MercadopagocallbackComponent}
