@@ -1,4 +1,4 @@
-@if(isMpConfigured == undefined || !isMpConfigured){
+@if(!isMpConfigured){
     <div class="info-text">
         <h2>Vincular Mercado Pago</h2>
         <p>Conecta tu cuenta de Mercado Pago para recibir donaciones directamente en tu cuenta bancaria.</p>
@@ -11,7 +11,7 @@
         </a>
     </div>
     
-}@else{
+}@else if (isMpConfigured){
 <div class="mercado-pago-container">
     <div class="estado-vinculacion">
       <div class="icono-exito">
