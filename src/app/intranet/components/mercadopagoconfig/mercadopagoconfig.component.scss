@@ -4,8 +4,6 @@
     margin: 0 auto;
     padding: 20px;
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
   
   .info-text {
@@ -56,4 +54,106 @@
     width: 16px;
     height: 16px;
     background-size: contain;
+  }
+
+
+  .mercado-pago-container {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+  }
+  
+  .estado-vinculacion {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+  }
+  
+  .icono-exito {
+    margin-bottom: 20px;
+  }
+  
+  .titulo-vinculado {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .descripcion {
+    color: #666;
+    margin-bottom: 25px;
+  }
+  
+  .detalles-cuenta {
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: left;
+  }
+  
+  .detalle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .detalle:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  
+  .etiqueta {
+    color: #777;
+    font-weight: bold;
+  }
+  
+  .valor {
+    color: #333;
+  }
+  
+  .estado-activo {
+    color: #32CD32;
+    font-weight: bold;
+  }
+  
+  .acciones {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .boton-desvincular, .boton-configurar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+    border: none;
+  }
+  
+  .boton-desvincular {
+    background-color: #ffffff;
+    color: #ff6b6b;
+    border: 1px solid #ff6b6b;
+  }
+  
+  .boton-desvincular:hover {
+    background-color: #fff0f0;
+  }
+  
+  .boton-configurar {
+    background-color: #6c5ce7;
+    color: white;
+  }
+  
+  .boton-configurar:hover {
+    background-color: #5f50d9;
   }

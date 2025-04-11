@@ -18,7 +18,7 @@ export class SideBarComponent {
     { icon: 'line-chart', label: 'Dashboard', route: '/dashboard' },
     { icon: 'bullhorn', label: 'Mis campañas', route: '/campaign' },
     { icon: 'credit-card', label: 'Pagos', route: '/payments' },
-    { icon: 'gear', label: 'Configuración', route: '/settings', badge: 1 }
+    { icon: 'gear', label: 'Configuración', route: '/settings' }
   ];
   
   labels = [

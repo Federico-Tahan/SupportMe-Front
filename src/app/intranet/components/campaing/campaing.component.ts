@@ -10,6 +10,7 @@ import { SettingsComponent } from "../settings/settings.component";
 import { CardSettingsComponent } from "../card-settings/card-settings.component";
 import { InfoCardComponent } from "../../../components/info-card/info-card.component";
 import { RouterLink } from '@angular/router';
+import { SetupService } from '../../../core/shared/services/setup.service';
 
 @Component({
   selector: 'app-campaing',
@@ -20,8 +21,8 @@ import { RouterLink } from '@angular/router';
 })
 export class CampaingComponent implements OnInit, AfterViewInit, OnDestroy {
   campaignService = inject(CampaignService);
-  isMpConfigured = false;
-
+  isMpConfigured = undefined;
+  setupService = inject(SetupService);
   @ViewChild('scrollSentinel') scrollSentinel: ElementRef;
   
   campaigns: Campaign[] = [];
@@ -42,6 +43,12 @@ export class CampaingComponent implements OnInit, AfterViewInit, OnDestroy {
   private scrollContainer: HTMLElement;
   
   ngOnInit(): void {
+    this.setupService.getSetup().subscribe({
+      next: (data) => {
+        this.isMpConfigured = data.hasMercadoPagoConfigured;
+      }
+    })
+
     this.loadInitialData();
   }
   

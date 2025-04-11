@@ -18,7 +18,6 @@
         <li *ngFor="let item of navItems" class="nav-item" [routerLink]="item.route" routerLinkActive="active">
           <i class="fa-solid fa-{{ item.icon }}"></i>
           <span class="item-label" [class.d-none]="collapsed">{{ item.label }}</span>
-          <span *ngIf="item.badge && !collapsed" class="badge">{{ item.badge }}</span>
         </li>
       </ul>
     </nav>

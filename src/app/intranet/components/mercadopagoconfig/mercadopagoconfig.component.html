@@ -1,11 +1,45 @@
-<div class="info-text">
-    <h2>Vincular Mercado Pago</h2>
-    <p>Conecta tu cuenta de Mercado Pago para recibir donaciones directamente en tu cuenta bancaria.</p>
-</div>
-<div class="button-container">
-    <a href="https://auth.mercadopago.com.ar/authorization?response_type=code&client_id=1654715008490098&redirect_uri=https://fedetest.website/">
-        <button class="vincular-button" >
-            <i class="fa-solid fa-handshake"></i>Vincular Mercado Pago
+@if(isMpConfigured !== undefined && !isMpConfigured){
+    <div class="info-text">
+        <h2>Vincular Mercado Pago</h2>
+        <p>Conecta tu cuenta de Mercado Pago para recibir donaciones directamente en tu cuenta bancaria.</p>
+    </div>
+    <div class="button-container">
+        <a style="text-decoration: none;" href="https://auth.mercadopago.com.ar/authorization?response_type=code&client_id=1654715008490098&redirect_uri=https://fedetest.website/">
+            <button class="vincular-button" >
+                <i class="fa-solid fa-handshake"></i>Vincular Mercado Pago
+            </button>
+        </a>
+    </div>
+    
+}@else{
+    <!-- Pantalla de cuenta vinculada -->
+<div class="mercado-pago-container">
+    <div class="estado-vinculacion">
+      <div class="icono-exito">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#32CD32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <h2 class="titulo-vinculado">¡Cuenta de Mercado Pago vinculada!</h2>
+      <p class="descripcion">Tu cuenta está conectada correctamente y lista para recibir donaciones.</p>
+      
+      <div class="detalles-cuenta">
+        <div class="detalle">
+          <span class="etiqueta">Vinculada el:</span>
+          <span class="valor">11 de abril de 2025</span>
+        </div>
+      </div>
+      
+      <div class="acciones">
+        <button class="boton-desvincular">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18"></path>
+            <path d="M6 6l12 12"></path>
+          </svg>
+          Desvincular cuenta
         </button>
-    </a>
-</div>
+      </div>
+    </div>
+  </div>
+}

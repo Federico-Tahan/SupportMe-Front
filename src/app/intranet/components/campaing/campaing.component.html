@@ -1,4 +1,4 @@
-@if(!isMpConfigured){
+@if(isMpConfigured !== undefined && !isMpConfigured){
     <app-info-card
     [title]="'Mercado Pago'"
     [message]="'Debes configurar tus credenciales de Mercado Pago antes de poder generar tus campañas'"
