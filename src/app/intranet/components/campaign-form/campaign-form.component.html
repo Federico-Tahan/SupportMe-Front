@@ -1,1 +1,174 @@
-<p>campaign-form works!</p>
+<div class="header-left">
+    <a routerLink="/campaign" class="back-button"><i class="fas fa-chevron-left"></i></a>
+    <h4>Nueva campaña</h4>
+  </div>
+  
+<div class="campaign-form-container">
+    <form id="campaignForm">
+      <div class="form-layout">
+        <!-- Columna principal - izquierda -->
+        <div class="main-column">
+          <!-- Información básica -->
+          <div class="form-section">
+            <h3>Información básica</h3>
+            
+            <div class="form-group">
+                <label for="campaignName">Nombre de la campaña</label>
+                <div class="input-group">
+                  <i class="input-icon fas fa-heading"></i>
+                  <input 
+                    type="text" 
+                    id="campaignName"
+                    name="name" 
+                    required
+                  >
+                </div>
+              </div>
+            
+              <div class="form-group">
+                <label for="campaignDescription">Descripción breve de la campaña</label>
+                <div class="input-group">
+                  <i class="input-icon fas fa-align-left"></i>
+                  <textarea 
+                    id="campaignDescription"
+                    name="description" 
+                    rows="4"
+                  ></textarea>
+                </div>
+              </div>
+            
+              <div class="form-group">
+                <label for="goalAmount">Monto objetivo</label>
+                <div class="input-group">
+                  <i class="input-icon fas fa-dollar-sign"></i>
+                  <input 
+                    type="number" 
+                    id="goalAmount"
+                    name="goalAmount" 
+                    min="0"
+                    step="0.01"
+                  >
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="publicationEndDate">Fecha de finalización</label>
+                <div class="input-group">
+                  <i class="input-icon fas fa-calendar-alt"></i>
+                  <input 
+                    type="date" 
+                    id="publicationEndDate"
+                    name="publicationEndDate"
+                  >
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="publicationEndDate">Categoría</label>
+                <div class="input-group">
+                    <i class="input-icon fas fa-tags"></i>
+                    <select name="categoryId">
+                      <option value="" disabled selected>Seleccionar categoría</option>
+                      <option value="1">Categoría 1</option>
+                      <option value="2">Categoría 2</option>
+                      <option value="3">Categoría 3</option>
+                    </select>
+                  </div>
+              </div>
+            
+          </div>
+          
+          <!-- Etiquetas -->
+          <div class="form-section">
+            <h3>Etiquetas</h3>
+            
+            <div class="tags-input-container">
+              <div class="input-group">
+                <i class="input-icon fas fa-tag"></i>
+                <input 
+                  type="text" 
+                  id="newTagInput"
+                  placeholder="Agregar etiqueta"
+                >
+                <button type="button" class="add-tag-btn" id="addTagBtn">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              
+              <div class="tags-container" id="tagsContainer">
+                <!-- Las etiquetas se agregarán dinámicamente aquí -->
+              </div>
+            </div>
+          </div>
+        </div>
+                  
+        <!-- Columna secundaria - derecha -->
+        <div class="side-column">
+          <!-- Imagen principal -->
+          <div class="form-section">
+            <h3>Imagen principal</h3>
+            
+            <div class="file-upload-container">
+              <div class="file-upload" id="mainImageUpload">
+                <input 
+                  id="mainImageInput"
+                  type="file" 
+                  name="mainImage"
+                  accept="image/*"
+                  style="display: none"
+                >
+                
+                <div class="upload-placeholder">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p>Haz clic para subir imagen de portada</p>
+                  <span>PNG, JPG, WEBP hasta 600 KB</span>
+                </div>
+                
+                <div class="image-preview hidden">
+                  <img src="" alt="Vista previa de imagen principal">
+                  <div class="image-overlay">
+                    <button type="button" class="change-image-btn">
+                      <i class="fas fa-sync-alt"></i> Cambiar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Galería -->
+          <div class="form-section">
+            <h3>Galería</h3>
+            
+            <div class="file-upload-container">
+              <div class="file-upload gallery-upload" id="galleryUpload">
+                <input 
+                  id="galleryInput"
+                  type="file" 
+                  name="galleryAssets"
+                  accept="image/*,video/*"
+                  multiple
+                  style="display: none"
+                >
+                
+                <div class="upload-placeholder">
+                  <i class="fas fa-images"></i>
+                  <p>Haz clic para subir imágenes o videos</p>
+                  <span>Video: 9:16 (hasta 30 MB), Imagen: 1920x1080px (hasta 600 KB)</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="gallery-grid" id="galleryGrid">
+              <!-- Las imágenes se agregarán dinámicamente aquí -->
+            </div>
+          </div>
+        </div>
+      </div>
+        
+      <div class="form-actions">
+                <!--
+        <button type="button" class="btn btn-secondary">Cancelar</button>-->
+
+        <button type="submit" class="btn btn-primary">Guardar campaña</button>
+      </div>
+    </form>
+  </div>

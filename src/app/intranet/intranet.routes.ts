@@ -12,7 +12,11 @@ export const INTRANET_ROUTES: Routes = [
     {
         path: 'campaign', loadComponent: () =>
           import('./components/campaing/campaing.component').then(m => m.CampaingComponent)
-      },
+    },
+    {
+      path: 'campaign/new', loadComponent: () =>
+        import('./components/campaign-form/campaign-form.component').then(m => m.CampaignFormComponent)
+    },
     {path : 'payments', component: PaymentsComponent},
     {
       path: 'setup/mercadopago', loadComponent: () =>
