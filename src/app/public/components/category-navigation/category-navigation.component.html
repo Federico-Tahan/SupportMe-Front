@@ -4,8 +4,8 @@
       <div class="category-title">Explorar proyectos:</div>
       <div class="category-list">
         @for (item of categories; track $index) {
-          <button class="category-button limited-category">{{ item.name }}</button>
-        }
+          <button class="category-button limited-category" [routerLink]="['/projects']" [queryParams]="{category: item.id}">{{ item.name }}</button>
+                        }
         <div>
             <button class="see-all-button" style="color: rgba(33, 37, 41, 0.75);" routerLink="projects">
                 <span>Ver todo  </span>

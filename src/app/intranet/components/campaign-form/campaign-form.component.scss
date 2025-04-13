@@ -105,6 +105,30 @@ h3 {
   margin-bottom: 6px;
 }
 
+/* Campo requerido - asterisco rojo */
+.required {
+  color: #ef4444;
+  margin-left: 3px;
+}
+
+/* Campo requerido alternativo (para campos de opción) */
+.required-alt {
+  color: #ff9800;
+  margin-left: 3px;
+}
+
+/* Campos en fila */
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
 /* Input styles */
 .input-group {
   position: relative;

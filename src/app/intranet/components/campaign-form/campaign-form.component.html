@@ -1,4 +1,4 @@
-<!-- campaign-form.component.html -->
+<!-- campaign-form.component.html Modificado -->
 <div class="header-left">
   <a routerLink="/campaign" class="back-button"><i class="fas fa-chevron-left"></i></a>
   <h4>Nueva campaña</h4>
@@ -14,7 +14,7 @@
           <h3>Información básica</h3>
           
           <div class="form-group">
-            <label for="campaignName">Nombre de la campaña</label>
+            <label for="campaignName">Nombre de la campaña <span class="required">*</span></label>
             <div class="input-group">
               <i class="input-icon fas fa-heading"></i>
               <input 
@@ -45,56 +45,65 @@
             </div>
           </div>
           
-          <div class="form-group">
-            <label for="goalAmount">Monto objetivo</label>
-            <div class="input-group">
-              <i class="input-icon fas fa-dollar-sign"></i>
-              <input 
-                type="number" 
-                id="goalAmount"
-                formControlName="goalAmount" 
-                placeholder="0.00"
-                min="0"
-                step="0.01"
-              >
-              @if (campaignForm.get('goalAmount')?.invalid && campaignForm.get('goalAmount')?.touched) {
-                <div class="error-message">
-                  @if (campaignForm.get('goalAmount')?.errors?.['required']) {
-                    Monto es requerido
-                  } @else if (campaignForm.get('goalAmount')?.errors?.['min']) {
-                    El monto debe ser mayor a 0
-                  }
-                </div>
-              }
+          <!-- Campos uno al lado del otro -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="goalAmount">Monto objetivo <span class="required-alt">*</span></label>
+              <div class="input-group">
+                <i class="input-icon fas fa-dollar-sign"></i>
+                <input 
+                  type="number" 
+                  id="goalAmount"
+                  formControlName="goalAmount" 
+                  placeholder="0.00"
+                  min="0"
+                  step="0.01"
+                >
+                @if (campaignForm.get('goalAmount')?.invalid && campaignForm.get('goalAmount')?.touched) {
+                  <div class="error-message">
+                    @if (campaignForm.get('goalAmount')?.errors?.['required']) {
+                      Monto es requerido
+                    } @else if (campaignForm.get('goalAmount')?.errors?.['min']) {
+                      El monto debe ser mayor a 0
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="publicationEndDate">Fecha de finalización <span class="required-alt">*</span></label>
+              <div class="input-group">
+                <i class="input-icon fas fa-calendar-alt"></i>
+                <input 
+                  type="date" 
+                  id="publicationEndDate"
+                  formControlName="publicationEndDate"
+                >
+                @if (campaignForm.get('publicationEndDate')?.invalid && campaignForm.get('publicationEndDate')?.touched) {
+                  <div class="error-message">
+                    Fecha de finalización es requerida
+                  </div>
+                }
+              </div>
             </div>
           </div>
-          
-          <div class="form-group">
-            <label for="publicationEndDate">Fecha de finalización</label>
-            <div class="input-group">
-              <i class="input-icon fas fa-calendar-alt"></i>
-              <input 
-                type="date" 
-                id="publicationEndDate"
-                formControlName="publicationEndDate"
-              >
-              @if (campaignForm.get('publicationEndDate')?.invalid && campaignForm.get('publicationEndDate')?.touched) {
-                <div class="error-message">
-                  Fecha de finalización es requerida
-                </div>
-              }
+          @if (goalAmountDateError) {
+            <div class="error-message">
+              Debes ingresar al menos un monto objetivo o una fecha de finalización
             </div>
-          </div>
+          }
           
           <div class="form-group">
-            <label for="categoryId">Categoría</label>
+            <label for="categoryId">Categoría <span class="required">*</span></label>
             <div class="input-group">
               <i class="input-icon fas fa-tags"></i>
               <select id="categoryId" formControlName="categoryId">
                 <option value="" disabled selected>Seleccionar categoría</option>
-                <option value="1">Categoría 1</option>
-                <option value="2">Categoría 2</option>
-                <option value="3">Categoría 3</option>
+                @for (item of categories; track $index) {
+                  <option [value]="item.id">{{ item.name }}</option>
+                }
+                
               </select>
               @if (campaignForm.get('categoryId')?.invalid && campaignForm.get('categoryId')?.touched) {
                 <div class="error-message">
@@ -141,7 +150,7 @@
       <div class="side-column">
         <!-- Imagen principal -->
         <div class="form-section">
-          <h3>Imagen principal</h3>
+          <h3>Imagen principal <span class="required">*</span></h3>
           
           <div class="file-upload-container">
             <div class="file-upload" (click)="triggerFileInput(mainImageInput)">
@@ -151,6 +160,7 @@
                 (change)="onMainImageSelected($event)"
                 accept="image/*"
                 style="display: none"
+                formControlName="mainImage"
               >
               
               @if (!mainImageBase64) {
@@ -167,6 +177,12 @@
                       <i class="fas fa-sync-alt"></i> Cambiar
                     </button>
                   </div>
+                </div>
+              }
+              
+              @if (campaignForm.get('mainImage')?.invalid && campaignForm.get('mainImage')?.touched) {
+                <div class="error-message">
+                  Imagen principal es requerida
                 </div>
               }
             </div>

@@ -1,0 +1,47 @@
+<!-- campaign-donation.component.html -->
+<div class="donation-card">
+    <h1 class="donation-title">{{ title }}</h1>
+    
+    <div class="donation-categories">
+      <span class="category">Education</span>
+      <span class="category">Uganda</span>
+    </div>
+    
+    <div class="donation-amount">
+      <span class="amount-raised">${{ amountRaised | number }}</span>
+      <span class="goal-text">/ recaudado de ${{ goalAmount | number }} meta</span>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="progressPercentage"></div>
+    </div>
+    
+    <div class="donation-stats">
+      <span>{{ donationCount }} Donaciones</span>
+    </div>
+    
+    <div class="action-buttons">
+      <button class="btn-share" (click)="share()">Compartir</button>
+      <button class="btn-donate" (click)="donate()">Donar ahora!</button>
+    </div>
+    
+    <div class="recent-donations">
+      <div *ngFor="let donation of recentDonations" class="donation-item">
+        <div class="donor-icon">
+          <img src="https://supportme2.s3.sa-east-1.amazonaws.com/manos+donar.png" style="width: 64px; height: auto;" alt="Donation icon">
+        </div>
+        <div class="donor-info">
+          <div class="donor-name">{{ donation.name }}</div>
+          <div class="donor-amount">${{ donation.amount }}</div>
+        </div>
+        <div class="donation-time">{{ donation.timeAgo }}</div>
+      </div>
+    </div>
+    
+    <div class="donation-links">
+      <button class="btn-see-all">Ver todas</button>
+      <button class="btn-top-donations">
+        <span class="star-icon">★</span> Ver top donaciones
+      </button>
+    </div>
+  </div>

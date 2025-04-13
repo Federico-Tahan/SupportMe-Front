@@ -1,26 +1,85 @@
 <!-- fundraising-card.component.html -->
-<div class="card">
+<div class="card" [ngClass]="{'card-private': isPrivateView}">
+  <div class="card-image-container">
     <img [src]="campaign.mainImage" class="card-img-top" alt="Imagen de campaña">
     
-    <div class="card-body">
-      <div class="card-tags">
-        <span class="category-tag">{{ campaign.category }}</span>
-        <span class="location-tag">{{ campaign.location }}</span>
-      </div>
-      
-      <h2 class="card-title">{{ campaign.name }}</h2>
-      <p class="card-description">{{ campaign.description }}</p>
-      
-      <div class="progress-container">
-        <div class="progress">
-          <div class="progress-bar" 
-               [style.width.%]="progressPercentage"
-               [style.background-color]="'#e91e63'"></div>
-        </div>
-      </div>
-      
-      <div class="fundraising-status">
-        <strong>${{ campaign.amountRaised  }} raised</strong> of ${{ campaign.goalAmount }} goal
-      </div>
+    <!-- Iconos sociales que solo aparecen en hover y cuando es vista privada -->
+    <div class="social-icons-overlay" *ngIf="isPrivateView">
+      <a *ngFor="let icon of socialIcons" 
+         [href]="icon.url" 
+         [style.color]="icon.color"
+         [attr.title]="icon.tooltip"
+         [attr.target]="icon.isExternal ? '_blank' : '_self'"
+         (click)="handleIconClick(icon, $event)"
+         class="social-icon">
+        <i [class]="icon.iconClass"></i>
+      </a>
     </div>
   </div>
+  
+  <div class="card-body">
+    <div class="card-tags-container">
+      <!-- Botón izquierdo para scroll -->
+      <button class="tag-scroll-btn scroll-left" 
+              (click)="scrollTags('left')" 
+              [class.hidden]="!canScrollLeft">
+        &lt;
+      </button>
+      
+      <div class="card-tags" #tagsContainer>
+        @if(campaign.category){
+          <span class="category-tag">{{ campaign.category }}</span>
+        }
+        @for (item of campaign.tags; track $index) {
+          <span class="category-tag">{{ item }}</span>
+        }
+      </div>
+      
+      <!-- Botón derecho para scroll -->
+      <button class="tag-scroll-btn scroll-right" 
+              (click)="scrollTags('right')" 
+              [class.hidden]="!canScrollRight">
+        &gt;
+      </button>
+    </div>
+    
+    <h2 class="card-title">{{ campaign.name }}</h2>
+    <p class="card-description">{{ campaign.description }}</p>
+    
+    <div class="progress-container">
+      <div class="progress">
+        <div class="progress-bar" 
+             [style.width.%]="progressPercentage"
+             [style.background-color]="'#e91e63'"></div>
+      </div>
+    </div>
+    
+    <!-- Solo monto objetivo -->
+    @if(hasGoalAmount && !hasEndDate) {
+      <div class="fundraising-status">
+        <strong>${{ campaign.raised }} recaudado</strong> de ${{ campaign.goalAmount }} meta
+      </div>
+    }
+    
+    <!-- Solo fecha límite -->
+    @if(!hasGoalAmount && hasEndDate) {
+      <div class="fundraising-status">
+        <div><strong>${{ campaign.raised }} recaudado</strong></div>
+        <div class="deadline">Finaliza el: {{ formatEndDate() }}</div>
+      </div>
+      <div class="time-progress-info">
+        {{ progressPercentage | number:'1.0-0' }}% del tiempo de campaña transcurrido
+      </div>
+    }
+    
+    <!-- Monto objetivo y fecha límite -->
+    @if(hasGoalAmount && hasEndDate) {
+      <div class="fundraising-status">
+        <strong>${{ campaign.raised }} recaudado</strong> de ${{ campaign.goalAmount }} meta
+      </div>
+      <div class="deadline-container">
+        Finaliza el: {{ formatEndDate() }}
+      </div>
+    }
+  </div>
+</div>

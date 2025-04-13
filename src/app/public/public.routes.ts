@@ -7,6 +7,7 @@ import { SignupComponent } from './components/signup/signup.component';
 export const PUBLIC_ROUTES: Routes = [
     {path : '', loadComponent: () => import('./components/landing/landing.component').then(m => m.LandingComponent)},
     {path : 'projects', loadComponent: () => import('./components/projects/projects.component').then(m => m.ProjectsComponent)},
+    {path : 'project/detail', loadComponent: () => import('../public/components/campaign-detail/campaign-detail.component').then(m => m.CampaignDetailComponent)},
     {path : 'how-works', component: HowWorksComponent},
     {path : 'login', canActivate: [onlyPublicGuard], component: LoginComponent},
     {path : 'signup', canActivate: [onlyPublicGuard], component: SignupComponent}

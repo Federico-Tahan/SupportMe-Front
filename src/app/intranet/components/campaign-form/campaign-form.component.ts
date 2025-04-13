@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild, ElementRef, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CampaignWrite } from '../../../core/shared/interfaces/campaign-write';
 import { Tags } from '../../../core/shared/interfaces/tags';
 import { Assets } from '../../../core/shared/interfaces/assets';
 import { CampaignService } from '../../../core/shared/services/campaign.service';
+import { CategoryService } from '../../../core/shared/services/category.service';
+import { SimpleCategory } from '../../../core/shared/interfaces/simple-category';
 
 interface GalleryItem {
   src: string;
@@ -30,20 +32,42 @@ export class CampaignFormComponent implements OnInit {
   tags: string[] = [];
   expandedItem: GalleryItem | null = null;
   showModal = false;
-  
+  goalAmountDateError = false;
+  categoryService = inject(CategoryService);
+    
+  categories: SimpleCategory[] = [];
   constructor(private fb: FormBuilder) {}
   
   ngOnInit(): void {
+    this.categoryService.getCategories().subscribe({
+      next:(data) => {
+        this.categories = data;
+      }
+    })
     this.initForm();
+  }
+
+  atLeastOneRequired(control: AbstractControl): ValidationErrors | null {
+    const goalAmount = control.get('goalAmount')?.value;
+    const publicationEndDate = control.get('publicationEndDate')?.value;
+    
+    if ((!goalAmount || goalAmount <= 0) && !publicationEndDate) {
+      return { atLeastOneRequired: true };
+    }
+    
+    return null;
   }
 
   initForm(): void {
     this.campaignForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
-      goalAmount: [null, [Validators.min(0)]],
+      goalAmount: [null],
       publicationEndDate: [null],
-      categoryId: ['', Validators.required]
+      categoryId: ['', Validators.required],
+      mainImage: ['', Validators.required] // Agregamos la imagen principal como campo requerido
+    }, {
+      validators: this.atLeastOneRequired
     });
   }
 
@@ -53,9 +77,8 @@ export class CampaignFormComponent implements OnInit {
     if (target.files && target.files[0]) {
       const file = target.files[0];
       
-      // Validate file size (600KB = 600 * 1024 bytes)
       if (file.size > 4000 * 1024) {
-        alert('La imagen debe ser menor a 600KB');
+        alert('La imagen debe ser menor a 4MB');
         return;
       }
       
@@ -64,6 +87,9 @@ export class CampaignFormComponent implements OnInit {
       reader.onload = (e: ProgressEvent<FileReader>) => {
         if (e.target?.result) {
           this.mainImageBase64 = e.target.result as string;
+          // Actualizamos el valor en el formulario
+          this.campaignForm.get('mainImage')?.setValue(this.mainImageBase64);
+          this.campaignForm.get('mainImage')?.markAsTouched();
         }
       };
       
@@ -81,7 +107,6 @@ export class CampaignFormComponent implements OnInit {
         const file = files[i];
         const isVideo = file.type.startsWith('video/');
         
-        // Validate file size
         const maxSize = isVideo ? 100 * 1024 * 1024 : 4000 * 1024; 
         
         if (file.size > maxSize) {
@@ -98,16 +123,13 @@ export class CampaignFormComponent implements OnInit {
               type: isVideo ? 'video' : 'image'
             });
             
-            // If it's a video, ensure preview is loaded correctly
             if (isVideo) {
               setTimeout(() => {
                 const videos = document.querySelectorAll('.gallery-item video') as NodeListOf<HTMLVideoElement>;
                 videos.forEach(video => {
-                  // Set poster if the video can't load or for initial display
                   video.addEventListener('error', () => {
                     console.error('Error loading video:', video.src);
                   });
-                  // Ensure poster is generated
                   video.load();
                 });
               }, 100);
@@ -119,7 +141,6 @@ export class CampaignFormComponent implements OnInit {
       }
     }
     
-    // Reset file input to allow selecting the same file again
     if (this.galleryInput) {
       this.galleryInput.nativeElement.value = '';
     }
@@ -147,7 +168,6 @@ export class CampaignFormComponent implements OnInit {
     this.expandedItem = item;
     this.showModal = true;
     
-    // For videos in the modal, ensure they're properly loaded
     if (item.type === 'video') {
       setTimeout(() => {
         const modalVideo = document.querySelector('.modal-content video') as HTMLVideoElement;
@@ -163,20 +183,32 @@ export class CampaignFormComponent implements OnInit {
     this.expandedItem = null;
   }
 
+  validateDateAndAmount(): boolean {
+    const goalAmount = this.campaignForm.get('goalAmount')?.value;
+    const publicationEndDate = this.campaignForm.get('publicationEndDate')?.value;
+    
+    if ((!goalAmount || goalAmount <= 0) && !publicationEndDate) {
+      this.goalAmountDateError = true;
+      return false;
+    }
+    
+    this.goalAmountDateError = false;
+    return true;
+  }
+
   onSubmit(): void {
+    Object.keys(this.campaignForm.controls).forEach(key => {
+      this.campaignForm.get(key)?.markAsTouched();
+    });
+    if (!this.validateDateAndAmount()) {
+      return;
+    }
+    
     if (this.campaignForm.valid) {
-      // Verificar que existe una imagen principal
-      if (!this.mainImageBase64) {
-        alert('La imagen principal es requerida');
-        return;
-      }
-  
-      // Preparar los assets (galleryItems)
       const assets: Assets[] = this.galleryItems.map(item => ({
         base64: item.src
       }));
   
-      // Preparar las etiquetas
       const tags: Tags[] = this.tags.map(tag => ({
         tag: tag
       }));
@@ -195,20 +227,12 @@ export class CampaignFormComponent implements OnInit {
       this.campaignService.createCampaign(campaignData).subscribe({
         next: (response) => {
           console.log('Campaign created successfully:', response);
-          // Redirigir a la página de campañas o mostrar un mensaje de éxito
-          // Puedes usar el Router para navegar después de crear
           // this.router.navigate(['/campaigns']);
         },
         error: (error) => {
           console.error('Error creating campaign:', error);
         }
       });
-    } else {
-      // Marcar todos los campos como tocados para mostrar validaciones
-      Object.keys(this.campaignForm.controls).forEach(key => {
-        this.campaignForm.get(key)?.markAsTouched();
-      });
-      
     }
   }
 

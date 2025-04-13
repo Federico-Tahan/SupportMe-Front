@@ -9,6 +9,7 @@ import { CategoryService } from '../../../core/shared/services/category.service'
 import { Subject, takeUntil } from 'rxjs';
 import { ProjectFilter } from '../../../core/shared/filters/project-filter';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
@@ -25,7 +26,8 @@ export class ProjectsComponent implements OnInit{
   campaigns: Campaign[] = [];
   selectedCategory: string = 'Todas';
   selectedCategoryId: number | null = null;
-  
+  route = inject(ActivatedRoute); 
+
   filter: ProjectFilter = {
     limit: 10,
     skip: 0,
@@ -44,10 +46,31 @@ export class ProjectsComponent implements OnInit{
   constructor() { }
   
   ngOnInit(): void {
-    this.loadInitialData();
-    this.loadCategories();
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      if (params['category']) {
+        const categoryId = Number(params['category']);
+        if (!isNaN(categoryId)) {
+          this.selectedCategoryId = categoryId;
+          this.filter.categoryId = categoryId;
+          
+          this.categoryService.getCategories().pipe(takeUntil(this.destroy$)).subscribe({
+            next: (categories) => {
+              this.categories = categories;
+              const selectedCategory = categories.find(c => c.id === categoryId);
+              if (selectedCategory) {
+                this.selectedCategory = (selectedCategory.name.length > 12) ? 
+                  (selectedCategory.name.substring(0, 10)) + '...' : 
+                  selectedCategory.name;
+              }
+            }
+          });
+        }
+      }
+      
+      this.loadInitialData();
+      this.loadCategories();
+    });
   }
-  
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

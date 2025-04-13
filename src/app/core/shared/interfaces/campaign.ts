@@ -9,4 +9,6 @@ export interface Campaign {
     amountRaised: number;
     category : string;
     location : string;
+    tags : string[];
+    raised: number;
 }

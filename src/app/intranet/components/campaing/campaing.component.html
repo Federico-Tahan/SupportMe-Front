@@ -33,7 +33,7 @@
         
         <div class="campaign-container">
             @for (campaign of campaigns; track campaign.id) {
-                <app-card-campaign [campaign]="campaign"></app-card-campaign>
+                <app-card-campaign [campaign]="campaign" [isPrivateView]="true"></app-card-campaign>
             }
         </div>
         
