@@ -8,6 +8,6 @@ export const environment = {
         messagingSenderId: "726908074452",
         appId: "1:726908074452:web:d64b443af05081916efe41"
       },
-      backApi: 'https://supportme.site:8443/api/'
+      backApi: 'https://localhost:7095/api/'
   };
   

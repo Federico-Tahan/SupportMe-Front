@@ -6,6 +6,7 @@ import { environment } from '../../../../environment/environment';
 import { Observable } from 'rxjs';
 import { ProjectFilter } from '../filters/project-filter';
 import { AuthContextService } from '../interceptor/auth-context';
+import { CampaignWrite } from '../interfaces/campaign-write';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ export class CampaignService {
   authContextService = inject(AuthContextService);
   constructor() { }
 
+
+  createCampaign(campaign: CampaignWrite) : Observable<any>{
+    return this.http.post<any>(environment.backApi + "campaign", campaign);
+  }
   getCampaigns(filter?: ProjectFilter, isPublic : boolean = true): Observable<Pagination<Campaign>> {
     if (isPublic) {
       this.authContextService.withoutAuth();
