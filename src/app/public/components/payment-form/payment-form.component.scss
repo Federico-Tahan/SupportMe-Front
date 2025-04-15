@@ -212,6 +212,40 @@
       }
     }
     
+    .card-input-container {
+      position: relative;
+      
+      input {
+        padding-right: 50px; // Space for card brand logo
+      }
+      
+      .card-brand-logo {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 24px;
+        width: 38px;
+        
+        .brand-icon {
+          width: 100%;
+          height: 100%;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: contain;
+          
+          &.visa {
+            background-image: url('../../../core/img/visa.svg');
+          }
+          
+          &.mastercard {
+            background-image: url('../../../core/img/master.svg');
+          }
+          
+        }
+      }
+    }
+    
     .cvv-container {
       position: relative;
       
