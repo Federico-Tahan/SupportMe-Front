@@ -6,7 +6,6 @@ export interface Campaign {
     creationDate : string;
     goalAmount : number;
     goalDate : string;
-    amountRaised: number;
     category : string;
     location : string;
     tags : string[];

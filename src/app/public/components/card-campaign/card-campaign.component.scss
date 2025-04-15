@@ -3,7 +3,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   width: 18rem;
-  height: 28rem;
+  height: 25rem;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -12,8 +12,9 @@
 }
 
 /* Estilo especial para vista privada */
-.card-private:hover {
+.card:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor:pointer;
 }
 
 .card-image-container {

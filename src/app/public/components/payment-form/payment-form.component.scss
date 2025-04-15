@@ -1,0 +1,290 @@
+/* payment-form.component.scss */
+:host {
+    display: block;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .donation-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    
+    @media (max-width: 768px) {
+      padding: 15px;
+    }
+  }
+  
+  header {
+    margin-bottom: 20px;
+  }
+  
+  .back-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+    .back-arrow {
+      margin-right: 5px;
+    }
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  .stepper-indicator {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    
+    .step {
+      flex: 1;
+      padding: 15px 0;
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+      position: relative;
+      
+      &.active {
+        color: #333;
+        font-weight: bold;
+        
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background-color: #6366f1;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        font-size: 12px;
+      }
+    }
+  }
+  
+  .step-content {
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      
+      @media (max-width: 480px) {
+        font-size: 24px;
+      }
+    }
+    
+    h2 {
+      font-size: 18px;
+      margin: 20px 0 15px;
+      
+      @media (max-width: 480px) {
+        font-size: 16px;
+      }
+    }
+    
+    .tagline {
+      color: #666;
+      margin-bottom: 25px;
+    }
+  }
+  
+  .donation-type {
+    display: flex;
+    margin-bottom: 20px;
+    
+    .donation-type-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      font-size: 14px;
+      cursor: pointer;
+      
+      &:first-child {
+        border-radius: 5px 0 0 5px;
+      }
+      
+      &:last-child {
+        border-radius: 0 5px 5px 0;
+      }
+      
+      &.active {
+        background-color: #6366f1;
+        color: white;
+        border-color: #6366f1;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .donation-type-btn {
+        font-size: 12px;
+        padding: 10px 5px;
+      }
+    }
+  }
+  
+  .amount-options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+    
+    @media (max-width: 480px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .amount-btn {
+      padding: 12px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      
+      &.active {
+        background-color: #6366f1;
+        color: white;
+        border-color: #6366f1;
+      }
+    }
+    
+    .custom-amount {
+      grid-column: span 4;
+      
+      @media (max-width: 480px) {
+        grid-column: span 2;
+      }
+      
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+    }
+  }
+  
+  .donation-message {
+    margin-bottom: 20px;
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      resize: vertical;
+    }
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      
+      &:focus {
+        outline: none;
+        border-color: #6366f1;
+      }
+    }
+    
+    .cvv-container {
+      position: relative;
+      
+      input {
+        padding-right: 40px;
+      }
+      
+      .info-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #ddd;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-style: italic;
+      }
+    }
+    
+    .error-message {
+      color: #e53e3e;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  }
+  
+  .step-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    
+    .back-btn, .next-btn {
+      padding: 12px 24px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .back-btn {
+      background-color: white;
+      border: 1px solid #ddd;
+      color: #666;
+      
+      &:hover {
+        background-color: #f9f9f9;
+      }
+    }
+    
+    .next-btn {
+      background-color: #6366f1;
+      border: none;
+      color: white;
+      
+      &:hover {
+        background-color: #4f46e5;
+      }
+      
+      &:disabled {
+        background-color: #a5a6f6;
+        cursor: not-allowed;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .back-btn, .next-btn {
+        padding: 10px 16px;
+        font-size: 14px;
+      }
+    }
+  }

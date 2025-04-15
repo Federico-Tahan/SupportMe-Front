@@ -115,7 +115,7 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
 
   get progressPercentage(): number {
     if (this.campaign.goalAmount) {
-      return (this.campaign.amountRaised / this.campaign.goalAmount) * 100;
+      return (this.campaign.raised / this.campaign.goalAmount) * 100;
     }
     return this.getTimeProgressPercentage();
   }
