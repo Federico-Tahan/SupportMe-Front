@@ -3,7 +3,6 @@
   <div class="card-image-container">
     <img [src]="campaign.mainImage" class="card-img-top" alt="Imagen de campaña">
     
-    <!-- Iconos sociales que solo aparecen en hover y cuando es vista privada -->
     <div class="social-icons-overlay" *ngIf="isPrivateView">
       <a *ngFor="let icon of socialIcons" 
          [href]="icon.url" 
@@ -19,7 +18,6 @@
   
   <div class="card-body">
     <div class="card-tags-container">
-      <!-- Botón izquierdo para scroll -->
       <button class="tag-scroll-btn scroll-left" 
               (click)="scrollTags('left')" 
               [class.hidden]="!canScrollLeft">
@@ -35,7 +33,6 @@
         }
       </div>
       
-      <!-- Botón derecho para scroll -->
       <button class="tag-scroll-btn scroll-right" 
               (click)="scrollTags('right')" 
               [class.hidden]="!canScrollRight">

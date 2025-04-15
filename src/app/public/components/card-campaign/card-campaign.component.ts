@@ -2,7 +2,7 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Campaign } from '../../../core/shared/interfaces/campaign';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 
 // Interfaz para los iconos sociales/acciones
 export interface SocialIcon {
@@ -17,26 +17,43 @@ export interface SocialIcon {
 @Component({
   selector: 'app-card-campaign',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, RouterLink],
   templateUrl: './card-campaign.component.html',
   styleUrl: './card-campaign.component.scss'
 })
 export class CardCampaignComponent implements AfterViewInit, OnChanges {
   @Input() campaign: Campaign;
-  @Input() socialIcons: SocialIcon[] = [];  // Arreglo de iconos sociales
-  @Input() isPrivateView: boolean = false;  // Bandera para determinar si es vista privada
+  @Input() socialIcons: SocialIcon[] = [];
+  @Input() isPrivateView: boolean = false;
   @ViewChild('tagsContainer') tagsContainer: ElementRef;
   
   canScrollLeft = false;
   canScrollRight = false;
 
   constructor() {
-    // Iconos sociales predeterminados (se pueden sobrescribir)
+    
+  }
+
+  ngAfterViewInit() {
+    this.checkScrollButtons();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['campaign'] && this.campaign) {
+      this.initializeSocialIcons();
+    }
+    
+    if (changes['campaign'] && this.campaign?.tags) {
+      setTimeout(() => this.checkScrollButtons(), 0);
+    }
+  }
+  
+  private initializeSocialIcons() {
     this.socialIcons = [
       {
         name: 'publication',
         iconClass: 'fa fa-eye',
-        url: '#donate',
+        url: '/projects/detail?id=' + this.campaign.id,
         color: '#ffffff',
         tooltip: 'Ver publicación',
         isExternal: false
@@ -52,25 +69,11 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
     ];
   }
 
-  ngAfterViewInit() {
-    this.checkScrollButtons();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // Si cambian los tags, debemos verificar los botones después de que se renderice la vista
-    if (changes['campaign'] && this.campaign?.tags) {
-      setTimeout(() => this.checkScrollButtons(), 0);
-    }
-  }
-
-  // Comprobar si se deben mostrar los botones de desplazamiento
   checkScrollButtons() {
     if (!this.tagsContainer) return;
     
     const element = this.tagsContainer.nativeElement;
-    
-    // Solo mostrar los botones si hay overflow
-    const hasOverflow = element.scrollWidth > element.clientWidth;
+        const hasOverflow = element.scrollWidth > element.clientWidth;
     
     if (!hasOverflow) {
       this.canScrollLeft = false;
@@ -78,13 +81,8 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
       return;
     }
     
-    // Determinar si los botones deben mostrarse con mayor precisión
     const maxScroll = element.scrollWidth - element.clientWidth;
-    
-    // Botón izquierdo: visible si hemos desplazado al menos 5px
     this.canScrollLeft = element.scrollLeft > 5;
-    
-    // Botón derecho: visible si quedan al menos 5px por desplazar
     this.canScrollRight = maxScroll - element.scrollLeft > 5;
   }
 
@@ -93,7 +91,7 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
     if (!this.tagsContainer) return;
     
     const element = this.tagsContainer.nativeElement;
-    const scrollAmount = 100; // Cantidad a desplazar en píxeles
+    const scrollAmount = 100;
     
     if (direction === 'left') {
       element.scrollLeft -= scrollAmount;
@@ -101,11 +99,9 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
       element.scrollLeft += scrollAmount;
     }
     
-    // Actualizar la visibilidad de los botones después del desplazamiento
-    setTimeout(() => this.checkScrollButtons(), 300); // Aumentar tiempo para asegurar que el scroll se complete
+    setTimeout(() => this.checkScrollButtons(), 300);
   }
 
-  // Manejar clic en icono social
   handleIconClick(icon: SocialIcon, event: MouseEvent): void {
     if (icon.isExternal) {
       window.open(icon.url, '_blank');
@@ -120,13 +116,12 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
     return this.getTimeProgressPercentage();
   }
 
-  // Calcula el porcentaje de tiempo transcurrido para campañas con fecha límite
   getTimeProgressPercentage(): number {
     if (!this.campaign.goalDate) return 0;
     
     const now = new Date();
     const endDate = new Date(this.campaign.goalDate);
-    const startDate = new Date(this.campaign.creationDate || now.setMonth(now.getMonth() - 1)); // Si no hay fecha inicio, asumimos 1 mes atrás
+    const startDate = new Date(this.campaign.creationDate || now.setMonth(now.getMonth() - 1));
     
     const totalDuration = endDate.getTime() - startDate.getTime();
     const elapsedDuration = now.getTime() - startDate.getTime();
