@@ -29,6 +29,7 @@
   @media (max-width: 480px) {
     .campaign-layout {
       padding: 0 12px;
+
     }
     
     .support-section {
@@ -46,7 +47,11 @@
     font-family: 'Segoe UI', Arial, sans-serif;
     max-width: 100%;
     padding: 0 16px;
-    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
     margin: 0 auto;
     margin-top: 5vh;
     color: $text-color;
@@ -197,6 +202,8 @@
   // Columna derecha (componente de donación)
   .right-column {
     flex: 1;
+    display: flex;
+    justify-content: center;
   }
   
   // Sección de comentarios de apoyo
