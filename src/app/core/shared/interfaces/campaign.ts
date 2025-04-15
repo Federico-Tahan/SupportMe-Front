@@ -11,4 +11,5 @@ export interface Campaign {
     location : string;
     tags : string[];
     raised: number;
+    assets : string[];
 }

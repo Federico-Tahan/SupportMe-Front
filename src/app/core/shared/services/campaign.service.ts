@@ -20,6 +20,15 @@ export class CampaignService {
   createCampaign(campaign: CampaignWrite) : Observable<any>{
     return this.http.post<any>(environment.backApi + "campaign", campaign);
   }
+
+  getCampaignById(id : number): Observable<Campaign> {
+
+    return this.http.get<Campaign>(
+      environment.backApi + "campaign/" + id
+    );
+  }
+
+
   getCampaigns(filter?: ProjectFilter, isPublic : boolean = true): Observable<Pagination<Campaign>> {
     if (isPublic) {
       this.authContextService.withoutAuth();

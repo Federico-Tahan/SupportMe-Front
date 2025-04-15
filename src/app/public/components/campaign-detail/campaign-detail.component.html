@@ -13,7 +13,7 @@
           </button>
           
           <div class="thumbnails-container" #thumbnailsContainer>
-            @for (thumb of thumbnails; track $index) {
+            @for (thumb of campaign.assets; track $index) {
               <img [src]="thumb" 
                   alt="Miniatura" 
                   class="thumbnail" 
@@ -29,8 +29,8 @@
         </div>
         
         <div class="campaign-description">
-          <h1>{{ title }}</h1>
-          <p>{{ description }}</p>
+          <h1>{{ campaign.name }}</h1>
+          <p>{{ campaign.description }}</p>
         </div>
         
         <div class="action-buttons">
@@ -40,7 +40,12 @@
       </div>
       
       <div class="right-column">
-        <app-campaign-donation></app-campaign-donation>
+        <app-campaign-donation 
+        [title]="campaign.name" 
+        [goalAmount]="campaign.goalAmount"
+        [category]="campaign.category"
+        [tags]="campaign.tags"
+        ></app-campaign-donation>
       </div>
     </div>
     

@@ -9,12 +9,12 @@ import { CategoryService } from '../../../core/shared/services/category.service'
 import { Subject, takeUntil } from 'rxjs';
 import { ProjectFilter } from '../../../core/shared/filters/project-filter';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, CardSettingsComponent, CardCampaignComponent, FormsModule],
+  imports: [CommonModule, CardSettingsComponent, CardCampaignComponent, FormsModule, RouterLink],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })

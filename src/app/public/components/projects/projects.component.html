@@ -48,7 +48,7 @@
     
     <div class="projects-grid">
       @for (item of campaigns; track item.id) {
-        <app-card-campaign [campaign]="item"></app-card-campaign>
+        <app-card-campaign [routerLink]="'/projects/detail'" [queryParams]="{id: item.id}" [campaign]="item"></app-card-campaign>
       }
     </div>
     

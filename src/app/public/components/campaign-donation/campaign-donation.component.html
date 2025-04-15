@@ -2,10 +2,31 @@
 <div class="donation-card">
     <h1 class="donation-title">{{ title }}</h1>
     
-    <div class="donation-categories">
-      <span class="category">Education</span>
-      <span class="category">Uganda</span>
-    </div>
+    <div class="card-body">
+      <div class="card-tags-container">
+        <!-- Botón izquierdo para scroll -->
+        <button class="tag-scroll-btn scroll-left" 
+                (click)="scrollTags('left')" 
+                [class.hidden]="!canScrollLeft">
+          &lt;
+        </button>
+        
+        <div class="card-tags" #tagsContainer>
+          @if(category){
+            <span class="category-tag">{{ category }}</span>
+          }
+          @for (item of tags; track $index) {
+            <span class="category-tag">{{ item }}</span>
+          }
+        </div>
+        
+        <!-- Botón derecho para scroll -->
+        <button class="tag-scroll-btn scroll-right" 
+                (click)="scrollTags('right')" 
+                [class.hidden]="!canScrollRight">
+          &gt;
+        </button>
+      </div>
     
     <div class="donation-amount">
       <span class="amount-raised">${{ amountRaised | number }}</span>
