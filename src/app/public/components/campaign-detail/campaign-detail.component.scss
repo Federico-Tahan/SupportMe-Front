@@ -1,7 +1,286 @@
+/* campaign-detail.component.scss */
+  
+// Variables
+$primary-color: #6366F1;
+$border-color: #e0e0e0;
+$text-color: #333;
+$light-gray: #f5f5f5;
+
+.campaign-layout {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  max-width: 100%;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 5vh;
+  color: $text-color;
+  
+  @media (min-width: 1232px) {  // 1200px + 16px padding on each side
+    max-width: 1200px;
+  }
+}
+
+// Contenido principal: imagen + donación
+.main-content {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+// Columna izquierda (imagen y descripción)
+.left-column {
+  flex: 2;
+  max-width: 65%;
+  
+  .main-image-wrapper {
+    margin-bottom: 8px;
+    position: relative;
+    width: 100%;
+    
+    .main-image {
+      width: 100%;
+      height: auto;
+      max-height: 450px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+  }
+  
+  // Navegación de miniaturas
+  .thumbnails-navigation {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    
+    .thumbnails-container {
+      display: flex;
+      gap: 8px;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      width: 100%;
+      padding: 0 8px;
+      
+      .thumbnail {
+        flex: 0 0 60px;
+        height: 45px;
+        object-fit: cover;
+        border-radius: 4px;
+        cursor: pointer;
+        
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+    
+    .nav-button {
+      position: absolute;
+      z-index: 2;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: white;
+      border: 1px solid $border-color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      padding: 0;
+      cursor: pointer;
+      color: $text-color;
+      
+      &.left {
+        left: -5px;
+      }
+      
+      &.right {
+        right: -5px;
+      }
+      
+      &.hidden {
+        display: none;
+      }
+      
+      &:hover {
+        background-color: $light-gray;
+      }
+    }
+  }
+  
+  // Descripción de la campaña
+  .campaign-description {
+    margin-bottom: 24px;
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    
+    p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #555;
+    }
+  }
+  
+  // Botones de acción
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    
+    button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-share {
+      background-color: white;
+      border: 1px solid $primary-color;
+      color: $primary-color;
+      
+      &:hover {
+        background-color: rgba(99, 102, 241, 0.05);
+      }
+    }
+    
+    .btn-donate {
+      background-color: $primary-color;
+      color: white;
+      
+      &:hover {
+        background-color: darken($primary-color, 5%);
+      }
+    }
+  }
+}
+
+// Columna derecha (componente de donación)
+.right-column {
+  flex: 1;
+  max-width: 35%;
+  
+  ::ng-deep app-campaign-donation {
+    width: 100%;
+    display: block;
+  }
+}
+
+// Sección de comentarios de apoyo
+.support-section {
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  
+  .support-intro {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .support-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+    .support-message {
+      display: flex;
+      gap: 12px;
+      
+      .avatar-section {
+        .avatar {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background-color: $primary-color;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+        }
+      }
+      
+      .message-content {
+        flex: 1;
+        
+        .message-header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 4px;
+          
+          .name {
+            font-weight: 600;
+            font-size: 14px;
+          }
+          
+          .time {
+            color: #777;
+            font-size: 12px;
+          }
+        }
+        
+        .message-text {
+          font-size: 14px;
+          line-height: 1.5;
+          color: #555;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
 // Media queries para responsive
+@media (max-width: 992px) {
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .left-column {
+    max-width: 100% !important;
+  }
+  
+  .right-column {
+    max-width: 100% !important;
+    margin-top: 20px;
+    
+    ::ng-deep app-campaign-donation {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+}
+
 @media (max-width: 768px) {
-    .main-content {
-      flex-direction: column;
+  .main-content {
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .left-column {
+    .campaign-description {
+      h1 {
+        font-size: 20px;
+      }
     }
     
     .thumbnails-navigation {
@@ -22,259 +301,41 @@
     .action-buttons {
       button {
         padding: 10px;
-      }
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .campaign-layout {
-      padding: 0 12px;
-
-    }
-    
-    .support-section {
-      padding: 16px;
-    }
-  }/* campaign-detail.component.scss */
-  
-  // Variables
-  $primary-color: #6366F1;
-  $border-color: #e0e0e0;
-  $text-color: #333;
-  $light-gray: #f5f5f5;
-  
-  .campaign-layout {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    max-width: 100%;
-    padding: 0 16px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    margin: 0 auto;
-    margin-top: 5vh;
-    color: $text-color;
-    
-    @media (min-width: 1232px) {  // 1200px + 16px padding on each side
-      max-width: 1200px;
-    }
-  }
-  
-  // Contenido principal: imagen + donación
-  .main-content {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 40px;
-    
-    @media (max-width: 992px) {
-      flex-direction: column;
-      .left-column{ max-width: 100%;}
-    }
-  }
-  
-    // Columna izquierda (imagen y descripción)
-  .left-column {
-    flex: 2;
-    max-width: 38vw;
-    .main-image-wrapper {
-      margin-bottom: 8px;
-      position: relative;
-      max-width: 100%;
-      
-      .main-image {
-        width: 100%;
-        height: auto;
-        max-height: 450px;
-        object-fit: cover;
-        border-radius: 4px;
-      }
-    }
-    
-    // Navegación de miniaturas
-    .thumbnails-navigation {
-      position: relative;
-      display: flex;
-      align-items: center;
-      margin-bottom: 24px;
-      
-      .thumbnails-container {
-        display: flex;
-        gap: 8px;
-        overflow-x: hidden;
-        scroll-behavior: smooth;
-        width: 100%;
-        padding: 0 8px;
-        
-        .thumbnail {
-          flex: 0 0 60px;
-          height: 45px;
-          object-fit: cover;
-          border-radius: 4px;
-          cursor: pointer;
-          
-          &:hover {
-            opacity: 0.8;
-          }
-        }
-      }
-      
-      .nav-button {
-        position: absolute;
-        z-index: 2;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background-color: white;
-        border: 1px solid $border-color;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-        padding: 0;
-        cursor: pointer;
-        color: $text-color;
-        
-        &.left {
-          left: -5px;
-        }
-        
-        &.right {
-          right: -5px;
-        }
-        
-        &.hidden {
-          display: none;
-        }
-        
-        &:hover {
-          background-color: $light-gray;
-        }
-      }
-    }
-    
-    // Descripción de la campaña
-    .campaign-description {
-      margin-bottom: 24px;
-      
-      h1 {
-        font-size: 24px;
-        margin-bottom: 12px;
-        font-weight: 600;
-      }
-      
-      p {
         font-size: 14px;
-        line-height: 1.6;
-        color: #555;
-      }
-    }
-    
-    // Botones de acción
-    .action-buttons {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 24px;
-      
-      button {
-        flex: 1;
-        padding: 12px;
-        border-radius: 30px;
-        font-size: 16px;
-        cursor: pointer;
-        border: none;
-        transition: all 0.2s ease;
-      }
-      
-      .btn-share {
-        background-color: white;
-        border: 1px solid $primary-color;
-        color: $primary-color;
-      }
-      
-      .btn-donate {
-        background-color: $primary-color;
-        color: white;
       }
     }
   }
   
-  // Columna derecha (componente de donación)
   .right-column {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+    ::ng-deep app-campaign-donation {
+      max-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .campaign-layout {
+    padding: 0 12px;
+    margin-top: 3vh;
   }
   
-  // Sección de comentarios de apoyo
   .support-section {
-    border: 1px solid $border-color;
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 40px;
-    width: 100%;
+    padding: 16px;
     
     h2 {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    
-    .support-intro {
-      color: #777;
-      font-size: 14px;
-      margin-bottom: 20px;
+      font-size: 16px;
     }
     
     .support-messages {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      
-      .support-message {
-        display: flex;
-        gap: 12px;
-        
-        .avatar-section {
-          .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: $primary-color;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-          }
-        }
-        
-        .message-content {
-          flex: 1;
-          
-          .message-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 4px;
-            
-            .name {
-              font-weight: 600;
-              font-size: 14px;
-            }
-            
-            .time {
-              color: #777;
-              font-size: 12px;
-            }
-          }
-          
-          .message-text {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #555;
-            margin: 0;
-          }
-        }
+      gap: 16px;
+    }
+  }
+  
+  .left-column {
+    .main-image-wrapper {
+      .main-image {
+        max-height: 300px;
       }
     }
   }
+}
