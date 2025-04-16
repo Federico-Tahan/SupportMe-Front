@@ -21,6 +21,7 @@ import { environment } from '../../../../environment/environment';
 })
 export class PaymentFormComponent implements OnInit {
   currentStep = 1;
+  publicKey : string = undefined;
   donationAmount: number | null = null;
   campaignId : number = undefined;
   customAmount: string = '';
@@ -63,17 +64,31 @@ export class PaymentFormComponent implements OnInit {
     this.donationMessage = inputElement.value;
     this.billingForm.get('description')?.setValue(this.donationMessage);
   }
-ngOnInit(): void {
-  this.router.queryParams.subscribe(params => {
-    this.campaignId = params['campaignId'];
-    this.campaignService.getCampaignById(this.campaignId).subscribe({
-      next : (data) => {
-        this.campaign = data;
+  ngOnInit(): void {
+    this.router.queryParams.subscribe(params => {
+      this.campaignId = params['campaignId'];
+      if (this.campaignId) {
+        this.campaignService.getCampaignById(this.campaignId).subscribe({
+          next: (data) => {
+            this.campaign = data;
+            
+            this.paymentService.getPublicKey(this.campaignId).subscribe({
+              next: (response) => {
+                const publicKey = response.token;
+                this.mpService.loadMercadoPagoSDK(publicKey);
+              },
+              error: (error) => {
+                console.error('Error al obtener la clave pública:', error);
+              }
+            });
+          },
+          error: (error) => {
+            console.error('Error al obtener la campaña:', error);
+          }
+        });
       }
-    })
-  });
-  this.mpService.loadMercadoPagoSDK();
-}
+    });
+  }
   
      getDeviceId(): string {
       return (window as any).MP_DEVICE_SESSION_ID || '';

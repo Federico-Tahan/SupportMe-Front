@@ -13,9 +13,9 @@ export interface IdentificationType {
 export class MercadopagoService {
   mp: any;
 
-  loadMercadoPagoSDK() {
+  loadMercadoPagoSDK(publickey : string) {
     if (typeof window !== 'undefined' && (window as any).MercadoPago) {
-      this.mp = new (window as any).MercadoPago(environment.MERCADO_PAGO_PUBLIC_KEY);
+      this.mp = new (window as any).MercadoPago(publickey);
     } else {
       console.error("MercadoPago SDK no está disponible, verifica que el script se haya cargado correctamente.");
     }

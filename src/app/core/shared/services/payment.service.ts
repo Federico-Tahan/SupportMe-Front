@@ -12,4 +12,8 @@ export class PaymentService {
   payment(paymentInformation : PaymentInformation, campaignId : number) : Observable<any>{
     return this.http.post(environment.backApi + 'payment/' + campaignId + '/campaign', paymentInformation);
    }
+
+  getPublicKey(campaignId : number) : Observable<any>{
+  return this.http.get(environment.backApi + 'mercadopago/public-key/' + campaignId + '/campaign');
+  }
 }
