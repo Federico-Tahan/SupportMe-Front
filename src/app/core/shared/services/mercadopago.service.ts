@@ -22,7 +22,6 @@ export class MercadopagoService {
   }
 
   generatePaymentMethod(bin : string) : Promise<string> {
-    console.log(bin);
     return this.mp.getPaymentMethods({bin})
       .then((response: any) => {
         return response.results[0].id;
@@ -41,7 +40,6 @@ export class MercadopagoService {
   
 
   generateCardToken(form : MpCard) : any {
-    console.log(form);
     return this.mp.createCardToken(form)
       .then((response: any) => {
         return response;

@@ -1,1 +1,160 @@
-<p>payments works!</p>
+<!-- payments.component.html -->
+<div class="payments-container">
+    <header class="header">
+      <h1 class="title">Pagos</h1>
+      <div class="date-range">
+        <button class="date-picker-button">
+          <i class="fa fa-calendar"></i>
+          {{ formatDateRange(startDate, endDate) }}
+        </button>
+      </div>
+    </header>
+  
+    <div class="stats-cards">
+      <div class="card card-total" 
+           (mouseenter)="totalHovered = true" 
+           (mouseleave)="totalHovered = false">
+        <div class="card-content">
+          <div class="card-header">
+            <div class="card-label" [ngClass]="{'card-label-hover': totalHovered}">Total</div>
+            <i class="fa fa-chart-line" [ngClass]="{'icon-hover': totalHovered}"></i>
+          </div>
+          <div class="card-value" [ngClass]="{'card-value-hover': totalHovered}">{{ totalPayments }}</div>
+        </div>
+      </div>
+      
+      <div class="card card-success" 
+           (mouseenter)="successHovered = true" 
+           (mouseleave)="successHovered = false">
+        <div class="card-content">
+          <div class="card-header">
+            <div class="card-label" [ngClass]="{'card-label-hover': successHovered}">OK</div>
+            <i class="fa fa-check-circle" [ngClass]="{'icon-hover': successHovered}"></i>
+          </div>
+          <div class="card-value" [ngClass]="{'card-value-hover': successHovered}">{{ successfulPayments }}</div>
+        </div>
+      </div>
+      
+      <div class="card card-error" 
+           (mouseenter)="errorHovered = true" 
+           (mouseleave)="errorHovered = false">
+        <div class="card-content">
+          <div class="card-header">
+            <div class="card-label" [ngClass]="{'card-label-hover': errorHovered}">Error</div>
+            <i class="fa fa-times-circle" [ngClass]="{'icon-hover': errorHovered}"></i>
+          </div>
+          <div class="card-value" [ngClass]="{'card-value-hover': errorHovered}">{{ errorPayments }}</div>
+        </div>
+      </div>
+      
+      <div class="card card-refunded" 
+           (mouseenter)="refundHovered = true" 
+           (mouseleave)="refundHovered = false">
+        <div class="card-content">
+          <div class="card-header">
+            <div class="card-label" [ngClass]="{'card-label-hover': refundHovered}">Reembolsado</div>
+            <i class="fa fa-undo" [ngClass]="{'icon-hover': refundHovered}"></i>
+          </div>
+          <div class="card-value" [ngClass]="{'card-value-hover': refundHovered}">{{ refundedPayments }}</div>
+        </div>
+      </div>
+      
+
+    </div>
+  
+    <div class="filters-section">
+        <div style="display: flex; gap: 25px">
+            <div class="search-container">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="Buscar" class="search-input" />
+              </div>
+              
+              <div class="filter-tags">
+                @for (filter of filters; track filter.name; let i = $index) {
+                  <button class="filter-tag">
+                    <div class="icon-container">
+                      <i class="fa fa-plus"></i>
+                    </div>
+                    <p>{{ filter.name }}</p>
+                    @if (hasActiveOptions(i)) {
+                      <span class="separator">|</span>
+                      <p class="option-selected">{{ getSelectedOptions(i) }}</p>
+                    }
+                  </button>
+                }
+              </div>
+        </div>
+      
+      
+      <button class="download-button">Descargar</button>
+    </div>
+  
+    <table class="payments-table">
+      <thead>
+        <tr>
+          <th>Importe <i class="fa fa-sort"></i></th>
+          <th>Estado <i class="fa fa-sort"></i></th>
+          <th>Método de pago</th>
+          <th>Campaña<i class="fa fa-sort"></i></th>
+          <th>Cliente <i class="fa fa-sort"></i></th>
+          <th>Fecha de transacción <i class="fa fa-sort"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (payment of payments; track payment.campaign.id) {
+          <tr>
+            <td>$ {{ formatCurrency(payment.amount) }} ARS</td>
+            <td>
+              <span class="status-badge" [ngClass]="payment.status.toLowerCase()">{{ payment.status }}</span>
+            </td>
+            <td>
+              <span class="card-brand {{ payment.brand }}"></span>
+              •••• {{ payment.last4 }}
+            </td>
+            <td style="display: flex; align-items: center; gap: 10px;">
+                <img src="{{ payment.campaign.logoUrl }}" alt="Imagen de campaña"
+                     style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span>{{ payment.campaign.name }}</span>
+              </td>
+              
+
+            <td>Federico Tahan</td>
+            <td>15 abr, 2025, 7:28 AM</td>
+          </tr>
+        }
+        @if (payments.length === 0) {
+          <tr>
+            <td colspan="7" class="no-results">No se encontraron resultados</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  
+    <div class="pagination">
+      <div class="showing-info">
+        Mostrando 1 al 1 de 1 resultados
+      </div>
+      
+      <div class="page-size-selector">
+        <span>Filas por página</span>
+        <select [(ngModel)]="pageSize">
+          <option [value]="10">10</option>
+        </select>
+      </div>
+      
+      <div class="page-controls">
+        <button [disabled]="currentPage === 1">
+          <i class="fa fa-angle-double-left"></i>
+        </button>
+        <button [disabled]="currentPage === 1">
+          <i class="fa fa-angle-left"></i>
+        </button>
+        <button [disabled]="currentPage * pageSize >= totalPayments">
+          <i class="fa fa-angle-right"></i>
+        </button>
+        <button [disabled]="currentPage * pageSize >= totalPayments">
+          <i class="fa fa-angle-double-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>

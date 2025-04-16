@@ -22,6 +22,10 @@ export const INTRANET_ROUTES: Routes = [
       path: 'setup/mercadopago', loadComponent: () =>
         import('./components/mercadopagoconfig/mercadopagoconfig.component').then(m => m.MercadopagoconfigComponent)
     },    
-    {path: 'mercadopago/callback', component: MercadopagocallbackComponent}
+    {path: 'mercadopago/callback', component: MercadopagocallbackComponent},
+    {
+      path: 'payments', loadComponent: () =>
+        import('./components/payments/payments.component').then(m => m.PaymentsComponent)
+    },    
 
 ];

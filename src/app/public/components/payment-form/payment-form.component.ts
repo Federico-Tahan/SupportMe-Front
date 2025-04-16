@@ -111,12 +111,6 @@ export class PaymentFormComponent implements OnInit {
 
   async generateCard(card: MpCard): Promise<Card> {
     card.cardNumber = card.cardNumber.replace(/\D/g, '');
-    console.log('Sending to MP:', JSON.stringify({
-      cardNumber: card.cardNumber,
-      cardExpirationMonth: card.cardExpirationMonth,
-      cardExpirationYear: card.cardExpirationYear,
-      // Don't log security code for security reasons
-    }));
     return this.mpService.generateCardToken(card)
       .then(async (mpResponse: any) => {
  
@@ -132,7 +126,6 @@ export class PaymentFormComponent implements OnInit {
           documentNumber : card.identificationNumber,
           documentType : card.identificationType
         }
-        console.log(resposne);
         return resposne;
       })
       .catch((error: any) => {
@@ -144,10 +137,6 @@ export class PaymentFormComponent implements OnInit {
   submitDonation(): void {
     const paymentForm = this.paymentForm?.value;
     const billingForm = this.billingForm?.value;
-    debugger
-    console.log(paymentForm);
-    console.log(billingForm);
-
     const deviceId = this.getDeviceId(); 
     let mpCard : MpCard =
     {
@@ -172,8 +161,6 @@ export class PaymentFormComponent implements OnInit {
         idempotency : this.generateGuid(),
         description : billingForm.description
       };
-
-      console.log(paymetnInformation);
   
       this.paymentService.payment(paymetnInformation, this.campaignId).subscribe({
         next: (data) => {
