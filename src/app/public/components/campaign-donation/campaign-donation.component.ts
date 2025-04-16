@@ -2,6 +2,7 @@
 import { Component, ElementRef, Input, ViewChild, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SimpleCategory } from '../../../core/shared/interfaces/simple-category';
+import { RouterLink } from '@angular/router';
 
 interface RecentDonation {
   name: string;
@@ -12,7 +13,7 @@ interface RecentDonation {
 @Component({
   selector: 'app-campaign-donation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './campaign-donation.component.html',
   styleUrl: './campaign-donation.component.scss'
 })
@@ -21,6 +22,7 @@ export class CampaignDonationComponent {
   @Input() tags : string[] = null;
   @ViewChild('tagsContainer') tagsContainer: ElementRef;
   @Input() title : string = null;
+  @Input() campaignId : number = null;
   @Input() amountRaised : number = null;
   @Input() goalAmount : number = null;
   progressPercentage = (this.amountRaised / this.goalAmount) * 100;

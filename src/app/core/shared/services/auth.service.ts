@@ -43,7 +43,6 @@ export class AuthService {
         const user = JSON.parse(userJson) as UserToken;
         this.userSubject.next(user);
       } catch (error) {
-        console.error('Error parsing user from localStorage:', error);
       }
     }
   }
@@ -61,7 +60,6 @@ export class AuthService {
             resolve(res);
           },
           error: (err) => {
-            console.error("Error al actualizar token en backend:", err);
             reject(err);
           }
         });
@@ -107,7 +105,6 @@ export class AuthService {
       try {
         return JSON.parse(userJson) as UserToken;
       } catch (error) {
-        console.error('Error parsing user from localStorage:', error);
         return null;
       }
     }

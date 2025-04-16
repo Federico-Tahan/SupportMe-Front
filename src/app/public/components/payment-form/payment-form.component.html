@@ -9,7 +9,7 @@
   
   <div class="donation-container">
     <header>
-      <a class="back-link" (click)="goToMainSite()">
+      <a class="back-link" [routerLink]="['/projects/detail']" [queryParams]="{id: campaignId}">
         <span class="back-arrow">←</span> Volver a la campaña
       </a>
     </header>
@@ -20,11 +20,9 @@
       <div class="step" [class.active]="currentStep >= 3">Detalle de facturación</div>
     </div>
   
-    <!-- Step 1: Donation Amount -->
     @if (currentStep === 1) {
       <div class="step-content donation-step">
-        <h1>Donar</h1>
-        <p class="tagline">{{ title }}</p>
+        <h1>Campaña: {{ campaign.name }}</h1>
                 
         <h2>Monto a donar</h2>
         
@@ -41,7 +39,6 @@
             <input 
               type="text" 
               placeholder="Otro" 
-              [(ngModel)]="customAmount"
               (input)="setCustomAmount()"
               (blur)="setCustomAmount()">
           </div>
@@ -50,8 +47,7 @@
         <div class="donation-message">
           <label>Palabras de apoyo (opcional)</label>
           <textarea 
-            placeholder="Escribe tu mensaje..." 
-            [(ngModel)]="donationMessage">
+            placeholder="Escribe tu mensaje...">
           </textarea>
         </div>
         
@@ -142,28 +138,40 @@
           <h2>Información personal</h2>
           
           <form [formGroup]="billingForm">
+            
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+              <div class="form-group" style="width: 48%;">
+                <label class="required-field">Nombre</label>
+                <input 
+                  type="text" 
+                  placeholder="Ingrese su nombre" 
+                  formControlName="firstName">
+                @if (billingForm.get('firstName')?.invalid && billingForm.get('firstName')?.touched) {
+                  <div class="error-message">El nombre es requerido</div>
+                }
+              </div>
+              
+              <div class="form-group" style="width: 48%;">
+                <label class="required-field">Apellido</label>
+                <input 
+                  type="text" 
+                  placeholder="Ingrese su apellido" 
+                  formControlName="lastName">
+                @if (billingForm.get('lastName')?.invalid && billingForm.get('lastName')?.touched) {
+                  <div class="error-message">El apellido es requerido</div>
+                }
+              </div>
+            </div>
             <div class="form-group">
-              <label class="required-field">Nombre</label>
+              <label class="required-field">Número de documento</label>
               <input 
                 type="text" 
-                placeholder="Ingrese su nombre" 
-                formControlName="firstName">
-              @if (billingForm.get('firstName')?.invalid && billingForm.get('firstName')?.touched) {
-                <div class="error-message">El nombre es requerido</div>
+                placeholder="Ingrese su documento" 
+                formControlName="documentNumber">
+              @if (billingForm.get('documentNumber')?.invalid && billingForm.get('documentNumber')?.touched) {
+                <div class="error-message">El número de documento es requerido</div>
               }
             </div>
-            
-            <div class="form-group">
-              <label class="required-field">Apellido</label>
-              <input 
-                type="text" 
-                placeholder="Ingrese su apellido" 
-                formControlName="lastName">
-              @if (billingForm.get('lastName')?.invalid && billingForm.get('lastName')?.touched) {
-                <div class="error-message">El apellido es requerido</div>
-              }
-            </div>
-            
             <div class="form-group">
               <label class="required-field">Correo electrónico</label>
               <input 

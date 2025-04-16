@@ -35,7 +35,7 @@
         
         <div class="action-buttons">
           <button class="btn-share" (click)="share()">Compartir</button>
-          <button class="btn-donate" (click)="donate()">Donar ahora!</button>
+          <button class="btn-donate" [routerLink]="['/payment/form']" [queryParams]="{campaignId: campaignId}">Donar ahora!</button>
         </div>
       </div>
       
@@ -46,6 +46,7 @@
         [category]="campaign.category"
         [tags]="campaign.tags"
         [amountRaised]="campaign.raised"
+        [campaignId]="campaign.id"
         ></app-campaign-donation>
       </div>
     </div>

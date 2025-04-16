@@ -3,7 +3,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, OnInit, inject } from 
 import { CommonModule } from '@angular/common';
 import { CampaignDonationComponent } from "../campaign-donation/campaign-donation.component";
 import { Campaign } from '../../../core/shared/interfaces/campaign';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CampaignService } from '../../../core/shared/services/campaign.service';
 
 interface SupportMessage {
@@ -15,7 +15,7 @@ interface SupportMessage {
 @Component({
   selector: 'app-campaign-detail',
   standalone: true,
-  imports: [CommonModule, CampaignDonationComponent],
+  imports: [CommonModule, CampaignDonationComponent, RouterLink],
   templateUrl: './campaign-detail.component.html',
   styleUrl: './campaign-detail.component.scss'
 })
@@ -49,11 +49,7 @@ export class CampaignDetailComponent implements AfterViewInit, OnInit {
   changeThumbnail(index: number): void {
     this.mainImage = this.campaign.assets[index];
   }
-  
-  donate(): void {
-    console.log('Redirigiendo a la página de pago...');
-  }
-  
+    
   share(): void {
     console.log('Compartiendo campaña...');
   }
@@ -90,12 +86,5 @@ export class CampaignDetailComponent implements AfterViewInit, OnInit {
     this.canScrollLeft = element.scrollLeft > 0;
     const hasMoreToScroll = element.scrollWidth > element.clientWidth + element.scrollLeft;
     this.canScrollRight = hasMoreToScroll; 
-    console.log({
-      scrollLeft: element.scrollLeft,
-      clientWidth: element.clientWidth,
-      scrollWidth: element.scrollWidth,
-      canScrollLeft: this.canScrollLeft,
-      canScrollRight: this.canScrollRight
-    });
   }
 }

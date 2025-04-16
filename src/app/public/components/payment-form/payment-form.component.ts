@@ -1,32 +1,41 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CampaignService } from '../../../core/shared/services/campaign.service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Campaign } from '../../../core/shared/interfaces/campaign';
+import { MercadopagoService } from '../../../core/shared/services/mercadopago.service';
+import { PaymentService } from '../../../core/shared/services/payment.service';
+import { Card } from '../../../core/shared/interfaces/card';
+import { MpCard } from '../../../core/shared/interfaces/mp-card';
+import { PaymentInformation } from '../../../core/shared/interfaces/payment-information';
 
 @Component({
   selector: 'app-payment-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './payment-form.component.html',
   styleUrl: './payment-form.component.scss'
 })
 export class PaymentFormComponent implements OnInit {
   currentStep = 1;
-  donationType: 'one-off' | 'monthly' = 'one-off';
   donationAmount: number | null = null;
+  campaignId : number = undefined;
   customAmount: string = '';
   donationMessage: string = '';
-  @Input() title: string = '';
+  campaign : Campaign = undefined;
   paymentForm: FormGroup;
   billingForm: FormGroup;
-  
+  campaignService = inject(CampaignService);
   predefinedAmounts = [1000, 2500, 5000, 10000];
-  
-  // Variables para el formato de la tarjeta
+  router = inject(ActivatedRoute);
+  route = inject(Router);
+  mpService = inject(MercadopagoService);
+  paymentService = inject(PaymentService);
   cardNumberFormatted: string = '';
   cardBrand: string = 'visa';
   
-  // Variables para la fecha de expiración
   expiryMonth: string = '';
   expiryYear: string = '';
   
@@ -41,43 +50,138 @@ export class PaymentFormComponent implements OnInit {
     this.billingForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
+      documentNumber: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       contactNumber: new FormControl('', [Validators.required])
     });
   }
+
+     ngOnInit(): void {
+       this.router.queryParams.subscribe(params => {
+         this.campaignId = params['campaignId'];
+         this.campaignService.getCampaignById(this.campaignId).subscribe({
+           next : (data) => {
+              this.campaign = data;
+           }
+         })
+       });
+       this.mpService.loadMercadoPagoSDK();
+     }
   
-  ngOnInit(): void {
-    // No necesitamos suscribirnos a los cambios aquí
-  }
-  
-  // Formatea el número de tarjeta como XXXX XXXX XXXX XXXX
-  formatCardNumber(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    // Remover todos los caracteres no numéricos
-    const cleanValue = inputElement.value.replace(/\D/g, '');
-    
-    // Limitar a 16 dígitos
-    const truncated = cleanValue.substring(0, 16);
-    
-    // Formatear como XXXX XXXX XXXX XXXX
-    const parts = [];
-    for (let i = 0; i < truncated.length; i += 4) {
-      parts.push(truncated.substring(i, i + 4));
+     getDeviceId(): string {
+      return (window as any).MP_DEVICE_SESSION_ID || '';
     }
-    
-    // Actualizar el valor del input y la variable formateada
-    this.cardNumberFormatted = parts.join(' ');
-    
-    // Importante: Actualizar el valor del elemento input directamente
-    inputElement.value = this.cardNumberFormatted;
-    
-    // Actualizar el formulario con el valor formateado para mantener la sincronización
-    this.paymentForm.get('cardNumber')?.setValue(this.cardNumberFormatted);
-    
-    // Detectar la marca de la tarjeta (usando el valor limpio)
-    this.detectCardBrand(cleanValue);
+
+  formatCardNumber(event: Event): void {
+        const inputElement = event.target as HTMLInputElement;
+        const cleanValue = inputElement.value.replace(/\D/g, '');
+        const truncated = cleanValue.substring(0, 16);
+        const parts = [];
+        for (let i = 0; i < truncated.length; i += 4) {
+          parts.push(truncated.substring(i, i + 4));
+        }
+        this.cardNumberFormatted = parts.join(' ');
+        inputElement.value = this.cardNumberFormatted;
+        this.paymentForm.get('cardNumber')?.setValue(this.cardNumberFormatted);
+        this.detectCardBrand(cleanValue);
   }
   
+
+  async generateCard(card: MpCard): Promise<Card> {
+    card.cardNumber = card.cardNumber.replace(/\s+/g, '');
+    return this.mpService.generateCardToken(card)
+      .then(async (mpResponse: any) => {
+ 
+        const lastFourDigits = card.cardNumber.slice(-4);
+        let resposne : Card = {
+          token : mpResponse.id,
+          cardHolderEmail : card.cardHolderEmail,
+          cardHolderName : card.cardHolderName,
+          brand : await this.mpService.generatePaymentMethod(card.cardNumber),
+          last4 : lastFourDigits,
+          expiryMonth : card.cardExpirationMonth,
+          expiryYear : card.cardExpirationYear,
+          documentNumber : card.identificationNumber,
+          documentType : card.identificationType
+        }
+        console.log(resposne);
+        return resposne;
+      })
+      .catch((error: any) => {
+        console.error("Error al generar la tarjeta:", error);
+        throw error;
+      });
+  }
+  
+  submitDonation(): void {
+    debugger
+    const paymentForm = this.paymentForm?.value;
+    const billingForm = this.billingForm?.value;
+    console.log(paymentForm);
+    console.log(billingForm);
+
+    const deviceId = this.getDeviceId(); 
+    let mpCard : MpCard =
+    {
+    cardExpirationMonth : paymentForm.expiryMonth,
+    cardExpirationYear : paymentForm.expiryYear,
+    cardNumber : paymentForm.cardNumber,
+    cardHolderName : billingForm.firstName + ' ' + billingForm.lastName,
+    cardHolderEmail : billingForm.email,
+    securityCode : paymentForm.cvv,
+    identificationType : 'DNI',
+    identificationNumber : billingForm.documentNumber
+    }
+    this.generateCard(mpCard).then((card: Card) => {
+      const paymetnInformation: PaymentInformation = {
+        card: card,
+        installments: 1,
+        currency: 'ARS',
+        amount: this.donationAmount,
+        deviceId: deviceId
+      };
+
+      console.log(paymetnInformation);
+  
+      this.paymentService.payment(paymetnInformation).subscribe({
+        next: (data) => {
+          if (data.status == 'SUCCESS') {
+            alert("TA BIEN");
+          }
+        },
+        error: (error) => {
+          console.error('Error al procesar el pago:', error);
+        }
+      });
+    }).catch(error => {
+      console.error("Error al procesar la tarjeta:", error);
+    });
+
+
+
+    this.currentStep = 1;
+    this.donationAmount = null;
+    this.customAmount = '';
+    this.donationMessage = '';
+    this.cardNumberFormatted = '';
+    this.cardBrand = '';
+    this.expiryMonth = '';
+    this.expiryYear = '';
+    this.paymentForm.reset();
+    this.billingForm.reset();
+    
+    alert('¡Gracias por tu donación!');
+  }
+
+
+
+
+
+
+
+
+
+
 detectCardBrand(cardNumber: string): void {
   if (/^4/.test(cardNumber)) {
     this.cardBrand = 'visa';
@@ -202,9 +306,6 @@ detectCardBrand(cardNumber: string): void {
     }
   }
   
-  setDonationType(type: 'one-off' | 'monthly'): void {
-    this.donationType = type;
-  }
   
   setDonationAmount(amount: number): void {
     this.donationAmount = amount;
@@ -225,34 +326,5 @@ detectCardBrand(cardNumber: string): void {
       control.markAsTouched();
     });
   }
-  
-  submitDonation(): void {
-    console.log('Donation submitted', {
-      donationType: this.donationType,
-      amount: this.donationAmount,
-      message: this.donationMessage,
-      payment: {
-        ...this.paymentForm.value,
-        cardBrand: this.cardBrand
-      },
-      billing: this.billingForm.value
-    });
-    
-    this.currentStep = 1;
-    this.donationAmount = null;
-    this.customAmount = '';
-    this.donationMessage = '';
-    this.cardNumberFormatted = '';
-    this.cardBrand = '';
-    this.expiryMonth = '';
-    this.expiryYear = '';
-    this.paymentForm.reset();
-    this.billingForm.reset();
-    
-    alert('¡Gracias por tu donación!');
-  }
-  
-  goToMainSite(): void {
-    console.log('Navigating back to main site');
-  }
+
 }
