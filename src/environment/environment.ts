@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    MERCADO_PAGO_PUBLIC_KEY : 'TEST-d94e63b1-c4e9-40ca-8f77-072882c249b0',
+    MERCADO_PAGO_PUBLIC_KEY : 'APP_USR-83e31a39-8f0b-4129-9ed8-df49c3ef4ec1',
     firebase: {
         apiKey: "AIzaSyCMJ0NUXRq7CO4GCFCkFMKCiwzJTHyF_dQ",
         authDomain: "supportme-73894.firebaseapp.com",

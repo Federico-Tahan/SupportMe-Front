@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class PaymentService {
   http = inject(HttpClient);
 
-  payment(paymentInformation : PaymentInformation) : Observable<any>{
-    return this.http.post(environment.backApi + '/payment', paymentInformation);
+  payment(paymentInformation : PaymentInformation, campaignId : number) : Observable<any>{
+    return this.http.post(environment.backApi + 'payment/' + campaignId + '/campaign', paymentInformation);
    }
 }

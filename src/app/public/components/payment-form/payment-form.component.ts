@@ -10,6 +10,7 @@ import { PaymentService } from '../../../core/shared/services/payment.service';
 import { Card } from '../../../core/shared/interfaces/card';
 import { MpCard } from '../../../core/shared/interfaces/mp-card';
 import { PaymentInformation } from '../../../core/shared/interfaces/payment-information';
+import { environment } from '../../../../environment/environment';
 
 @Component({
   selector: 'app-payment-form',
@@ -52,21 +53,27 @@ export class PaymentFormComponent implements OnInit {
       lastName: new FormControl('', [Validators.required]),
       documentNumber: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      contactNumber: new FormControl('', [Validators.required])
+      description: new FormControl(''),
+      amountSelected: new FormControl(null)
     });
   }
 
-     ngOnInit(): void {
-       this.router.queryParams.subscribe(params => {
-         this.campaignId = params['campaignId'];
-         this.campaignService.getCampaignById(this.campaignId).subscribe({
-           next : (data) => {
-              this.campaign = data;
-           }
-         })
-       });
-       this.mpService.loadMercadoPagoSDK();
-     }
+  setDonationMessage(event: Event): void {
+    const inputElement = event.target as HTMLTextAreaElement;
+    this.donationMessage = inputElement.value;
+    this.billingForm.get('description')?.setValue(this.donationMessage);
+  }
+ngOnInit(): void {
+  this.router.queryParams.subscribe(params => {
+    this.campaignId = params['campaignId'];
+    this.campaignService.getCampaignById(this.campaignId).subscribe({
+      next : (data) => {
+        this.campaign = data;
+      }
+    })
+  });
+  this.mpService.loadMercadoPagoSDK();
+}
   
      getDeviceId(): string {
       return (window as any).MP_DEVICE_SESSION_ID || '';
@@ -95,8 +102,8 @@ export class PaymentFormComponent implements OnInit {
         const lastFourDigits = card.cardNumber.slice(-4);
         let resposne : Card = {
           token : mpResponse.id,
-          cardHolderEmail : card.cardHolderEmail,
-          cardHolderName : card.cardHolderName,
+          cardHolderEmail : card.cardholderEmail,
+          cardHolderName : card.cardholderName,
           brand : await this.mpService.generatePaymentMethod(card.cardNumber),
           last4 : lastFourDigits,
           expiryMonth : card.cardExpirationMonth,
@@ -114,9 +121,9 @@ export class PaymentFormComponent implements OnInit {
   }
   
   submitDonation(): void {
-    debugger
     const paymentForm = this.paymentForm?.value;
     const billingForm = this.billingForm?.value;
+    debugger
     console.log(paymentForm);
     console.log(billingForm);
 
@@ -126,8 +133,10 @@ export class PaymentFormComponent implements OnInit {
     cardExpirationMonth : paymentForm.expiryMonth,
     cardExpirationYear : paymentForm.expiryYear,
     cardNumber : paymentForm.cardNumber,
-    cardHolderName : billingForm.firstName + ' ' + billingForm.lastName,
-    cardHolderEmail : billingForm.email,
+    cardholderName: environment.MERCADO_PAGO_PUBLIC_KEY?.toLowerCase().includes('test') 
+    ? 'APRO' 
+    : billingForm.firstName + ' ' + billingForm.lastName,    
+    cardholderEmail : billingForm.email,
     securityCode : paymentForm.cvv,
     identificationType : 'DNI',
     identificationNumber : billingForm.documentNumber
@@ -137,13 +146,15 @@ export class PaymentFormComponent implements OnInit {
         card: card,
         installments: 1,
         currency: 'ARS',
-        amount: this.donationAmount,
-        deviceId: deviceId
+        amount: billingForm.amountSelected,
+        deviceId: deviceId,
+        idempotency : this.generateGuid(),
+        description : billingForm.description
       };
 
       console.log(paymetnInformation);
   
-      this.paymentService.payment(paymetnInformation).subscribe({
+      this.paymentService.payment(paymetnInformation, this.campaignId).subscribe({
         next: (data) => {
           if (data.status == 'SUCCESS') {
             alert("TA BIEN");
@@ -174,7 +185,13 @@ export class PaymentFormComponent implements OnInit {
   }
 
 
-
+  generateGuid(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
 
 
 
@@ -310,14 +327,20 @@ detectCardBrand(cardNumber: string): void {
   setDonationAmount(amount: number): void {
     this.donationAmount = amount;
     this.customAmount = amount.toString();
+    this.billingForm.get('amountSelected')?.setValue(amount);
   }
   
-  setCustomAmount(): void {
+  setCustomAmount(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.customAmount = inputElement.value;
+    
     const amount = parseFloat(this.customAmount);
     if (!isNaN(amount) && amount > 0) {
       this.donationAmount = amount;
+      this.billingForm.get('amountSelected')?.setValue(amount);
     } else {
       this.donationAmount = null;
+      this.billingForm.get('amountSelected')?.setValue(null);
     }
   }
   

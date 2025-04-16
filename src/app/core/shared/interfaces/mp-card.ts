@@ -1,6 +1,6 @@
 export interface MpCard {
-    cardHolderName : string;
-    cardHolderEmail : string;
+    cardholderName : string;
+    cardholderEmail : string;
     cardNumber: string;
     cardExpirationMonth: number;
     cardExpirationYear : number;

@@ -1,205 +1,196 @@
 <!-- payment-form.component.html -->
 <style>
-    .required-field::after {
-      content: " *";
-      color: #e53e3e;
-      font-weight: bold;
-    }
-  </style>
-  
-  <div class="donation-container">
-    <header>
-      <a class="back-link" [routerLink]="['/projects/detail']" [queryParams]="{id: campaignId}">
-        <span class="back-arrow">←</span> Volver a la campaña
-      </a>
-    </header>
-  
-    <div class="stepper-indicator">
-      <div class="step" [class.active]="currentStep >= 1">Monto de la donación</div>
-      <div class="step" [class.active]="currentStep >= 2">Detalle de pago</div>
-      <div class="step" [class.active]="currentStep >= 3">Detalle de facturación</div>
-    </div>
-  
-    @if (currentStep === 1) {
-      <div class="step-content donation-step">
-        <h1>Campaña: {{ campaign.name }}</h1>
-                
-        <h2>Monto a donar</h2>
-        
-        <div class="amount-options">
-          @for (amount of predefinedAmounts; track amount) {
-            <button 
-              class="amount-btn" 
-              [class.active]="donationAmount === amount"
-              (click)="setDonationAmount(amount)">
-              ${{ amount }}
-            </button>
-          }
-          <div class="custom-amount">
-            <input 
-              type="text" 
-              placeholder="Otro" 
-              (input)="setCustomAmount()"
-              (blur)="setCustomAmount()">
-          </div>
-        </div>
-        
-        <div class="donation-message">
-          <label>Palabras de apoyo (opcional)</label>
-          <textarea 
-            placeholder="Escribe tu mensaje...">
-          </textarea>
-        </div>
-        
-        <div class="step-buttons">
-          <button class="next-btn" (click)="nextStep()" [disabled]="!donationAmount">Siguiente</button>
+  .required-field::after {
+    content: " *";
+    color: #e53e3e;
+    font-weight: bold;
+  }
+</style>
+
+<div class="donation-container">
+  <header>
+    <a class="back-link" [routerLink]="['/projects/detail']" [queryParams]="{id: campaignId}">
+      <span class="back-arrow">←</span> Volver a la campaña
+    </a>
+  </header>
+
+  <div class="stepper-indicator">
+    <div class="step" [class.active]="currentStep >= 1">Monto de la donación</div>
+    <div class="step" [class.active]="currentStep >= 2">Detalle de pago</div>
+    <div class="step" [class.active]="currentStep >= 3">Detalle de facturación</div>
+  </div>
+
+  @if (currentStep === 1) {
+    <div class="step-content donation-step">
+      <h1>Campaña: {{ campaign.name }}</h1>
+              
+      <h2>Monto a donar</h2>
+      
+      <div class="amount-options">
+        @for (amount of predefinedAmounts; track amount) {
+          <button 
+            class="amount-btn" 
+            [class.active]="donationAmount === amount"
+            (click)="setDonationAmount(amount)">
+            ${{ amount }}
+          </button>
+        }
+        <div class="custom-amount">
+          <input 
+            type="text" 
+            placeholder="Otro"
+            [value]="customAmount"
+            (input)="setCustomAmount($event)">
         </div>
       </div>
-    }
-  
-    <!-- Step 2: Payment Details -->
-    @if (currentStep === 2) {
-      <div class="step-content payment-step">
-        <h1>Detalles de pago</h1>
-        <form [formGroup]="paymentForm">
-          <div class="form-group">
-            <label class="required-field">Número de la tarjeta</label>
-            <div class="card-input-container">
-              <input 
-                type="text" 
-                placeholder="XXXX XXXX XXXX XXXX" 
-                [ngModel]="cardNumberFormatted"
-                (input)="formatCardNumber($event)"
-                maxlength="19">
-              @if (cardBrand) {
-                <div class="card-brand-logo">
-                  <div class="brand-icon {{cardBrand}}"></div>
-                </div>
-              }
-            </div>
-            @if (paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched) {
-              <div class="error-message">Se requiere un número de tarjeta válido</div>
-            }
-          </div>
-          
-          <div class="form-group">
-            <label class="required-field">Fecha de expiración</label>
+      
+      <div class="donation-message">
+        <label>Palabras de apoyo (opcional)</label>
+        <textarea 
+          placeholder="Escribe tu mensaje..."
+          [value]="donationMessage"
+          (input)="setDonationMessage($event)">
+        </textarea>
+      </div>
+      
+      <div class="step-buttons">
+        <button class="next-btn" (click)="nextStep()" [disabled]="!donationAmount">Siguiente</button>
+      </div>
+    </div>
+  }
+
+  <!-- Step 2: Payment Details -->
+  @if (currentStep === 2) {
+    <div class="step-content payment-step">
+      <h1>Detalles de pago</h1>
+      <form [formGroup]="paymentForm">
+        <div class="form-group">
+          <label class="required-field">Número de la tarjeta</label>
+          <div class="card-input-container">
             <input 
               type="text" 
-              placeholder="MM/YY" 
-              (input)="onExpiryInput($event)"
-              maxlength="5">
-            @if ((paymentForm.get('expiryMonth')?.invalid && paymentForm.get('expiryMonth')?.touched) || 
-                (paymentForm.get('expiryYear')?.invalid && paymentForm.get('expiryYear')?.touched)) {
-              <div class="error-message">
-                @if (paymentForm.get('expiryMonth')?.hasError('pastDate')) {
-                  La tarjeta está vencida
-                } @else {
-                  La fecha de expiración es requerida y debe tener un formato válido
-                }
+              placeholder="XXXX XXXX XXXX XXXX" 
+              [value]="cardNumberFormatted"
+              (input)="formatCardNumber($event)"
+              maxlength="19">
+            @if (cardBrand) {
+              <div class="card-brand-logo">
+                <div class="brand-icon {{cardBrand}}"></div>
               </div>
             }
           </div>
+          @if (paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched) {
+            <div class="error-message">Se requiere un número de tarjeta válido</div>
+          }
+        </div>
+        
+        <div class="form-group">
+          <label class="required-field">Fecha de expiración</label>
+          <input 
+            type="text" 
+            placeholder="MM/YY" 
+            (input)="onExpiryInput($event)"
+            maxlength="5">
+          @if ((paymentForm.get('expiryMonth')?.invalid && paymentForm.get('expiryMonth')?.touched) || 
+              (paymentForm.get('expiryYear')?.invalid && paymentForm.get('expiryYear')?.touched)) {
+            <div class="error-message">
+              @if (paymentForm.get('expiryMonth')?.hasError('pastDate')) {
+                La tarjeta está vencida
+              } @else {
+                La fecha de expiración es requerida y debe tener un formato válido
+              }
+            </div>
+          }
+        </div>
+        
+        <div class="form-group">
+          <label class="required-field">CVV</label>
+          <div class="cvv-container">
+            <input 
+              type="text" 
+              placeholder="Enter CVV" 
+              formControlName="cvv"
+              maxlength="3">
+          </div>
+          @if (paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched) {
+            <div class="error-message">
+              @if (paymentForm.get('cvv')?.hasError('pattern')) {
+                El CVV debe contener exactamente 3 dígitos
+              } @else {
+                El CVV es requerido
+              }
+            </div>
+          }
+        </div>
+      </form>
+      
+      <div class="step-buttons">
+        <button class="back-btn" (click)="previousStep()">Volver</button>
+        <button class="next-btn" (click)="nextStep()">Siguiente</button>
+      </div>
+    </div>
+  }
+
+  <!-- Step 3: Billing Details -->
+  @if (currentStep === 3) {
+    <div class="step-content billing-step">
+      <h1>Detalles de facturación</h1>
+      
+      <div class="personal-info">
+        <h2>Información personal</h2>
+        
+        <form [formGroup]="billingForm">
           
-          <div class="form-group">
-            <label class="required-field">CVV</label>
-            <div class="cvv-container">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+            <div class="form-group" style="width: 48%;">
+              <label class="required-field">Nombre</label>
               <input 
                 type="text" 
-                placeholder="Enter CVV" 
-                formControlName="cvv"
-                maxlength="3">
+                placeholder="Ingrese su nombre" 
+                formControlName="firstName">
+              @if (billingForm.get('firstName')?.invalid && billingForm.get('firstName')?.touched) {
+                <div class="error-message">El nombre es requerido</div>
+              }
             </div>
-            @if (paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched) {
-              <div class="error-message">
-                @if (paymentForm.get('cvv')?.hasError('pattern')) {
-                  El CVV debe contener exactamente 3 dígitos
-                } @else {
-                  El CVV es requerido
-                }
-              </div>
+            
+            <div class="form-group" style="width: 48%;">
+              <label class="required-field">Apellido</label>
+              <input 
+                type="text" 
+                placeholder="Ingrese su apellido" 
+                formControlName="lastName">
+              @if (billingForm.get('lastName')?.invalid && billingForm.get('lastName')?.touched) {
+                <div class="error-message">El apellido es requerido</div>
+              }
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="required-field">Número de documento</label>
+            <input 
+              type="text" 
+              placeholder="Ingrese su documento" 
+              formControlName="documentNumber">
+            @if (billingForm.get('documentNumber')?.invalid && billingForm.get('documentNumber')?.touched) {
+              <div class="error-message">El número de documento es requerido</div>
+            }
+          </div>
+          <div class="form-group">
+            <label class="required-field">Correo electrónico</label>
+            <input 
+              type="email" 
+              placeholder="Ingrese su correo electrónico" 
+              formControlName="email">
+            @if (billingForm.get('email')?.invalid && billingForm.get('email')?.touched) {
+              <div class="error-message">Se debe ingresar un correo electrónico válido</div>
             }
           </div>
         </form>
-        
-        <div class="step-buttons">
-          <button class="back-btn" (click)="previousStep()">Volver</button>
-          <button class="next-btn" (click)="nextStep()">Siguiente</button>
-        </div>
       </div>
-    }
-  
-    <!-- Step 3: Billing Details -->
-    @if (currentStep === 3) {
-      <div class="step-content billing-step">
-        <h1>Detalles de facturación</h1>
-        
-        <div class="personal-info">
-          <h2>Información personal</h2>
-          
-          <form [formGroup]="billingForm">
-            
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-              <div class="form-group" style="width: 48%;">
-                <label class="required-field">Nombre</label>
-                <input 
-                  type="text" 
-                  placeholder="Ingrese su nombre" 
-                  formControlName="firstName">
-                @if (billingForm.get('firstName')?.invalid && billingForm.get('firstName')?.touched) {
-                  <div class="error-message">El nombre es requerido</div>
-                }
-              </div>
-              
-              <div class="form-group" style="width: 48%;">
-                <label class="required-field">Apellido</label>
-                <input 
-                  type="text" 
-                  placeholder="Ingrese su apellido" 
-                  formControlName="lastName">
-                @if (billingForm.get('lastName')?.invalid && billingForm.get('lastName')?.touched) {
-                  <div class="error-message">El apellido es requerido</div>
-                }
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="required-field">Número de documento</label>
-              <input 
-                type="text" 
-                placeholder="Ingrese su documento" 
-                formControlName="documentNumber">
-              @if (billingForm.get('documentNumber')?.invalid && billingForm.get('documentNumber')?.touched) {
-                <div class="error-message">El número de documento es requerido</div>
-              }
-            </div>
-            <div class="form-group">
-              <label class="required-field">Correo electrónico</label>
-              <input 
-                type="email" 
-                placeholder="Ingrese su correo electrónico" 
-                formControlName="email">
-              @if (billingForm.get('email')?.invalid && billingForm.get('email')?.touched) {
-                <div class="error-message">Se debe ingresar un correo electrónico válido</div>
-              }
-            </div>
-            
-            <div class="form-group">
-              <label class="required-field">Número de contacto</label>
-              <input 
-                type="text" 
-                placeholder="Ingrese su número de contacto" 
-                formControlName="contactNumber">
-              @if (billingForm.get('contactNumber')?.invalid && billingForm.get('contactNumber')?.touched) {
-                <div class="error-message">El número de contacto es requerido</div>
-              }
-            </div>
-          </form>
-        </div>
-        
-        <div class="step-buttons">
-          <button class="back-btn" (click)="previousStep()">Volver</button>
-          <button class="next-btn" (click)="nextStep()">Confirmar pago</button>
-        </div>
+      
+      <div class="step-buttons">
+        <button class="back-btn" (click)="previousStep()">Volver</button>
+        <button class="next-btn" (click)="nextStep()">Confirmar pago</button>
       </div>
-    }
-  </div>
+    </div>
+  }
+</div>

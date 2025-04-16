@@ -6,4 +6,6 @@ export interface PaymentInformation {
     currency: string;
     amount: number;
     deviceId: string;
+    idempotency : string;
+    description : string;
 }
