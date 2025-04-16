@@ -95,7 +95,13 @@ ngOnInit(): void {
   
 
   async generateCard(card: MpCard): Promise<Card> {
-    card.cardNumber = card.cardNumber.replace(/\s+/g, '');
+    card.cardNumber = card.cardNumber.replace(/\D/g, '');
+    console.log('Sending to MP:', JSON.stringify({
+      cardNumber: card.cardNumber,
+      cardExpirationMonth: card.cardExpirationMonth,
+      cardExpirationYear: card.cardExpirationYear,
+      // Don't log security code for security reasons
+    }));
     return this.mpService.generateCardToken(card)
       .then(async (mpResponse: any) => {
  
