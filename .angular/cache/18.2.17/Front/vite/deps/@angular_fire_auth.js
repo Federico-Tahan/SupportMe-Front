@@ -34,7 +34,7 @@ import {
   ɵgetAllInstancesOf,
   ɵgetDefaultInstanceOf,
   ɵzoneWrap
-} from "./chunk-IDJ53A3K.js";
+} from "./chunk-SDWITSTM.js";
 import {
   InjectionToken,
   Injector,
@@ -45,7 +45,7 @@ import {
   setClassMetadata,
   ɵɵdefineInjector,
   ɵɵdefineNgModule
-} from "./chunk-ZVHOBWRX.js";
+} from "./chunk-OZQIVXW4.js";
 import {
   Observable,
   __async,
@@ -57,9 +57,9 @@ import {
   of,
   switchMap,
   timer
-} from "./chunk-44C3JSC5.js";
+} from "./chunk-GFEWMZOR.js";
 
-// ../../../../node_modules/@firebase/auth/dist/esm2017/index-68602d24.js
+// node_modules/@firebase/auth/dist/esm2017/index-68602d24.js
 var FactorId = {
   /** Phone as second factor */
   PHONE: "phone",
@@ -8302,7 +8302,7 @@ registerAuth(
   /* ClientPlatform.BROWSER */
 );
 
-// ../../../../node_modules/rxfire/auth/index.esm.js
+// node_modules/rxfire/auth/index.esm.js
 function authState(auth) {
   return new Observable(function(subscriber) {
     var unsubscribe = onAuthStateChanged(auth, subscriber.next.bind(subscriber), subscriber.error.bind(subscriber), subscriber.complete.bind(subscriber));
@@ -8325,7 +8325,7 @@ function idToken(auth) {
   }));
 }
 
-// ../../../../node_modules/@angular/fire/fesm2022/angular-fire-auth.mjs
+// node_modules/@angular/fire/fesm2022/angular-fire-auth.mjs
 var AUTH_PROVIDER_NAME = "auth";
 var Auth = class {
   constructor(auth) {

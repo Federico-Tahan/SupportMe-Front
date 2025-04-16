@@ -1,0 +1,29 @@
+<!-- donation-confirmation.component.html -->
+<div class="donation-container">
+    <div class="logo-container">
+      <img [src]="logoUrl" alt="Donation High Five Logo" class="logo-image">
+    </div>
+    
+    <h1 class="title">Gracias por su donación</h1>
+    
+    @if (emailSent) {
+      <p class="receipt-message">Se ha enviado el recibo a su email</p>
+    }
+    
+    <div class="divider"></div>
+    
+    <div class="donation-details">
+      <div class="donation-row">
+        <div class="donation-label">
+            <img src="https://supportme2.s3.sa-east-1.amazonaws.com/manos+donar.png" style="width: 45px; height: auto;" alt="Donation icon">
+            <span>Tu donación</span>
+        </div>
+        <div class="donation-amount">${{amount}}</div>
+      </div>
+      <div class="donation-purpose">{{donationPurpose}}</div>
+    </div>
+    
+    <div class="action-buttons">
+      <a routerLink="/homepage" class="homepage-button">Página principal</a>
+    </div>
+  </div>
