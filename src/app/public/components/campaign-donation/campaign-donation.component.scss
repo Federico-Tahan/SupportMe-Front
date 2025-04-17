@@ -22,7 +22,7 @@
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  width: 40%;
+  width: 35%;
   max-width: 800px;
   max-height: 90vh;
   display: flex;
@@ -92,6 +92,21 @@
     }
   }
 }
+@media (max-width: 768px) {
+  
+  .custom-modal {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    animation: modalFadeIn 0.3s ease;
+  }
+}
+
 
 @keyframes modalFadeIn {
   from {
