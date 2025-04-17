@@ -120,22 +120,6 @@ $light-border: #e9ecef;
       color: #111;
     }
     
-    // Colores específicos
-    &.total .card-icon i {
-      color: #2196F3; // Azul para total
-    }
-    
-    &.success .card-icon i {
-      color: #4CAF50; // Verde para exitosos
-    }
-    
-    &.error .card-icon i {
-      color: #F44336; // Rojo para errores
-    }
-    
-    &.refund .card-icon i {
-      color: #FF9800; // Naranja para reembolsos
-    }
   }
 }
 
