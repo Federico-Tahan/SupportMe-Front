@@ -4,5 +4,5 @@ export class BaseFilter {
     sorting : SortingFilter[];
     limit : number;
     skip : number;
-    textFilter : string;
+    textFilter? : string;
 }

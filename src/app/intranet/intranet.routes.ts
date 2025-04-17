@@ -6,7 +6,7 @@ import { PaymentsComponent } from './components/payments/payments.component';
 import { MercadopagocallbackComponent } from './components/mercadopagocallback/mercadopagocallback.component';
 
 export const INTRANET_ROUTES: Routes = [
-    {path : 'home', component: HomeComponent},
+    {path : 'home', component: DashboardComponent},
     {path : 'settings', component: SettingsComponent},
     {path : 'dashboard', component: DashboardComponent},
     {
@@ -15,6 +15,10 @@ export const INTRANET_ROUTES: Routes = [
     },
     {
       path: 'campaign/new', loadComponent: () =>
+        import('./components/campaign-form/campaign-form.component').then(m => m.CampaignFormComponent)
+    },
+    {
+      path: 'campaign/edit', loadComponent: () =>
         import('./components/campaign-form/campaign-form.component').then(m => m.CampaignFormComponent)
     },
     {path : 'payments', component: PaymentsComponent},

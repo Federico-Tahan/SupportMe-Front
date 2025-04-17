@@ -61,7 +61,7 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
       {
         name: 'Editar',
         iconClass: 'fa fa-pencil',
-        url: '#details',
+        url: '/campaign/edit?id=' + this.campaign.id,
         color: '#ffffff',
         tooltip: 'Editar',
         isExternal: false

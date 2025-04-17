@@ -1,4 +1,8 @@
 export class SortingFilter {
-    sortBy : string;
+    sortBy : SORTBY;
     field : string;
+}
+export enum SORTBY { 
+  ASC = 'ASC', 
+  DESC = 'DESC' 
 }

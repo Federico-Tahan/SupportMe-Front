@@ -10,6 +10,7 @@ export interface Campaign {
     location : string;
     tags : string[];
     raised: number;
+    categoryId : number;
     assets : string[];
     donationsCount : number;
 }

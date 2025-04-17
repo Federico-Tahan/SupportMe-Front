@@ -1,33 +1,33 @@
 <!-- campaign-donation.component.html -->
 <div class="donation-card">
-    <h1 class="donation-title">{{ title }}</h1>
-    
-    <div class="card-body">
-      <div class="card-tags-container">
-        <!-- Botón izquierdo para scroll -->
-        <button class="tag-scroll-btn scroll-left" 
-                (click)="scrollTags('left')" 
-                [class.hidden]="!canScrollLeft">
-          &lt;
-        </button>
-        
-        <div class="card-tags" #tagsContainer>
-          @if(category){
-            <span class="category-tag">{{ category }}</span>
-          }
-          @for (item of tags; track $index) {
-            <span class="category-tag">{{ item }}</span>
-          }
-        </div>
-        
-        <!-- Botón derecho para scroll -->
-        <button class="tag-scroll-btn scroll-right" 
-                (click)="scrollTags('right')" 
-                [class.hidden]="!canScrollRight">
-          &gt;
-        </button>
+  <h1 class="donation-title">{{ title }}</h1>
+  
+  <div class="card-body">
+    <div class="card-tags-container">
+      <!-- Botón izquierdo para scroll -->
+      <button class="tag-scroll-btn scroll-left" 
+              (click)="scrollTags('left')" 
+              [class.hidden]="!canScrollLeft">
+        &lt;
+      </button>
+      
+      <div class="card-tags" #tagsContainer (scroll)="checkScrollButtons()">
+        @if(category){
+          <span class="category-tag">{{ category }}</span>
+        }
+        @for (item of tags; track $index) {
+          <span class="category-tag">{{ item }}</span>
+        }
       </div>
-    
+      
+      <!-- Botón derecho para scroll -->
+      <button class="tag-scroll-btn scroll-right" 
+              (click)="scrollTags('right')" 
+              [class.hidden]="!canScrollRight">
+        &gt;
+      </button>
+    </div>
+  
     <div class="donation-amount">
       <span class="amount-raised">${{ amountRaised | number }}</span>
       <span class="goal-text">/ recaudado de ${{ goalAmount | number }} meta</span>
@@ -60,9 +60,90 @@
     </div>
     
     <div class="donation-links">
-      <button class="btn-see-all">Ver todas</button>
-      <button class="btn-top-donations">
+      <button class="btn-see-all" (click)="openAllDonationsModal()">Ver todas</button>
+      <button class="btn-top-donations" (click)="openTopDonationsModal()">
         <span class="star-icon">★</span> Ver top donaciones
       </button>
     </div>
   </div>
+</div>
+
+<!-- Modal personalizado para todas las donaciones -->
+<div *ngIf="showAllDonationsModal" class="custom-modal-overlay">
+  <div class="custom-modal">
+    <div class="custom-modal-header">
+      <h4 class="custom-modal-title">Todas las donaciones</h4>
+      <button type="button" class="custom-modal-close" aria-label="Close" (click)="closeModal()">×</button>
+    </div>
+    <div class="custom-modal-body">
+      <div class="donations-list">
+        <div *ngIf="allDonations.length === 0 && !loadingModalData" class="no-donations">
+          No hay donaciones para mostrar.
+        </div>
+        
+        <div *ngFor="let donation of allDonations" class="donation-item">
+          <div class="donor-icon">
+            <img src="https://supportme2.s3.sa-east-1.amazonaws.com/manos+donar.png" alt="Donation icon">
+          </div>
+          <div class="donor-info">
+            <div class="donor-name">{{ donation.name }}</div>
+            <div class="donor-amount">${{ donation.amount | number }}</div>
+            <div class="donation-date">{{ donation.formattedDate }}</div>
+          </div>
+        </div>
+        
+        <div *ngIf="loadingModalData" class="loading-indicator">
+          <div class="spinner"></div>
+          <span>Cargando más donaciones...</span>
+        </div>
+        
+        <div *ngIf="!modalHasMoreItems && allDonations.length > 0" class="end-message">
+          No hay más donaciones para mostrar.
+        </div>
+      </div>
+    </div>
+    <div class="custom-modal-footer">
+      <button type="button" class="btn-outline-secondary" (click)="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal personalizado para top donaciones -->
+<div *ngIf="showTopDonationsModal" class="custom-modal-overlay">
+  <div class="custom-modal">
+    <div class="custom-modal-header">
+      <h4 class="custom-modal-title">Top Donaciones</h4>
+      <button type="button" class="custom-modal-close" aria-label="Close" (click)="closeModal()">×</button>
+    </div>
+    <div class="custom-modal-body">
+      <div class="top-donations-list">
+        <div *ngIf="topDonations.length === 0 && !loadingModalData" class="no-donations">
+          No hay donaciones para mostrar.
+        </div>
+        
+        <div *ngFor="let donation of topDonations" class="donation-item" [ngClass]="{'top-1': donation.rank === 1, 'top-2': donation.rank === 2, 'top-3': donation.rank === 3}">
+          <div class="donor-icon">
+            <img src="https://supportme2.s3.sa-east-1.amazonaws.com/manos+donar.png" alt="Donation icon">
+          </div>
+          <div class="donor-info">
+            <div class="donor-name">{{ donation.name }}</div>
+            <div class="donor-amount">${{ donation.amount | number }}</div>
+            <div class="donation-date">{{ donation.formattedDate }}</div>
+          </div>
+        </div>
+        
+        <div *ngIf="loadingModalData" class="loading-indicator">
+          <div class="spinner"></div>
+          <span>Cargando más donaciones...</span>
+        </div>
+        
+        <div *ngIf="!modalHasMoreItems && topDonations.length > 0" class="end-message">
+          No hay más donaciones para mostrar.
+        </div>
+      </div>
+    </div>
+    <div class="custom-modal-footer">
+      <button type="button" class="btn-outline-secondary" (click)="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>

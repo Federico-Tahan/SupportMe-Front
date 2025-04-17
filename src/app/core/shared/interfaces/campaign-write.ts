@@ -9,4 +9,6 @@ export interface CampaignWrite {
     goalDate : Date;
     assets : Assets[];
     tags : Tags[];
+    id: number;
+    categoryId: number;
 }

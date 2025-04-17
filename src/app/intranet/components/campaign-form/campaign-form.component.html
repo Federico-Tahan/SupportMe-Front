@@ -1,7 +1,7 @@
-<!-- campaign-form.component.html Modificado -->
+<!-- campaign-form.component.html -->
 <div class="header-left">
   <a routerLink="/campaign" class="back-button"><i class="fas fa-chevron-left"></i></a>
-  <h4>Nueva campaña</h4>
+  <h4>{{ pageTitle() }}</h4>
 </div>
 
 <div class="campaign-form-container">
@@ -88,7 +88,7 @@
               </div>
             </div>
           </div>
-          @if (goalAmountDateError) {
+          @if (goalAmountDateError()) {
             <div class="error-message">
               Debes ingresar al menos un monto objetivo o una fecha de finalización
             </div>
@@ -100,7 +100,7 @@
               <i class="input-icon fas fa-tags"></i>
               <select id="categoryId" formControlName="categoryId">
                 <option value="" disabled selected>Seleccionar categoría</option>
-                @for (item of categories; track $index) {
+                @for (item of categories(); track $index) {
                   <option [value]="item.id">{{ item.name }}</option>
                 }
                 
@@ -133,7 +133,7 @@
             </div>
             
             <div class="tags-container">
-              @for (tag of tags; track $index) {
+              @for (tag of tags(); track $index) {
                 <div class="tag-item">
                   <span>{{ tag }}</span>
                   <button type="button" class="tag-remove-btn" (click)="removeTag($index)">
@@ -160,10 +160,9 @@
                 (change)="onMainImageSelected($event)"
                 accept="image/*"
                 style="display: none"
-                formControlName="mainImage"
               >
               
-              @if (!mainImageBase64) {
+              @if (!mainImageBase64()) {
                 <div class="upload-placeholder">
                   <i class="fas fa-cloud-upload-alt"></i>
                   <p>Haz clic para subir imagen de portada</p>
@@ -171,7 +170,7 @@
                 </div>
               } @else {
                 <div class="image-preview">
-                  <img [src]="mainImageBase64" alt="Vista previa de imagen principal">
+                  <img [src]="mainImageBase64()" alt="Vista previa de imagen principal">
                   <div class="image-overlay">
                     <button type="button" class="change-image-btn" (click)="triggerFileInput(mainImageInput); $event.stopPropagation()">
                       <i class="fas fa-sync-alt"></i> Cambiar
@@ -212,9 +211,9 @@
             </div>
           </div>
           
-          @if (galleryItems.length > 0) {
+          @if (galleryItems().length > 0) {
             <div class="gallery-grid">
-              @for (item of galleryItems; track $index) {
+              @for (item of galleryItems(); track $index) {
                 <div class="gallery-item">
                   @if (item.type === 'image') {
                     <img [src]="item.src" alt="Vista previa de galería">
@@ -240,18 +239,19 @@
     </div>
       
     <div class="form-actions">
-      <button type="button" class="btn btn-primary" (click)="onSubmit()">Guardar campaña</button>
+      <a routerLink="/campaigns" class="btn btn-secondary">Cancelar</a>
+      <button type="button" class="btn btn-primary" (click)="onSubmit()">{{ submitButtonText() }}</button>
     </div>
   </form>
 </div>
 
-@if (showModal) {
+@if (showModal()) {
   <div class="modal-overlay" (click)="closeModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
-      @if (expandedItem?.type === 'image') {
-        <img [src]="expandedItem.src" alt="Vista ampliada">
-      } @else if (expandedItem?.type === 'video') {
-        <video [src]="expandedItem.src" controls autoplay preload="auto"></video>
+      @if (expandedItem()?.type === 'image') {
+        <img [src]="expandedItem()?.src" alt="Vista ampliada">
+      } @else if (expandedItem()?.type === 'video') {
+        <video [src]="expandedItem()?.src" controls autoplay preload="auto"></video>
       }
       <button type="button" class="modal-close-btn" (click)="closeModal()">
         <i class="fas fa-times"></i>
