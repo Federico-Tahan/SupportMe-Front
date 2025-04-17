@@ -162,6 +162,7 @@ export class ProjectsComponent implements OnInit{
       skip: this.campaigns.length
     };
     
+    
     this.campaignService.getCampaigns(this.filter)
       .pipe(takeUntil(this.destroy$))
       .subscribe({

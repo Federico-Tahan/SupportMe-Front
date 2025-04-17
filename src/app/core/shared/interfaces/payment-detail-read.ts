@@ -7,4 +7,5 @@ export interface PaymentDetailRead {
     brand: string;
     campaign : SimpleCampaign;
     paymentDate: Date;
+    customerName : string;
 }

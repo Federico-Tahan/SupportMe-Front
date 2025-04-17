@@ -1,0 +1,102 @@
+<!-- date-picker.component.html -->
+<div class="date-picker-container">
+    <!-- Botón para mostrar/ocultar el calendario -->
+    <button class="date-picker-button" (click)="toggleCalendar()">
+      <i class="fa fa-calendar"></i>
+      {{ displayDateRange }}
+    </button>
+    
+    <!-- Calendario desplegable -->
+    @if (isOpen) {
+      <div class="calendar-dropdown">
+        <!-- Opciones rápidas de selección -->
+        <div class="calendar-sidebar">
+          <div class="quick-option" [class.active]="activeOption === 'today'" (click)="selectQuickOption('today')">Hoy</div>
+          <div class="quick-option" [class.active]="activeOption === 'yesterday'" (click)="selectQuickOption('yesterday')">Ayer</div>
+          <div class="quick-option" [class.active]="activeOption === 'thisWeek'" (click)="selectQuickOption('thisWeek')">Esta semana</div>
+          <div class="quick-option" [class.active]="activeOption === 'lastWeek'" (click)="selectQuickOption('lastWeek')">Última semana</div>
+          <div class="quick-option" [class.active]="activeOption === 'thisMonth'" (click)="selectQuickOption('thisMonth')">Este mes</div>
+          <div class="quick-option" [class.active]="activeOption === 'lastMonth'" (click)="selectQuickOption('lastMonth')">Último mes</div>
+          <div class="quick-option" [class.active]="activeOption === 'thisYear'" (click)="selectQuickOption('thisYear')">Este año</div>
+          <div class="quick-option" [class.active]="activeOption === 'lastYear'" (click)="selectQuickOption('lastYear')">Último año</div>
+        </div>
+        
+        <div class="calendar-main">
+          <!-- Navegación de meses -->
+          <div class="calendar-nav">
+            <button class="nav-btn" (click)="prevMonth()">
+              <i class="fa fa-chevron-left"></i>
+            </button>
+            
+            <div class="month-labels">
+              <div class="month-label">{{ currentMonthLabel }}</div>
+              <div class="month-label">{{ nextMonthLabel }}</div>
+            </div>
+            
+            <button class="nav-btn" (click)="nextMonth()">
+              <i class="fa fa-chevron-right"></i>
+            </button>
+          </div>
+          
+          <!-- Contenedor de calendarios -->
+          <div class="calendars-wrapper">
+            <!-- Primer calendario (mes actual) -->
+            <div class="calendar">
+              <div class="weekdays">
+                @for (day of weekDays; track day) {
+                  <div class="weekday">{{ day }}</div>
+                }
+              </div>
+              
+              <div class="days">
+                @for (day of currentMonthDays; track day.date) {
+                  <div 
+                    class="day" 
+                    [class.different-month]="day.differentMonth"
+                    [class.selected]="!day.differentMonth && isDaySelected(day.date)"
+                    [class.range-start]="!day.differentMonth && isRangeStart(day.date)"
+                    [class.range-end]="!day.differentMonth && isRangeEnd(day.date)"
+                    [class.in-range]="!day.differentMonth && isInRange(day.date)"
+                    [class.today]="isToday(day.date)"
+                    (click)="!day.differentMonth && selectDate(day.date)">
+                    {{ day.day }}
+                  </div>
+                }
+              </div>
+            </div>
+            
+            <!-- Segundo calendario (mes siguiente) -->
+            <div class="calendar">
+              <div class="weekdays">
+                @for (day of weekDays; track day) {
+                  <div class="weekday">{{ day }}</div>
+                }
+              </div>
+              
+              <div class="days">
+                @for (day of nextMonthDays; track day.date) {
+                  <div 
+                    class="day" 
+                    [class.different-month]="day.differentMonth"
+                    [class.selected]="!day.differentMonth && isDaySelected(day.date)"
+                    [class.range-start]="!day.differentMonth && isRangeStart(day.date)"
+                    [class.range-end]="!day.differentMonth && isRangeEnd(day.date)"
+                    [class.in-range]="!day.differentMonth && isInRange(day.date)"
+                    [class.today]="isToday(day.date)"
+                    (click)="!day.differentMonth && selectDate(day.date)">
+                    {{ day.day }}
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+          
+          <!-- Botones de acción -->
+          <div class="calendar-actions">
+            <button class="cancel-btn" (click)="cancel()">Cancelar</button>
+            <button class="apply-btn" (click)="apply()">Aplicar</button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>

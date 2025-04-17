@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environment/environment';
 import { PaymentInformation } from '../interfaces/payment-information';
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Pagination } from '../interfaces/pagination';
 import { PaymentDetailRead } from '../interfaces/payment-detail-read';
 import { Livefeedpayment } from '../interfaces/livefeedpayment';
+import { PaymentFilter } from '../interfaces/payment-filter';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,10 +17,48 @@ export class PaymentService {
     return this.http.post(environment.backApi + 'payment/' + campaignId + '/campaign', paymentInformation);
    }
 
-   payments() : Observable<Livefeedpayment>{
-    return this.http.get<Livefeedpayment>(environment.backApi + 'payment/');
-   }
+   getPayments(filter: PaymentFilter): Observable<Livefeedpayment> {
+    let params = new HttpParams()
+      .set('limit', filter.Limit.toString())
+      .set('skip', filter.skip.toString());
 
+    // Añadir fechas
+    if (filter.from) {
+      params = params.set('from', filter.from.toISOString());
+    }
+    
+    if (filter.to) {
+      params = params.set('to', filter.to.toISOString());
+    }
+    
+    // Filtro de texto
+    if (filter.textFilter && filter.textFilter.trim() !== '') {
+      params = params.set('search', filter.textFilter);
+    }
+    
+    // Filtros de marca de tarjeta
+    if (filter.brand && filter.brand.length > 0) {
+      filter.brand.forEach(brand => {
+        params = params.append('brand', brand);
+      });
+    }
+    
+    // Filtros de campaña
+    if (filter.campaignId && filter.campaignId.length > 0) {
+      filter.campaignId.forEach(campaignId => {
+        params = params.append('campaignId', campaignId.toString());
+      });
+    }
+    
+    // Filtros de estado
+    if (filter.status && filter.status.length > 0) {
+      filter.status.forEach(status => {
+        params = params.append('status', status);
+      });
+    }
+    
+    return this.http.get<Livefeedpayment>(environment.backApi + 'payment', { params });
+  }
   getPublicKey(campaignId : number) : Observable<any>{
   return this.http.get(environment.backApi + 'mercadopago/public-key/' + campaignId + '/campaign');
   }

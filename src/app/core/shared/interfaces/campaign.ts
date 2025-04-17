@@ -11,4 +11,5 @@ export interface Campaign {
     tags : string[];
     raised: number;
     assets : string[];
+    donationsCount : number;
 }

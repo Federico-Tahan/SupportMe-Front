@@ -25,23 +25,19 @@ export class CampaignDonationComponent {
   @Input() campaignId : number = null;
   @Input() amountRaised : number = null;
   @Input() goalAmount : number = null;
-  progressPercentage = (this.amountRaised / this.goalAmount) * 100;
-  @Input() donationCount = 0;
+  get percentageRaised(): number {
+    if (!this.goalAmount || this.goalAmount === 0) return 0;
+    return (this.amountRaised / this.goalAmount) * 100;
+  }
+ @Input() donationCount = 0;
   canScrollLeft = false;
   canScrollRight = false;
   @Input() recentDonations: RecentDonation[] = [
-    //{ name: 'William Davis', amount: 20, timeAgo: '4d' },
-    //{ name: 'Paula Martinez', amount: 10, timeAgo: '4d' },
-    //{ name: 'John Smith', amount: 50, timeAgo: '4d' },
-    //{ name: 'Elizabeth Watson', amount: 100, timeAgo: '4d' }
   ];
   
-  donate(): void {
-    alert('Redirigiendo a la página de pago...');
-  }
   
   share(): void {
-    alert('Compartiendo campaña...');
+    console.log(this.percentageRaised);
   }
 
   checkScrollButtons() {

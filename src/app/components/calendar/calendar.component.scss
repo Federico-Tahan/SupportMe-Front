@@ -1,0 +1,279 @@
+// date-picker.component.scss
+$primary-color: #6c5ce7;
+$primary-light: rgba($primary-color, 0.1);
+$selected-color: $primary-color;
+$in-range-color: lighten($primary-color, 35%);
+$text-color: #333;
+$border-color: #dee2e6;
+$hover-color: #f8f9fa;
+
+.date-picker-container {
+  position: relative;
+  display: inline-block;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  
+  // Botón principal
+  .date-picker-button {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    
+    i {
+      margin-right: 8px;
+      color: #555;
+    }
+    
+    &:hover {
+      border-color: darken($border-color, 10%);
+    }
+  }
+  
+  // Dropdown del calendario
+  .calendar-dropdown {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    display: flex;
+    background-color: #fff;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    width: 650px;
+    
+    // Barra lateral con opciones rápidas
+    .calendar-sidebar {
+      width: 116px;  // Ajustado para coincidir con la imagen
+      padding: 0;
+      border-right: 1px solid $border-color;
+      background-color: #f9f9f9;
+      border-radius: 8px 0 0 8px;
+      
+      .quick-option {
+        padding: 12px 15px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 14px;
+        color: #333;
+        
+        &:hover {
+          background-color: rgba($primary-color, 0.05);
+        }
+        
+        &.active {
+          background-color: $primary-light;
+          color: $primary-color;
+          font-weight: 500;
+        }
+      }
+    }
+    
+    // Contenedor principal del calendario
+    .calendar-main {
+      flex: 1;
+      padding: 15px;
+      
+      // Navegación de meses
+      .calendar-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        
+        .month-labels {
+          display: flex;
+          flex: 1;
+          justify-content: space-around;
+          
+          .month-label {
+            font-weight: 500;
+            font-size: 15px;
+            color: #333;
+          }
+        }
+        
+        .nav-btn {
+          border: none;
+          background: none;
+          cursor: pointer;
+          padding: 5px 10px;
+          border-radius: 4px;
+          
+          i {
+            color: #666;
+          }
+          
+          &:hover {
+            background-color: $hover-color;
+          }
+        }
+      }
+      
+      // Contenedor de calendarios
+      .calendars-wrapper {
+        display: flex;
+        gap: 20px;
+        
+        .calendar {
+          flex: 1;
+          
+          // Días de la semana
+          .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            margin-bottom: 8px;
+            
+            .weekday {
+              font-size: 12px;
+              font-weight: 500;
+              color: #666;
+              padding: 5px 0;
+              text-transform: uppercase;
+            }
+          }
+          
+          // Días del mes
+          .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            
+            .day {
+              position: relative;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              aspect-ratio: 1/1;  // Mantiene proporción cuadrada
+              font-size: 14px;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              
+              &:before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                z-index: -1;
+              }
+              
+              // Efecto hover para días seleccionables
+              &:not(.different-month):hover:before {
+                background-color: $hover-color;
+              }
+              
+              &.different-month {
+                color: #ccc;
+                cursor: default;
+              }
+              
+              &.selected:before, &.range-start:before, &.range-end:before {
+                background-color: $selected-color;
+              }
+              
+              &.selected, &.range-start, &.range-end {
+                color: white;
+                font-weight: 500;
+                z-index: 2;
+              }
+              
+              &.in-range:before {
+                background-color: $in-range-color;
+                border-radius: 0;
+              }
+              
+              &.range-start:before {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+                border-top-left-radius: 50%;
+                border-bottom-left-radius: 50%;
+              }
+              
+              &.range-end:before {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                border-top-right-radius: 50%;
+                border-bottom-right-radius: 50%;
+              }
+            }
+          }
+        }
+      }
+      
+      // Botones de acción
+      .calendar-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid $border-color;
+        gap: 10px;
+        
+        button {
+          padding: 8px 16px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 14px;
+          
+          &.cancel-btn {
+            background-color: transparent;
+            border: 1px solid $border-color;
+            color: #333;
+            
+            &:hover {
+              background-color: $hover-color;
+            }
+          }
+          
+          &.apply-btn {
+            background-color: $primary-color;
+            color: white;
+            border: none;
+            
+            &:hover {
+              background-color: darken($primary-color, 5%);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Estilos responsivos
+@media (max-width: 700px) {
+  .date-picker-container {
+    .calendar-dropdown {
+      width: 90vw;
+      flex-direction: column;
+      
+      .calendar-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid $border-color;
+        display: flex;
+        flex-wrap: wrap;
+        
+        .quick-option {
+          flex: 1;
+          min-width: 120px;
+          text-align: center;
+        }
+      }
+      
+      .calendar-main {
+        .calendars-wrapper {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}

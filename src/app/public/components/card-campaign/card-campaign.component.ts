@@ -86,20 +86,26 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
     this.canScrollRight = maxScroll - element.scrollLeft > 5;
   }
 
-  // Desplazar los tags
-  scrollTags(direction: 'left' | 'right') {
-    if (!this.tagsContainer) return;
+  scrollTags(direction: 'left' | 'right', event: MouseEvent): void {
+    event.stopPropagation();
     
-    const element = this.tagsContainer.nativeElement;
+    const container = this.tagsContainer.nativeElement;
     const scrollAmount = 100;
     
     if (direction === 'left') {
-      element.scrollLeft -= scrollAmount;
+      container.scrollLeft -= scrollAmount;
     } else {
-      element.scrollLeft += scrollAmount;
+      container.scrollLeft += scrollAmount;
     }
     
-    setTimeout(() => this.checkScrollButtons(), 300);
+    this.checkScrollability();
+  }
+  
+  // Make sure you have this method as well
+  checkScrollability(): void {
+    const container = this.tagsContainer.nativeElement;
+    this.canScrollLeft = container.scrollLeft > 0;
+    this.canScrollRight = container.scrollLeft < (container.scrollWidth - container.clientWidth);
   }
 
   handleIconClick(icon: SocialIcon, event: MouseEvent): void {
