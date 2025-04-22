@@ -31,7 +31,8 @@ export class CampaingComponent implements OnInit, AfterViewInit, OnDestroy {
     skip: 0,
     textFilter: null,
     sorting: [],
-    categoryId: null
+    categoryId: null,
+    onlyActive: false,
   };
   
   isLoading: boolean = false;
