@@ -4,11 +4,12 @@ import { catchError, debounceTime, first, map, Observable, of, switchMap } from 
 import { AuthService } from '../../../core/shared/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { LoadingSnipperComponent } from "../../../components/loading-snipper/loading-snipper.component";
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, LoadingSnipperComponent],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
@@ -17,6 +18,7 @@ export class SignupComponent {
   authService = inject(AuthService);
   showPassword = false;
   showConfirmPassword = false;
+  isLoading = false;
   router = inject(Router);
   ngOnInit() {
     this.form = new FormGroup({
@@ -109,6 +111,7 @@ export class SignupComponent {
     }
     
     if (this.form.valid) {
+      this.isLoading = true;  // Mostrar loading
       const userData = {
         firstName: this.form.value.firstName,
         lastName: this.form.value.lastName,
@@ -117,16 +120,21 @@ export class SignupComponent {
         password: this.form.value.password
       };
       
-      
       this.authService.registerAccount(userData)
       .subscribe({
-        next : (data) => {
-          if(data){
-               this.router.navigate(['/login']);
+        next: (data) => {
+          if(data) {
+            this.router.navigate(['/login']);
           }
+        },
+        error: (error) => {
+          console.error('Error en registro:', error);
+          this.isLoading = false;
+        },
+        complete: () => {
+          this.isLoading = false;
         }
-      })
-    } else {
+      });
     }
   }
 }

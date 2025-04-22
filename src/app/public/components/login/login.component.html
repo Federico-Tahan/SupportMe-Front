@@ -16,7 +16,10 @@
           <input type="email" placeholder="Cual es tu e-mail?" formControlName="user">
         </div>
         @if(form.get('user')?.errors?.['required'] && form.get('user')?.touched){
-          <span class="text-danger">El usuario es requerido</span>
+          <span class="text-danger">El e-mail es requerido</span>
+        }
+        @if(form.get('user')?.errors?.['email'] && form.get('user')?.touched){
+          <span class="text-danger">Debe ingresar un e-mail valido</span>
         }
         
         <div class="input-group">
@@ -30,6 +33,9 @@
         </div>
         @if(form.get('password')?.errors?.['required'] && form.get('password')?.touched){
           <span class="text-danger">La contraseña es requerida</span>
+        }
+        @if(loginError){
+          <span class="text-danger">{{ errorMessage }}</span>
         }
         
         <div class="form-options">
@@ -48,3 +54,5 @@
     </div>
   </div>
 </div>
+
+<app-loading-snipper [isLoading]="isLoading"></app-loading-snipper>
