@@ -11,11 +11,12 @@ import { Card } from '../../../core/shared/interfaces/card';
 import { MpCard } from '../../../core/shared/interfaces/mp-card';
 import { PaymentInformation } from '../../../core/shared/interfaces/payment-information';
 import { environment } from '../../../../environment/environment';
+import { LoadingSnipperComponent } from '../../../components/loading-snipper/loading-snipper.component';
 
 @Component({
   selector: 'app-payment-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, LoadingSnipperComponent],
   templateUrl: './payment-form.component.html',
   styleUrl: './payment-form.component.scss'
 })
@@ -37,6 +38,8 @@ export class PaymentFormComponent implements OnInit {
   paymentService = inject(PaymentService);
   cardNumberFormatted: string = '';
   cardBrand: string = 'visa';
+  isLoading: boolean = false;
+  paymentError: string = '';
   
   expiryMonth: string = '';
   expiryYear: string = '';
@@ -90,25 +93,24 @@ export class PaymentFormComponent implements OnInit {
     });
   }
   
-     getDeviceId(): string {
-      return (window as any).MP_DEVICE_SESSION_ID || '';
-    }
+  getDeviceId(): string {
+    return (window as any).MP_DEVICE_SESSION_ID || '';
+  }
 
   formatCardNumber(event: Event): void {
-        const inputElement = event.target as HTMLInputElement;
-        const cleanValue = inputElement.value.replace(/\D/g, '');
-        const truncated = cleanValue.substring(0, 16);
-        const parts = [];
-        for (let i = 0; i < truncated.length; i += 4) {
-          parts.push(truncated.substring(i, i + 4));
-        }
-        this.cardNumberFormatted = parts.join(' ');
-        inputElement.value = this.cardNumberFormatted;
-        this.paymentForm.get('cardNumber')?.setValue(this.cardNumberFormatted);
-        this.detectCardBrand(cleanValue);
+    const inputElement = event.target as HTMLInputElement;
+    const cleanValue = inputElement.value.replace(/\D/g, '');
+    const truncated = cleanValue.substring(0, 16);
+    const parts = [];
+    for (let i = 0; i < truncated.length; i += 4) {
+      parts.push(truncated.substring(i, i + 4));
+    }
+    this.cardNumberFormatted = parts.join(' ');
+    inputElement.value = this.cardNumberFormatted;
+    this.paymentForm.get('cardNumber')?.setValue(this.cardNumberFormatted);
+    this.detectCardBrand(cleanValue);
   }
   
-
   async generateCard(card: MpCard): Promise<Card> {
     card.cardNumber = card.cardNumber.replace(/\D/g, '');
     return this.mpService.generateCardToken(card)
@@ -135,24 +137,30 @@ export class PaymentFormComponent implements OnInit {
   }
   
   submitDonation(): void {
+    // Limpiar cualquier mensaje de error previo
+    this.paymentError = '';
+    
+    // Mostrar el spinner de carga
+    this.isLoading = true;
+    
     const paymentForm = this.paymentForm?.value;
     const billingForm = this.billingForm?.value;
     const deviceId = this.getDeviceId(); 
-    let mpCard : MpCard =
-    {
-    cardExpirationMonth : paymentForm.expiryMonth,
-    cardExpirationYear : paymentForm.expiryYear,
-    cardNumber : paymentForm.cardNumber,
-    cardholderName: environment.MERCADO_PAGO_PUBLIC_KEY?.toLowerCase().includes('test') 
-    ? 'APRO' 
-    : billingForm.firstName + ' ' + billingForm.lastName,    
-    cardholderEmail : billingForm.email,
-    securityCode : paymentForm.cvv,
-    identificationType : 'DNI',
-    identificationNumber : billingForm.documentNumber
+    let mpCard : MpCard = {
+      cardExpirationMonth : paymentForm.expiryMonth,
+      cardExpirationYear : paymentForm.expiryYear,
+      cardNumber : paymentForm.cardNumber,
+      cardholderName: environment.MERCADO_PAGO_PUBLIC_KEY?.toLowerCase().includes('test') 
+        ? 'APRO' 
+        : billingForm.firstName + ' ' + billingForm.lastName,    
+      cardholderEmail : billingForm.email,
+      securityCode : paymentForm.cvv,
+      identificationType : 'DNI',
+      identificationNumber : billingForm.documentNumber
     }
+    
     this.generateCard(mpCard).then((card: Card) => {
-      const paymetnInformation: PaymentInformation = {
+      const paymentInformation: PaymentInformation = {
         card: card,
         installments: 1,
         currency: 'ARS',
@@ -162,36 +170,36 @@ export class PaymentFormComponent implements OnInit {
         description : billingForm.description
       };
   
-      this.paymentService.payment(paymetnInformation, this.campaignId).subscribe({
+      this.paymentService.payment(paymentInformation, this.campaignId).subscribe({
         next: (data) => {
+          this.isLoading = false;
+          
           if (data.status == 'SUCCESS') {
-            alert("TA BIEN");
+            this.route.navigate(['/payment/response'], { 
+              queryParams: { chargeId: data.chargeId } 
+            });
+          } else {
+            this.paymentError = 'No se pudo procesar el pago. Por favor, inténtelo nuevamente con otra tarjeta.';
           }
         },
         error: (error) => {
+          this.isLoading = false;
           console.error('Error al procesar el pago:', error);
+          if (error.status === 400 || error.status === 402) {
+            this.paymentError = 'El pago fue rechazado. Por favor, verifique los datos de su tarjeta e inténtelo nuevamente.';
+          } else if (error.status === 401 || error.status === 403) {
+            this.paymentError = 'Error de autenticación al procesar el pago. Por favor, inténtelo más tarde.';
+          } else {
+            this.paymentError = 'No se pudo procesar el pago. Por favor, inténtelo nuevamente con otra tarjeta o más tarde.';
+          }
         }
       });
     }).catch(error => {
+      this.isLoading = false;
       console.error("Error al procesar la tarjeta:", error);
+      this.paymentError = 'Error al procesar la tarjeta. Por favor, verifique los datos e inténtelo nuevamente.';
     });
-
-
-
-    this.currentStep = 1;
-    this.donationAmount = null;
-    this.customAmount = '';
-    this.donationMessage = '';
-    this.cardNumberFormatted = '';
-    this.cardBrand = '';
-    this.expiryMonth = '';
-    this.expiryYear = '';
-    this.paymentForm.reset();
-    this.billingForm.reset();
-    
-    alert('¡Gracias por tu donación!');
   }
-
 
   generateGuid(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -201,29 +209,23 @@ export class PaymentFormComponent implements OnInit {
     });
   }
 
-
-
-
-
-
-
-detectCardBrand(cardNumber: string): void {
-  if (/^4/.test(cardNumber)) {
-    this.cardBrand = 'visa';
-  } else if (/^(5[0-5]|2[2-7])/.test(cardNumber)) {
-    this.cardBrand = 'mastercard';
-  } else if (/^3[47]/.test(cardNumber)) {
-    this.cardBrand = 'amex';
-  } else if (/^6(?:011|5)/.test(cardNumber)) {
-    this.cardBrand = 'discover';
-  } else if (/^3(?:0[0-5]|[68])/.test(cardNumber)) {
-    this.cardBrand = 'diners';
-  } else if (/^(?:2131|1800|35)/.test(cardNumber)) {
-    this.cardBrand = 'jcb';
-  } else {
-    this.cardBrand = '';
+  detectCardBrand(cardNumber: string): void {
+    if (/^4/.test(cardNumber)) {
+      this.cardBrand = 'visa';
+    } else if (/^(5[0-5]|2[2-7])/.test(cardNumber)) {
+      this.cardBrand = 'mastercard';
+    } else if (/^3[47]/.test(cardNumber)) {
+      this.cardBrand = 'amex';
+    } else if (/^6(?:011|5)/.test(cardNumber)) {
+      this.cardBrand = 'discover';
+    } else if (/^3(?:0[0-5]|[68])/.test(cardNumber)) {
+      this.cardBrand = 'diners';
+    } else if (/^(?:2131|1800|35)/.test(cardNumber)) {
+      this.cardBrand = 'jcb';
+    } else {
+      this.cardBrand = '';
+    }
   }
-}
   
   validateExpiryDate(month: string, year: string): boolean {
     if (!month || !year) return false;
@@ -313,15 +315,17 @@ detectCardBrand(cardNumber: string): void {
       }
     }
     
-    if (this.currentStep === 3 && this.billingForm.invalid) {
-      this.markFormGroupTouched(this.billingForm);
+    if (this.currentStep === 3) {
+      if (this.billingForm.invalid) {
+        this.markFormGroupTouched(this.billingForm);
+        return;
+      }
+      this.submitDonation();
       return;
     }
     
     if (this.currentStep < 3) {
       this.currentStep++;
-    } else {
-      this.submitDonation();
     }
   }
   
@@ -330,7 +334,6 @@ detectCardBrand(cardNumber: string): void {
       this.currentStep--;
     }
   }
-  
   
   setDonationAmount(amount: number): void {
     this.donationAmount = amount;
@@ -357,5 +360,4 @@ detectCardBrand(cardNumber: string): void {
       control.markAsTouched();
     });
   }
-
 }

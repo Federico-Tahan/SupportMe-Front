@@ -5,7 +5,29 @@
     color: #e53e3e;
     font-weight: bold;
   }
+  
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .error-container {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff5f5;
+    border: 1px solid #feb2b2;
+    border-radius: 5px;
+    color: #c53030;
+  }
+  
+  .error-icon {
+    margin-right: 10px;
+    font-weight: bold;
+  }
 </style>
+
+<!-- Loading spinner component -->
+<app-loading-snipper [isLoading]="isLoading"></app-loading-snipper>
 
 <div class="donation-container">
   <header>
@@ -31,7 +53,8 @@
           <button 
             class="amount-btn" 
             [class.active]="donationAmount === amount"
-            (click)="setDonationAmount(amount)">
+            (click)="setDonationAmount(amount)"
+            [disabled]="isLoading">
             ${{ amount }}
           </button>
         }
@@ -40,7 +63,8 @@
             type="text" 
             placeholder="Otro"
             [value]="customAmount"
-            (input)="setCustomAmount($event)">
+            (input)="setCustomAmount($event)"
+            [disabled]="isLoading">
         </div>
       </div>
       
@@ -49,12 +73,13 @@
         <textarea 
           placeholder="Escribe tu mensaje..."
           [value]="donationMessage"
-          (input)="setDonationMessage($event)">
+          (input)="setDonationMessage($event)"
+          [disabled]="isLoading">
         </textarea>
       </div>
       
       <div class="step-buttons">
-        <button class="next-btn" (click)="nextStep()" [disabled]="!donationAmount">Siguiente</button>
+        <button class="next-btn" (click)="nextStep()" [disabled]="!donationAmount || isLoading">Siguiente</button>
       </div>
     </div>
   }
@@ -72,7 +97,8 @@
               placeholder="XXXX XXXX XXXX XXXX" 
               [value]="cardNumberFormatted"
               (input)="formatCardNumber($event)"
-              maxlength="19">
+              maxlength="19"
+              [disabled]="isLoading">
             @if (cardBrand) {
               <div class="card-brand-logo">
                 <div class="brand-icon {{cardBrand}}"></div>
@@ -90,7 +116,8 @@
             type="text" 
             placeholder="MM/YY" 
             (input)="onExpiryInput($event)"
-            maxlength="5">
+            maxlength="5"
+            [disabled]="isLoading">
           @if ((paymentForm.get('expiryMonth')?.invalid && paymentForm.get('expiryMonth')?.touched) || 
               (paymentForm.get('expiryYear')?.invalid && paymentForm.get('expiryYear')?.touched)) {
             <div class="error-message">
@@ -110,7 +137,8 @@
               type="text" 
               placeholder="Enter CVV" 
               formControlName="cvv"
-              maxlength="3">
+              maxlength="3"
+              [disabled]="isLoading">
           </div>
           @if (paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched) {
             <div class="error-message">
@@ -125,8 +153,8 @@
       </form>
       
       <div class="step-buttons">
-        <button class="back-btn" (click)="previousStep()">Volver</button>
-        <button class="next-btn" (click)="nextStep()">Siguiente</button>
+        <button class="back-btn" (click)="previousStep()" [disabled]="isLoading">Volver</button>
+        <button class="next-btn" (click)="nextStep()" [disabled]="isLoading">Siguiente</button>
       </div>
     </div>
   }
@@ -147,7 +175,8 @@
               <input 
                 type="text" 
                 placeholder="Ingrese su nombre" 
-                formControlName="firstName">
+                formControlName="firstName"
+                [disabled]="isLoading">
               @if (billingForm.get('firstName')?.invalid && billingForm.get('firstName')?.touched) {
                 <div class="error-message">El nombre es requerido</div>
               }
@@ -158,7 +187,8 @@
               <input 
                 type="text" 
                 placeholder="Ingrese su apellido" 
-                formControlName="lastName">
+                formControlName="lastName"
+                [disabled]="isLoading">
               @if (billingForm.get('lastName')?.invalid && billingForm.get('lastName')?.touched) {
                 <div class="error-message">El apellido es requerido</div>
               }
@@ -169,7 +199,8 @@
             <input 
               type="text" 
               placeholder="Ingrese su documento" 
-              formControlName="documentNumber">
+              formControlName="documentNumber"
+              [disabled]="isLoading">
             @if (billingForm.get('documentNumber')?.invalid && billingForm.get('documentNumber')?.touched) {
               <div class="error-message">El número de documento es requerido</div>
             }
@@ -179,7 +210,8 @@
             <input 
               type="email" 
               placeholder="Ingrese su correo electrónico" 
-              formControlName="email">
+              formControlName="email"
+              [disabled]="isLoading">
             @if (billingForm.get('email')?.invalid && billingForm.get('email')?.touched) {
               <div class="error-message">Se debe ingresar un correo electrónico válido</div>
             }
@@ -188,9 +220,16 @@
       </div>
       
       <div class="step-buttons">
-        <button class="back-btn" (click)="previousStep()">Volver</button>
-        <button class="next-btn" (click)="nextStep()">Confirmar pago</button>
+        <button class="back-btn" (click)="previousStep()" [disabled]="isLoading">Volver</button>
+        <button class="next-btn" (click)="nextStep()" [disabled]="isLoading || billingForm.invalid">Confirmar pago</button>
       </div>
+      
+      <!-- Mensaje de error del pago -->
+      @if (paymentError) {
+        <div class="error-container">
+          <span class="error-icon">⚠️</span> {{ paymentError }}
+        </div>
+      }
     </div>
   }
 </div>
