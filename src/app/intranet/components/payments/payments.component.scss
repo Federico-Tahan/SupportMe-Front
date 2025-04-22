@@ -122,7 +122,15 @@ $light-border: #e9ecef;
     
   }
 }
-
+.table-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px; // Altura similar a la tabla con varios registros
+  background-color: #fff;
+  border-radius: 8px;
+  margin: 20px 0;
+}
 // Filters Section
 .filters-section {
   display: flex;

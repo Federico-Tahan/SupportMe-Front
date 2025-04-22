@@ -8,6 +8,7 @@ import { DateParserPipe } from '../../../core/shared/pipes/date-parser.pipe';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { PaymentFilter } from '../../../core/shared/interfaces/payment-filter';
+import { InlineLoadingSpinnerComponent } from "../../../components/inline-loading-spinner/inline-loading-spinner.component";
 
 interface FilterOption {
   label: string;
@@ -24,7 +25,7 @@ interface Filter {
 @Component({
   selector: 'app-payments',
   standalone: true,
-  imports: [CommonModule, FormsModule, CalendarComponent, DateParserPipe, DatePipe],
+  imports: [CommonModule, FormsModule, CalendarComponent, DateParserPipe, DatePipe, InlineLoadingSpinnerComponent],
   templateUrl: './payments.component.html',
   styleUrl: './payments.component.scss'
 })
@@ -38,7 +39,8 @@ export class PaymentsComponent implements OnInit {
   refundedPayments: number = 0;
   pendingPayments: number = 0;
   totalItems: number = 0;
-  
+  isLoading = false;
+
   // Hover state variables for cards
   totalHovered: boolean = false;
   successHovered: boolean = false;
@@ -134,7 +136,8 @@ export class PaymentsComponent implements OnInit {
     // Actualizar skip basado en paginación actual
     this.paymentFilter.skip = (this.currentPage - 1) * this.pageSize;
     this.paymentFilter.Limit = this.pageSize;
-    
+    this.isLoading = true;
+
     this.paymentService.getPayments(this.paymentFilter).subscribe({
       next: (livefeedpayment) => {
         this.payments = livefeedpayment.items.items;
@@ -143,9 +146,12 @@ export class PaymentsComponent implements OnInit {
         this.refundedPayments = livefeedpayment.totalRefunded;
         this.errorPayments = livefeedpayment.totalError;
         this.totalItems = livefeedpayment.totalRegisters;
+        this.isLoading = false;
+
       },
       error: (err) => {
         console.error('Error al cargar pagos:', err);
+        this.isLoading = false;
       }
     });
   }

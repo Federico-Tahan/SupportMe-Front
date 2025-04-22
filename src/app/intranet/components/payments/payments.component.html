@@ -145,45 +145,46 @@
     
     <button class="download-button" [disabled]="totalPayments === 0">Descargar</button>
   </div>
-
-  <table class="payments-table">
-    <thead>
-      <tr>
-        <th>Importe <i class="fa fa-sort"></i></th>
-        <th>Estado <i class="fa fa-sort"></i></th>
-        <th>Método de pago</th>
-        <th>Campaña<i class="fa fa-sort"></i></th>
-        <th>Cliente <i class="fa fa-sort"></i></th>
-        <th>Fecha de transacción <i class="fa fa-sort"></i></th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (payment of payments; track payment.campaign.id) {
+  @if (!isLoading) {
+    <table class="payments-table">
+      <thead>
         <tr>
-          <td>$ {{ formatCurrency(payment.amount) }} ARS</td>
-          <td>
-            <span class="status-badge" [ngClass]="payment.status.toLowerCase()">{{ payment.status }}</span>
-          </td>
-          <td>
-            <span class="card-brand {{ payment.brand }}"></span>
-            •••• {{ payment.last4 }}
-          </td>
-          <td style="display: flex; align-items: center; gap: 10px;">
-            <img src="{{ payment.campaign.logoUrl }}" alt="Imagen de campaña"
-                 style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-            <span>{{ payment.campaign.name }}</span>
-          </td>
-          <td>{{ payment.customerName }}</td>
-          <td>{{ payment.paymentDate | dateParser | date:'dd MMM, yyyy, h:mm a' }}</td>
+          <th>Importe <i class="fa fa-sort"></i></th>
+          <th>Estado <i class="fa fa-sort"></i></th>
+          <th>Método de pago</th>
+          <th>Campaña<i class="fa fa-sort"></i></th>
+          <th>Cliente <i class="fa fa-sort"></i></th>
+          <th>Fecha de transacción <i class="fa fa-sort"></i></th>
         </tr>
-      }
-      @if (payments.length === 0) {
-        <tr>
-          <td colspan="7" class="no-results">No se encontraron resultados</td>
-        </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (payment of payments; track payment.campaign.id) {
+          <tr>
+            <td>$ {{ formatCurrency(payment.amount) }} ARS</td>
+            <td>
+              <span class="status-badge" [ngClass]="payment.status.toLowerCase()">{{ payment.status }}</span>
+            </td>
+            <td>
+              <span class="card-brand {{ payment.brand }}"></span>
+              •••• {{ payment.last4 }}
+            </td>
+            <td style="display: flex; align-items: center; gap: 10px;">
+              <img src="{{ payment.campaign.logoUrl }}" alt="Imagen de campaña"
+                   style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+              <span>{{ payment.campaign.name }}</span>
+            </td>
+            <td>{{ payment.customerName }}</td>
+            <td>{{ payment.paymentDate | dateParser | date:'dd MMM, yyyy, h:mm a' }}</td>
+          </tr>
+        }
+        @if (payments.length === 0) {
+          <tr>
+            <td colspan="7" class="no-results">No se encontraron resultados</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+ 
 
   <div class="pagination">
     <div class="showing-info">
@@ -215,6 +216,10 @@
         </button>
       </div>
     </div>
-   
   </div>
+} @else {
+  <div class="table-loading-container">
+    <app-inline-loading-spinner [isLoading]="isLoading"></app-inline-loading-spinner>
+  </div>
+}
 </div>
