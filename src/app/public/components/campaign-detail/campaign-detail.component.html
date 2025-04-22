@@ -1,76 +1,79 @@
-<div class="campaign-layout">
-    <div class="main-content">
-      <div class="left-column">
-        <div class="main-image-wrapper">
-          <img [src]="mainImage" alt="Imagen de campaña" class="main-image">
-        </div>
-        
-        <div class="thumbnails-navigation">
-          <button class="nav-button left" 
-                  (click)="scrollThumbnails('left')"
-                  [class.hidden]="!canScrollLeft">
-            &lt;
-          </button>
-          
-          <div class="thumbnails-container" #thumbnailsContainer>
-            @for (thumb of campaign.assets; track $index) {
-              <img [src]="thumb" 
-                  alt="Miniatura" 
-                  class="thumbnail" 
-                  (click)="changeThumbnail($index)">
-            }
-          </div>
-          
-          <button class="nav-button right" 
-                  (click)="scrollThumbnails('right')"
-                  [class.hidden]="!canScrollRight">
-            &gt;
-          </button>
-        </div>
-        
-        <div class="campaign-description">
-          <h1>{{ campaign.name }}</h1>
-          <p>{{ campaign.description }}</p>
-        </div>
-        
-        <div class="action-buttons">
-          <button class="btn-share" (click)="share()">Compartir</button>
-          <button class="btn-donate" [routerLink]="['/payment/form']" [queryParams]="{campaignId: campaignId}">Donar ahora!</button>
-        </div>
+<div class="campaign-layout" *ngIf="!isLoading">
+  <div class="main-content">
+    <div class="left-column">
+      <div class="main-image-wrapper">
+        <img [src]="mainImage" alt="Imagen de campaña" class="main-image">
       </div>
       
-      <div class="right-column">
-        <app-campaign-donation 
-        [title]="campaign.name" 
-        [goalAmount]="campaign.goalAmount"
-        [category]="campaign.category"
-        [tags]="campaign.tags"
-        [amountRaised]="campaign.raised"
-        [campaignId]="campaign.id"
-        [donationCount]="campaign.donationsCount"
-        ></app-campaign-donation>
+      <div class="thumbnails-navigation">
+        <button class="nav-button left" 
+                (click)="scrollThumbnails('left')"
+                [class.hidden]="!canScrollLeft">
+          &lt;
+        </button>
+        
+        <div class="thumbnails-container" #thumbnailsContainer>
+          @for (thumb of campaign.assets; track $index) {
+            <img [src]="thumb" 
+                alt="Miniatura" 
+                class="thumbnail" 
+                (click)="changeThumbnail($index)">
+          }
+        </div>
+        
+        <button class="nav-button right" 
+                (click)="scrollThumbnails('right')"
+                [class.hidden]="!canScrollRight">
+          &gt;
+        </button>
+      </div>
+      
+      <div class="campaign-description">
+        <h1>{{ campaign.name }}</h1>
+        <p>{{ campaign.description }}</p>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn-share" (click)="share()">Compartir</button>
+        <button class="btn-donate" [routerLink]="['/payment/form']" [queryParams]="{campaignId: campaignId}">Donar ahora!</button>
       </div>
     </div>
     
-    <div class="support-section">
-      <h2>Palabras de apoyo ({{ supportMessages.length }})</h2>
-      <p class="support-intro">Donemos para compartir palabras de apoyo..</p>
-      
-      <div class="support-messages">
-        @for (message of supportMessages; track $index) {
-          <div class="support-message">
-            <div class="avatar-section">
-              <div class="avatar">{{ message.name.charAt(0) }}</div>
-            </div>
-            <div class="message-content">
-              <div class="message-header">
-                <span class="name">{{ message.name }}</span>
-                <span class="time">{{ message.time }}</span>
-              </div>
-              <p class="message-text">{{ message.message }}</p>
-            </div>
-          </div>
-        }
-      </div>
+    <div class="right-column">
+      <app-campaign-donation 
+      [title]="campaign.name" 
+      [goalAmount]="campaign.goalAmount"
+      [category]="campaign.category"
+      [tags]="campaign.tags"
+      [amountRaised]="campaign.raised"
+      [campaignId]="campaign.id"
+      [donationCount]="campaign.donationsCount"
+      ></app-campaign-donation>
     </div>
   </div>
+  
+  <div class="support-section">
+    <h2>Palabras de apoyo ({{ supportMessages.length }})</h2>
+    <p class="support-intro">Donemos para compartir palabras de apoyo..</p>
+    
+    <div class="support-messages">
+      @for (message of supportMessages; track $index) {
+        <div class="support-message">
+          <div class="avatar-section">
+            <div class="avatar">{{ message.name.charAt(0) }}</div>
+          </div>
+          <div class="message-content">
+            <div class="message-header">
+              <span class="name">{{ message.name }}</span>
+              <span class="time">{{ message.time }}</span>
+            </div>
+            <p class="message-text">{{ message.message }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Componente de loading -->
+<app-loading-snipper [isLoading]="isLoading"></app-loading-snipper>

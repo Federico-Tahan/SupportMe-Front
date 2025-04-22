@@ -5,6 +5,7 @@ import { CampaignDonationComponent } from "../campaign-donation/campaign-donatio
 import { Campaign } from '../../../core/shared/interfaces/campaign';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CampaignService } from '../../../core/shared/services/campaign.service';
+import { LoadingSnipperComponent } from "../../../components/loading-snipper/loading-snipper.component";
 
 interface SupportMessage {
   name: string;
@@ -15,7 +16,7 @@ interface SupportMessage {
 @Component({
   selector: 'app-campaign-detail',
   standalone: true,
-  imports: [CommonModule, CampaignDonationComponent, RouterLink],
+  imports: [CommonModule, CampaignDonationComponent, RouterLink, LoadingSnipperComponent],
   templateUrl: './campaign-detail.component.html',
   styleUrl: './campaign-detail.component.scss'
 })
@@ -33,15 +34,24 @@ export class CampaignDetailComponent implements AfterViewInit, OnInit {
   router = inject(ActivatedRoute);
   campaignId : number = undefined;
   campaignService = inject(CampaignService);
+  isLoading = false; // Añadir variable isLoading
 
   ngOnInit(): void {
     this.router.queryParams.subscribe(params => {
       this.campaignId = params['id'];
+      this.isLoading = true; // Iniciar loading
+
       this.campaignService.getCampaignById(this.campaignId).subscribe({
         next : (data) => {
             this.campaign = data;
             this.campaign.assets.unshift(this.campaign.mainImage);
             this.mainImage = data.mainImage;
+            this.isLoading = false;
+
+        },
+        error: (error) => {
+          console.error('Error loading campaign:', error);
+          this.isLoading = false;
         }
       })
     });  
