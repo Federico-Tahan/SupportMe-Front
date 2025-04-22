@@ -34,7 +34,8 @@ export class ProjectsComponent implements OnInit{
     skip: 0,
     textFilter: null,
     sorting: [],
-    categoryId: null
+    categoryId: null,
+    onlyActive: true
   };
   
   isLoading: boolean = false;
