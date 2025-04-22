@@ -10,11 +10,12 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProjectFilter } from '../../../core/shared/filters/project-filter';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { LoadingSnipperComponent } from "../../../components/loading-snipper/loading-snipper.component";
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, CardSettingsComponent, CardCampaignComponent, FormsModule, RouterLink],
+  imports: [CommonModule, CardSettingsComponent, CardCampaignComponent, FormsModule, RouterLink, LoadingSnipperComponent],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })

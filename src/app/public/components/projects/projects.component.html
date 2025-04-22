@@ -51,12 +51,8 @@
         <app-card-campaign [routerLink]="'/projects/detail'" [queryParams]="{id: item.id}" [campaign]="item"></app-card-campaign>
       }
     </div>
-    
-    @if (isLoading) {
-      <div class="loading-indicator">
-        <div class="spinner"></div>
-        <p>Cargando más resultados...</p>
-      </div>
-    }
   </div>
 </div>
+
+<!-- Componente de loading -->
+<app-loading-snipper [isLoading]="isLoading"></app-loading-snipper>
