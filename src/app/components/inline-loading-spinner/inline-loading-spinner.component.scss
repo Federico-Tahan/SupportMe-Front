@@ -1,0 +1,25 @@
+// components/inline-loading-spinner/inline-loading-spinner.component.scss
+.loading-inline {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 20px;
+  }
+  
+  .spinner-circle {
+    animation: dash 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 150;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -124;
+    }
+  }
