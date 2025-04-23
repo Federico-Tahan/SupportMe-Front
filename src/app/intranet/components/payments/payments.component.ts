@@ -30,8 +30,8 @@ interface Filter {
   styleUrl: './payments.component.scss'
 })
 export class PaymentsComponent implements OnInit {
-  startDate: Date = new Date(2025, 3, 9); // April 9, 2025
-  endDate: Date = new Date(2025, 3, 16); // April 16, 2025
+  endDate: Date = new Date();
+  startDate: Date = new Date(new Date().setDate(this.endDate.getDate() - 7)); // hace 7 días  
   paymentService = inject(PaymentService);
   totalPayments: number = 0;
   successfulPayments: number = 0;

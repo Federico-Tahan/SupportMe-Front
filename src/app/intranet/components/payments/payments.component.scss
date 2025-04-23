@@ -295,7 +295,7 @@ $light-border: #e9ecef;
     margin-right: 8px;
     vertical-align: middle;
     
-    &.visa:before,
+    &.VISA:before,
     &.DEBVISA:before {
       content: "";
       background-image: url('../../../core/img/visa.svg');
@@ -308,6 +308,16 @@ $light-border: #e9ecef;
     }
     
     &.DEBMASTER:before {
+      content: "";
+      background-image: url('../../../core/img/master.svg');
+      display: inline-block;
+      width: 24px;
+      height: 16px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      vertical-align: middle;
+    }
+    &.MASTER:before {
       content: "";
       background-image: url('../../../core/img/master.svg');
       display: inline-block;
