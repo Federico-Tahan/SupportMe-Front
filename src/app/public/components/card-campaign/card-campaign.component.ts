@@ -1,17 +1,18 @@
-// fundraising-card.component.ts
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+// Modificaciones mínimas al archivo fundraising-card.component.ts
+
+import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { Campaign } from '../../../core/shared/interfaces/campaign';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
 
-// Interfaz para los iconos sociales/acciones
+// Interfaz para los iconos sociales/acciones (sin cambios)
 export interface SocialIcon {
-  name: string;         // Nombre del icono (para identificación)
-  iconClass: string;    // Clase CSS para el icono (ej: 'fa fa-facebook')
-  url: string;          // URL a la que redirigir
-  color?: string;       // Color opcional
-  tooltip?: string;     // Texto de tooltip opcional
-  isExternal?: boolean; // Si es true, abrirá en nueva pestaña
+  name: string;
+  iconClass: string;
+  url: string;
+  color?: string;
+  tooltip?: string;
+  isExternal?: boolean;
 }
 
 @Component({
@@ -30,12 +31,11 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
   canScrollLeft = false;
   canScrollRight = false;
 
-  constructor() {
-    
-  }
+  constructor() {}
 
   ngAfterViewInit() {
-    this.checkScrollButtons();
+    // Verificar el estado de los botones después de que la vista se haya inicializado
+    setTimeout(() => this.updateScrollButtons(), 100);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -44,11 +44,19 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
     }
     
     if (changes['campaign'] && this.campaign?.tags) {
-      setTimeout(() => this.checkScrollButtons(), 0);
+      // Verificar los botones de scroll cuando cambian los tags
+      setTimeout(() => this.updateScrollButtons(), 100);
     }
   }
   
+  // Detectar cambios de tamaño de ventana
+  @HostListener('window:resize')
+  onWindowResize() {
+    this.updateScrollButtons();
+  }
+  
   private initializeSocialIcons() {
+    // Mantener la lógica original
     this.socialIcons = [
       {
         name: 'publication',
@@ -69,11 +77,12 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
     ];
   }
 
-  checkScrollButtons() {
+  // Método unificado para actualizar botones
+  updateScrollButtons() {
     if (!this.tagsContainer) return;
     
     const element = this.tagsContainer.nativeElement;
-        const hasOverflow = element.scrollWidth > element.clientWidth;
+    const hasOverflow = element.scrollWidth > element.clientWidth;
     
     if (!hasOverflow) {
       this.canScrollLeft = false;
@@ -81,33 +90,37 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
       return;
     }
     
+    // Comprobar si podemos desplazarnos a la izquierda
+    this.canScrollLeft = element.scrollLeft > 2;
+    
+    // Comprobar si podemos desplazarnos a la derecha
     const maxScroll = element.scrollWidth - element.clientWidth;
-    this.canScrollLeft = element.scrollLeft > 5;
-    this.canScrollRight = maxScroll - element.scrollLeft > 5;
+    this.canScrollRight = maxScroll - element.scrollLeft > 2;
   }
 
   scrollTags(direction: 'left' | 'right', event: MouseEvent): void {
     event.stopPropagation();
     
     const container = this.tagsContainer.nativeElement;
+    // Usar un valor fijo pero razonable para el scroll
     const scrollAmount = 100;
     
     if (direction === 'left') {
-      container.scrollLeft -= scrollAmount;
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     } else {
-      container.scrollLeft += scrollAmount;
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
     
-    this.checkScrollability();
-  }
-  
-  // Make sure you have this method as well
-  checkScrollability(): void {
-    const container = this.tagsContainer.nativeElement;
-    this.canScrollLeft = container.scrollLeft > 0;
-    this.canScrollRight = container.scrollLeft < (container.scrollWidth - container.clientWidth);
+    // Actualizar la visibilidad de los botones después de que termine la animación
+    setTimeout(() => this.updateScrollButtons(), 300);
   }
 
+  // Método para cuando el usuario hace scroll manualmente
+  onTagsScroll() {
+    this.updateScrollButtons();
+  }
+
+  // Mantener el resto del componente sin cambios
   handleIconClick(icon: SocialIcon, event: MouseEvent): void {
     if (icon.isExternal) {
       window.open(icon.url, '_blank');
@@ -143,7 +156,6 @@ export class CardCampaignComponent implements AfterViewInit, OnChanges {
     return !!this.campaign.goalDate;
   }
 
-  // Formatea la fecha para mostrar
   formatEndDate(): string {
     if (!this.campaign.goalDate) return '';
     const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };

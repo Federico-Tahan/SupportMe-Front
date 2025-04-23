@@ -1,4 +1,4 @@
-<!-- fundraising-card.component.html -->
+<!-- fundraising-card.component.html (con cambios mínimos) -->
 <div class="card" [ngClass]="{'card-private': isPrivateView}">
   <div class="card-image-container">
     <img [src]="campaign.mainImage" class="card-img-top" alt="Imagen de campaña">
@@ -17,6 +17,7 @@
   </div>
   
   <div class="card-body">
+    <!-- Contenedor de tags mejorado (solo modificar esta parte) -->
     <div class="card-tags-container">
       <button class="tag-scroll-btn scroll-left"
               (click)="scrollTags('left', $event)"
@@ -24,7 +25,7 @@
         &lt;
       </button>
       
-      <div class="card-tags" #tagsContainer>
+      <div class="card-tags" #tagsContainer (scroll)="onTagsScroll()">
         @if(campaign.category){
           <span class="category-tag">{{ campaign.category }}</span>
         }

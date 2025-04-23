@@ -1,5 +1,5 @@
 // campaign-donation.component.ts
-import { Component, ElementRef, Input, OnInit, ViewChild, inject, TemplateRef, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, inject, TemplateRef, Renderer2, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SimpleCategory } from '../../../core/shared/interfaces/simple-category';
 import { RouterLink } from '@angular/router';
@@ -108,6 +108,15 @@ export class CampaignDonationComponent implements OnInit {
     if (this.campaignId) {
       this.loadRecentDonations();
     }
+    
+    // Verificar los botones de scroll después de inicializar
+    setTimeout(() => this.checkScrollButtons(), 100);
+  }
+  
+  // Detectar cambios de tamaño de ventana para actualizar botones de scroll
+  @HostListener('window:resize')
+  onWindowResize() {
+    this.checkScrollButtons();
   }
   
   loadRecentDonations(): void {
@@ -154,12 +163,11 @@ export class CampaignDonationComponent implements OnInit {
     console.log(this.percentageRaised);
   }
 
+  // Método mejorado para verificar la visibilidad de los botones de scroll
   checkScrollButtons() {
     if (!this.tagsContainer) return;
     
     const element = this.tagsContainer.nativeElement;
-    
-    // Solo mostrar los botones si hay overflow
     const hasOverflow = element.scrollWidth > element.clientWidth;
     
     if (!hasOverflow) {
@@ -168,31 +176,28 @@ export class CampaignDonationComponent implements OnInit {
       return;
     }
     
-    // Determinar si los botones deben mostrarse con mayor precisión
+    this.canScrollLeft = element.scrollLeft > 0;
     const maxScroll = element.scrollWidth - element.clientWidth;
-    
-    // Botón izquierdo: visible si hemos desplazado al menos 5px
-    this.canScrollLeft = element.scrollLeft > 5;
-    
-    // Botón derecho: visible si quedan al menos 5px por desplazar
-    this.canScrollRight = maxScroll - element.scrollLeft > 5;
+    this.canScrollRight = element.scrollLeft < (maxScroll - 2);
   }
 
-  // Desplazar los tags
-  scrollTags(direction: 'left' | 'right') {
-    if (!this.tagsContainer) return;
-    
-    const element = this.tagsContainer.nativeElement;
-    const scrollAmount = 100; // Cantidad a desplazar en píxeles
-    
-    if (direction === 'left') {
-      element.scrollLeft -= scrollAmount;
-    } else {
-      element.scrollLeft += scrollAmount;
+  // Método mejorado para desplazar los tags con scroll suave
+  scrollTags(direction: 'left' | 'right', event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
     }
     
-    // Actualizar la visibilidad de los botones después del desplazamiento
-    setTimeout(() => this.checkScrollButtons(), 300); // Aumentar tiempo para asegurar que el scroll se complete
+    const element = this.tagsContainer.nativeElement;
+    const scrollAmount = 100;
+    
+    if (direction === 'left') {
+      element.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+      element.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+    
+    // Actualizar los botones después de un pequeño retraso
+    setTimeout(() => this.checkScrollButtons(), 300);
   }
 
   // Abrir modal para ver todas las donaciones

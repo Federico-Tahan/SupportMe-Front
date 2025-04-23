@@ -93,13 +93,14 @@
   white-space: nowrap;
   padding-bottom: 0;
   font-size: 12px;
-  overflow-x: hidden;
+  overflow-x: auto; /* Cambiar de hidden a auto */
   scroll-behavior: smooth;
   flex: 1;
   -ms-overflow-style: none;
   scrollbar-width: none;
   height: 100%;
   align-items: center;
+  padding: 0 2px; /* Pequeño padding para mejor apariencia */
 }
 
 .card-tags::-webkit-scrollbar {
@@ -123,7 +124,8 @@
   padding: 0;
   top: 50%;
   transform: translateY(-50%);
-  margin: 0 -2px;
+  margin: 0; /* Eliminar margen negativo */
+  transition: opacity 0.2s; /* Agregar transición */
 }
 
 .tag-scroll-btn:hover {
@@ -131,15 +133,16 @@
 }
 
 .scroll-left {
-  left: 0;
+  left: 2px; /* Ajustar posición */
 }
 
 .scroll-right {
-  right: 0;
+  right: 2px; /* Ajustar posición */
 }
 
 .hidden {
-  display: none;
+  opacity: 0; /* Cambiar a opacity en lugar de display:none */
+  pointer-events: none; /* Deshabilitar clics */
 }
 
 .category-tag, .location-tag {
@@ -150,6 +153,7 @@
   border: 1px solid #e0e0ff;
   margin-right: 8px;
   display: inline-block;
+  flex-shrink: 0; /* Evitar compresión */
 }
 
 .card-title {

@@ -6,7 +6,7 @@
     <div class="card-tags-container">
       <!-- Botón izquierdo para scroll -->
       <button class="tag-scroll-btn scroll-left" 
-              (click)="scrollTags('left')" 
+              (click)="scrollTags('left', $event)" 
               [class.hidden]="!canScrollLeft">
         &lt;
       </button>
@@ -22,7 +22,7 @@
       
       <!-- Botón derecho para scroll -->
       <button class="tag-scroll-btn scroll-right" 
-              (click)="scrollTags('right')" 
+              (click)="scrollTags('right', $event)" 
               [class.hidden]="!canScrollRight">
         &gt;
       </button>

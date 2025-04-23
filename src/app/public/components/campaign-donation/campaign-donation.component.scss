@@ -92,21 +92,42 @@
     }
   }
 }
+
+/* Mejoras para versión móvil de modales */
 @media (max-width: 768px) {
-  
   .custom-modal {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     width: 100%;
-    max-width: 800px;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    animation: modalFadeIn 0.3s ease;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    margin: 0;
+  }
+  
+  .custom-modal-body {
+    max-height: calc(100vh - 120px);
+  }
+  
+  .custom-modal-header {
+    padding: 12px 16px;
+  }
+  
+  .custom-modal-title {
+    font-size: 18px;
+  }
+  
+  .custom-modal-footer {
+    padding: 12px 16px;
+    
+    button {
+      width: 100%;
+      padding: 12px 0;
+    }
+  }
+  
+  .custom-modal-overlay {
+    padding: 0;
   }
 }
-
 
 @keyframes modalFadeIn {
   from {
@@ -175,13 +196,14 @@
   white-space: nowrap;
   padding-bottom: 0;
   font-size: 12px;
-  overflow-x: hidden;
+  overflow-x: auto; /* Cambiar de hidden a auto */
   scroll-behavior: smooth;
   flex: 1;
   -ms-overflow-style: none;
   scrollbar-width: none;
   height: 100%;
   align-items: center;
+  padding: 0 2px; /* Pequeño padding para mejor apariencia */
 }
 
 .tag-scroll-btn {
@@ -201,23 +223,25 @@
   padding: 0;
   top: 50%;
   transform: translateY(-50%);
-  margin: 0 -2px;
+  margin: 0; /* Eliminar margen negativo */
+  transition: opacity 0.2s, background-color 0.2s; /* Agregar transición */
 }
 
 .tag-scroll-btn:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.hidden {
-  display: none;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .scroll-left {
-  left: 0;
+  left: 2px; /* Ajustar posición */
 }
 
 .scroll-right {
-  right: 0;
+  right: 2px; /* Ajustar posición */
+}
+
+.hidden {
+  opacity: 0; /* Cambiar a opacity en lugar de display:none */
+  pointer-events: none; /* Deshabilitar clics */
 }
 
 .card-tags::-webkit-scrollbar {
@@ -240,6 +264,7 @@
   border: 1px solid #e0e0ff;
   margin-right: 8px;
   display: inline-block;
+  flex-shrink: 0; /* Evitar compresión */
 }
 
 .donation-title {
@@ -430,8 +455,7 @@
   gap: 16px;
 }
 
-.donation-item
-{
+.donation-item {
   display: flex;
 }
 
@@ -528,5 +552,154 @@
   .donation-date {
     font-size: 14px;
     color: #777;
+  }
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 576px) {
+  .donation-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .donation-title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  
+  .donation-amount {
+    .amount-raised {
+      font-size: 24px;
+    }
+    
+    .goal-text {
+      font-size: 12px;
+      display: block;
+      margin-left: 0;
+      margin-top: 4px;
+    }
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 8px;
+    
+    button {
+      padding: 10px;
+      font-size: 14px;
+    }
+  }
+  
+  .donation-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .modal-body .donation-item {
+    padding: 12px;
+    
+    .donor-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 12px;
+      
+      img {
+        width: 32px;
+        height: auto;
+      }
+    }
+    
+    .donor-name {
+      font-size: 14px;
+    }
+    
+    .donor-amount {
+      font-size: 16px;
+    }
+    
+    .donation-date {
+      font-size: 12px;
+    }
+  }
+  
+  /* Mejoras para tags en móvil */
+  .card-tags-container {
+    height: 26px;
+  }
+  
+  .tag-scroll-btn {
+    width: 20px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+  
+  .category-tag, .location-tag {
+    padding: 3px 10px;
+    font-size: 11px;
+  }
+  
+  /* Mejoras para el listado de donaciones recientes en móvil */
+  .recent-donations {
+    .donation-item {
+      padding: 10px 0;
+      
+      .donor-icon {
+        width: 28px;
+        height: 28px;
+        margin-right: 10px;
+        
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+      
+      .donor-info {
+        .donor-name {
+          font-size: 13px;
+        }
+        
+        .donor-amount {
+          font-size: 14px;
+        }
+      }
+      
+      .donation-time {
+        font-size: 12px;
+      }
+    }
+  }
+  
+  /* Ajustes adicionales para modales en móvil */
+  .custom-modal-body {
+    padding: 16px;
+  }
+  
+  .donations-list,
+  .top-donations-list {
+    gap: 12px;
+  }
+  
+  .loading-indicator {
+    padding: 16px;
+    
+    .spinner {
+      width: 20px;
+      height: 20px;
+    }
+    
+    span {
+      font-size: 13px;
+    }
+  }
+  
+  .end-message {
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  .no-donations {
+    padding: 30px 0;
+    font-size: 14px;
   }
 }
