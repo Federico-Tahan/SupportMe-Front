@@ -10,7 +10,7 @@ export const PUBLIC_ROUTES: Routes = [
     {path : 'projects', loadComponent: () => import('./components/projects/projects.component').then(m => m.ProjectsComponent)},
     {path : 'projects/detail', loadComponent: () => import('../public/components/campaign-detail/campaign-detail.component').then(m => m.CampaignDetailComponent)},
     {path : 'how-works', component: HowWorksComponent},
-    {path : 'payment/response', component: PaymentResponseComponent},
+    {path : 'payment/response', loadComponent: () => import('../public/components/payment-response/payment-response.component').then(m => m.PaymentResponseComponent)},
     {path : 'login', canActivate: [onlyPublicGuard], component: LoginComponent},
     {path : 'signup', canActivate: [onlyPublicGuard], component: SignupComponent},
     {path : 'payment/form', loadComponent: () => import('./components/payment-form/payment-form.component').then(m => m.PaymentFormComponent)},

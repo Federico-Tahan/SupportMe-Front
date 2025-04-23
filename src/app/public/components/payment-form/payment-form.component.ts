@@ -66,31 +66,39 @@ export class PaymentFormComponent implements OnInit {
     this.donationMessage = inputElement.value;
     this.billingForm.get('description')?.setValue(this.donationMessage);
   }
-  ngOnInit(): void {
-    this.router.queryParams.subscribe(params => {
-      this.campaignId = params['campaignId'];
-      if (this.campaignId) {
-        this.campaignService.getCampaignById(this.campaignId).subscribe({
-          next: (data) => {
-            this.campaign = data;
-            
-            this.paymentService.getPublicKey(this.campaignId).subscribe({
-              next: (response) => {
-                this.publicKey = response.token;
-                this.mpService.loadMercadoPagoSDK(this.publicKey);
-              },
-              error: (error) => {
-                console.error('Error al obtener la clave pública:', error);
-              }
-            });
-          },
-          error: (error) => {
-            console.error('Error al obtener la campaña:', error);
-          }
-        });
-      }
-    });
-  }
+  
+ngOnInit(): void {
+  this.isLoading = true;
+  
+  this.router.queryParams.subscribe(params => {
+    this.campaignId = params['campaignId'];
+    if (this.campaignId) {
+      this.campaignService.getCampaignById(this.campaignId).subscribe({
+        next: (data) => {
+          this.campaign = data;
+          
+          this.paymentService.getPublicKey(this.campaignId).subscribe({
+            next: (response) => {
+              this.publicKey = response.token;
+              this.mpService.loadMercadoPagoSDK(this.publicKey);
+              this.isLoading = false;
+            },
+            error: (error) => {
+              console.error('Error al obtener la clave pública:', error);
+              this.isLoading = false;
+            }
+          });
+        },
+        error: (error) => {
+          console.error('Error al obtener la campaña:', error);
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.isLoading = false;
+    }
+  });
+}
   
   getDeviceId(): string {
     return (window as any).MP_DEVICE_SESSION_ID || '';
