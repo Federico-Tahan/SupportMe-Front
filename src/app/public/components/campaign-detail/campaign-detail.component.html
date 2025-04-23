@@ -65,7 +65,7 @@
           <div class="message-content">
             <div class="message-header">
               <span class="name">{{ message.name }}</span>
-              <span class="time">{{ message.time }}</span>
+              <span class="time">{{ message.date | dateParser | date:'dd MMM, yyyy, h:mm a' }}</span>
             </div>
             <p class="message-text">{{ message.message }}</p>
           </div>

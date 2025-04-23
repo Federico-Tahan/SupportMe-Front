@@ -137,16 +137,16 @@ export class CampaignDonationComponent implements OnInit {
     const diffInSeconds = Math.floor((now.getTime() - donationDate.getTime()) / 1000);
     
     if (diffInSeconds < 60) {
-      return `${diffInSeconds} seconds ago`;
+      return `hace unos segundos`;
     } else if (diffInSeconds < 3600) {
       const minutes = Math.floor(diffInSeconds / 60);
-      return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+      return `hace ${minutes} ${minutes === 1 ? 'minuto' : 'minutos'}`;
     } else if (diffInSeconds < 86400) {
       const hours = Math.floor(diffInSeconds / 3600);
-      return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+      return `hace ${hours} ${hours === 1 ? 'hora' : 'horas'}`;
     } else {
       const days = Math.floor(diffInSeconds / 86400);
-      return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+      return `hace ${days} ${days === 1 ? 'dia' : 'dias'}`;
     }
   }
   

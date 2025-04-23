@@ -1,3 +1,5 @@
+import { SupportMessage } from "./support-message";
+
 export interface Campaign {
     id : number;
     name : string;
@@ -13,4 +15,5 @@ export interface Campaign {
     categoryId : number;
     assets : string[];
     donationsCount : number;
+    supportMessages : SupportMessage[];
 }

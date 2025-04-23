@@ -8,17 +8,12 @@ export class DateParserPipe implements PipeTransform {
   transform(value: string | Date): Date | null {
     if (!value) return null;
     
-    // If already a Date object, return it
     if (value instanceof Date) {
       return value;
     }
     
-    // Try to parse the string date
     try {
-      // Handle various date formats
       const parsedDate = new Date(value);
-      
-      // Check if valid date
       if (isNaN(parsedDate.getTime())) {
         throw new Error('Invalid date');
       }

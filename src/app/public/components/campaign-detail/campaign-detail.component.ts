@@ -6,17 +6,13 @@ import { Campaign } from '../../../core/shared/interfaces/campaign';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CampaignService } from '../../../core/shared/services/campaign.service';
 import { LoadingSnipperComponent } from "../../../components/loading-snipper/loading-snipper.component";
-
-interface SupportMessage {
-  name: string;
-  time: string;
-  message: string;
-}
+import { SupportMessage } from '../../../core/shared/interfaces/support-message';
+import { DateParserPipe } from '../../../core/shared/pipes/date-parser.pipe';
 
 @Component({
   selector: 'app-campaign-detail',
   standalone: true,
-  imports: [CommonModule, CampaignDonationComponent, RouterLink, LoadingSnipperComponent],
+  imports: [CommonModule, CampaignDonationComponent, RouterLink, LoadingSnipperComponent, DateParserPipe],
   templateUrl: './campaign-detail.component.html',
   styleUrl: './campaign-detail.component.scss'
 })
@@ -34,18 +30,19 @@ export class CampaignDetailComponent implements AfterViewInit, OnInit {
   router = inject(ActivatedRoute);
   campaignId : number = undefined;
   campaignService = inject(CampaignService);
-  isLoading = false; // Añadir variable isLoading
+  isLoading = false;
 
   ngOnInit(): void {
     this.router.queryParams.subscribe(params => {
       this.campaignId = params['id'];
-      this.isLoading = true; // Iniciar loading
+      this.isLoading = true;
 
       this.campaignService.getCampaignById(this.campaignId).subscribe({
         next : (data) => {
             this.campaign = data;
             this.campaign.assets.unshift(this.campaign.mainImage);
             this.mainImage = data.mainImage;
+            this.supportMessages = data.supportMessages;
             this.isLoading = false;
 
         },
