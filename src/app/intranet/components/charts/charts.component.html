@@ -1,0 +1,43 @@
+<div class="charts-section">
+  <h2 class="charts-title">Estadísticas de la Campaña</h2>
+  <div class="charts-grid">
+    <div class="chart-box">
+      <h3 class="chart-title">Donaciones Mensuales</h3>
+      <div class="chart-container">
+        <ngx-charts-bar-vertical
+          [results]="donationsData"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="false"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          xAxisLabel="Mes"
+          yAxisLabel="Donaciones ($)"
+          [roundDomains]="true"
+          [showDataLabel]="false"
+          [scheme]="colorScheme"
+          [animations]="false">
+        </ngx-charts-bar-vertical>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3 class="chart-title">Visitas</h3>
+      <div class="chart-container">
+        <ngx-charts-line-chart
+          [results]="processedVisitsData"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="false"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          xAxisLabel="Mes"
+          yAxisLabel="Visitas"
+          [roundDomains]="true"
+          [scheme]="colorScheme2"
+          [curve]="curve"
+          [animations]="false">
+        </ngx-charts-line-chart>
+      </div>
+    </div>
+  </div>
+</div>

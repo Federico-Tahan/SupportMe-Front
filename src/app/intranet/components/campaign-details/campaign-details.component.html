@@ -1,0 +1,47 @@
+<div class="campaign-details-container">
+    <div class="campaign-selector-card">
+      <div class="selector-header">
+        <h2 class="selector-title">Detalle de Campaña</h2>
+        <select 
+          class="campaign-dropdown" 
+          [(ngModel)]="selectedCampaignName" 
+          (change)="onCampaignSelect()">
+          @for (campaign of campaigns; track campaign.name) {
+            <option [value]="campaign.name">{{ campaign.name }}</option>
+          }
+        </select>
+      </div>
+  
+      <div class="campaign-stats-bar">
+        <div class="stat-card">
+          <div class="stat-title">Recaudado</div>
+          <div class="stat-value">{{ selectedCampaign.raised }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Meta</div>
+          <div class="stat-value">{{ selectedCampaign.goal }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Donantes</div>
+          <div class="stat-value">{{ selectedCampaign.donors }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Días Restantes</div>
+          <div class="stat-value">{{ selectedCampaign.daysLeft }}</div>
+        </div>
+      </div>
+  
+      <div class="campaign-progress-container">
+        <div class="progress-info">
+          <span>{{ selectedCampaign.name }}</span>
+          <span>{{ selectedCampaign.percentage }}</span>
+        </div>
+        <div class="campaign-progress-bar">
+          <div 
+            class="campaign-progress-value"
+            [style.width]="selectedCampaign.percentage">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

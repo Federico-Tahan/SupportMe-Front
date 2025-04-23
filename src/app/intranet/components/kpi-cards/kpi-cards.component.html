@@ -1,0 +1,11 @@
+<div class="kpi-container">
+    @for (item of kpiData; track item.title) {
+      <div class="kpi-card">
+        <div class="kpi-title">{{ item.title }}</div>
+        <div class="kpi-value">{{ item.value }}</div>
+        <div class="kpi-change" [ngClass]="{ 'kpi-positive': item.isPositive, 'kpi-negative': !item.isPositive }">
+          <span>{{ item.change }}</span>
+        </div>
+      </div>
+    }
+  </div>

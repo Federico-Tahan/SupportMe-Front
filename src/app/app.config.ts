@@ -8,12 +8,14 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from '../environment/environment';
 import { routes } from './app.routes';
 import { tokenInterceptor } from './core/shared/interceptor/auth.interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes), 
     provideClientHydration(),
+    provideAnimations(),
     provideHttpClient(
       withFetch(),
       withInterceptors([tokenInterceptor])

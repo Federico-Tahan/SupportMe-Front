@@ -1,1 +1,13 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+    <app-kpi-cards [kpiData]="kpiData"></app-kpi-cards>
+    <app-campaign-details 
+      [campaigns]="campaigns" 
+      [selectedCampaign]="selectedCampaign"
+      (campaignChanged)="onCampaignChange($event)">
+    </app-campaign-details>
+    <app-charts 
+      [donationsData]="getChartData(selectedCampaign.donations)" 
+      [visitsData]="getChartData(selectedCampaign.visits)">
+    </app-charts>
+    <app-categories-chart [categories]="categories"></app-categories-chart>
+  </div>

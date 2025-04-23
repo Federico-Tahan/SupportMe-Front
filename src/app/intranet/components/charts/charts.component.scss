@@ -1,0 +1,100 @@
+/* CSS optimizado para que ngx-charts ocupe el 100% del ancho */
+
+.charts-section {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.charts-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Layout vertical */
+.charts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+.chart-box {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 15px;
+}
+
+.chart-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #6c757d;
+}
+
+.chart-container {
+  height: 300px;
+  width: 100%;
+}
+
+/* Estos selectores son específicos para ngx-charts */
+:host ::ng-deep ngx-charts-bar-vertical,
+:host ::ng-deep ngx-charts-line-chart {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+:host ::ng-deep ngx-charts-bar-vertical .ngx-charts,
+:host ::ng-deep ngx-charts-line-chart .ngx-charts {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+:host ::ng-deep .chart-container svg {
+  width: 100% !important;
+}
+
+/* Ajustes para scroll horizontal si es necesario */
+@media (max-width: 992px) {
+  .chart-container {
+    min-width: 800px;
+  }
+  
+  .scroll-indicator {
+    display: block;
+    color: #6c757d;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 5px;
+    font-style: italic;
+  }
+}
+
+/* Móviles */
+@media (max-width: 768px) {
+  .charts-section {
+    padding: 15px;
+  }
+  
+  .chart-container {
+    min-width: 700px;
+    height: 250px;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+  .charts-section {
+    padding: 10px;
+  }
+  
+  .chart-container {
+    min-width: 650px;
+    height: 220px;
+  }
+}

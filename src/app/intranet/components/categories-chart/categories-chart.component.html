@@ -1,0 +1,26 @@
+<div class="category-section">
+  <h2 class="section-title">Categorías de Campañas</h2>
+  <div class="category-grid">
+    @for (category of categories; track trackByName($index, category)) {
+      <div class="category-card">
+        <div class="category-icon" [style.background-color]="category.iconBg">
+          <span>{{ category.icon }}</span>
+        </div>
+        <div class="category-details">
+          <div class="category-name">{{ category.name }}</div>
+          <div class="category-stats">
+            <div class="category-raised">{{ category.raised }}</div>
+            <div class="category-goal">Meta: {{ category.goal }}</div>
+          </div>
+          <div class="category-progress-bar">
+            <div 
+              class="category-progress-value" 
+              [style.width.%]="category.percentage > 100 ? 100 : category.percentage"
+              [style.background-color]="category.progressColor">
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

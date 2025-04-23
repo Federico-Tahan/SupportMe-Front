@@ -8,7 +8,8 @@ import { MercadopagocallbackComponent } from './components/mercadopagocallback/m
 export const INTRANET_ROUTES: Routes = [
     {path : 'home', component: DashboardComponent},
     {path : 'settings', component: SettingsComponent},
-    {path : 'dashboard', component: DashboardComponent},
+    {path : 'dashboard', loadComponent: () =>
+      import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)},
     {
         path: 'campaign', loadComponent: () =>
           import('./components/campaing/campaing.component').then(m => m.CampaingComponent)
