@@ -40,7 +40,6 @@ export class PaymentFormComponent implements OnInit {
   cardBrand: string = 'visa';
   isLoading: boolean = false;
   paymentError: string = '';
-  
   expiryMonth: string = '';
   expiryYear: string = '';
   
@@ -77,8 +76,8 @@ export class PaymentFormComponent implements OnInit {
             
             this.paymentService.getPublicKey(this.campaignId).subscribe({
               next: (response) => {
-                const publicKey = response.token;
-                this.mpService.loadMercadoPagoSDK(publicKey);
+                this.publicKey = response.token;
+                this.mpService.loadMercadoPagoSDK(this.publicKey);
               },
               error: (error) => {
                 console.error('Error al obtener la clave pública:', error);
@@ -150,7 +149,7 @@ export class PaymentFormComponent implements OnInit {
       cardExpirationMonth : paymentForm.expiryMonth,
       cardExpirationYear : paymentForm.expiryYear,
       cardNumber : paymentForm.cardNumber,
-      cardholderName: environment.MERCADO_PAGO_PUBLIC_KEY?.toLowerCase().includes('test') 
+      cardholderName: this.publicKey?.toLowerCase().includes('test') 
         ? 'APRO' 
         : billingForm.firstName + ' ' + billingForm.lastName,    
       cardholderEmail : billingForm.email,
@@ -173,11 +172,8 @@ export class PaymentFormComponent implements OnInit {
       this.paymentService.payment(paymentInformation, this.campaignId).subscribe({
         next: (data) => {
           this.isLoading = false;
-          
           if (data.status == 'SUCCESS') {
-            this.route.navigate(['/payment/response'], { 
-              queryParams: { chargeId: data.chargeId } 
-            });
+            this.route.navigateByUrl('/payment/response?chargeId=' + data.response.chargeId);
           } else {
             this.paymentError = 'No se pudo procesar el pago. Por favor, inténtelo nuevamente con otra tarjeta.';
           }

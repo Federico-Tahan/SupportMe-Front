@@ -7,6 +7,7 @@ import { Pagination } from '../interfaces/pagination';
 import { PaymentDetailRead } from '../interfaces/payment-detail-read';
 import { Livefeedpayment } from '../interfaces/livefeedpayment';
 import { PaymentFilter } from '../interfaces/payment-filter';
+import { PaymentDonation } from '../interfaces/payment-donation';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +18,9 @@ export class PaymentService {
     return this.http.post(environment.backApi + 'payment/' + campaignId + '/campaign', paymentInformation);
    }
 
+   getPaymentDonation(chargeId : string): Observable<PaymentDonation> {
+    return this.http.get<PaymentDonation>(environment.backApi + 'payment/' + chargeId + "/donation" );
+  }
    getPayments(filter: PaymentFilter): Observable<Livefeedpayment> {
     let params = new HttpParams()
       .set('limit', filter.Limit.toString())

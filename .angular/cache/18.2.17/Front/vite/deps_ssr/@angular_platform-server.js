@@ -5,11 +5,11 @@ import {
   DomRendererFactory2,
   EVENT_MANAGER_PLUGINS,
   EventManagerPlugin
-} from "./chunk-K5BDREGE.js";
+} from "./chunk-DCVDZFX3.js";
 import {
   HTTP_ROOT_INTERCEPTOR_FNS,
   HttpClientModule
-} from "./chunk-QZB33UVD.js";
+} from "./chunk-DMBBEJJD.js";
 import {
   DOCUMENT,
   NullViewportScroller,
@@ -19,7 +19,7 @@ import {
   XhrFactory,
   getDOM,
   setRootDomAdapter
-} from "./chunk-ZRR2URXK.js";
+} from "./chunk-HHHDTOCY.js";
 import {
   ALLOW_MULTIPLE_PLATFORMS,
   ANIMATION_MODULE_TYPE,
@@ -57,12 +57,12 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-VVRZE4UJ.js";
+} from "./chunk-JBNPV5UM.js";
 import {
   require_cjs
-} from "./chunk-5PQT2HUX.js";
-import "./chunk-EHW3H5C7.js";
-import "./chunk-5PAAC246.js";
+} from "./chunk-5WMGI3JJ.js";
+import "./chunk-2XEBCUHU.js";
+import "./chunk-RB6UZ3KO.js";
 import {
   __async,
   __objRest,
@@ -70,7 +70,7 @@ import {
   __toESM
 } from "./chunk-LI6NGK76.js";
 
-// node_modules/@angular/animations/fesm2022/animations.mjs
+// ../../../node_modules/@angular/animations/fesm2022/animations.mjs
 var AnimationMetadataType;
 (function(AnimationMetadataType2) {
   AnimationMetadataType2[AnimationMetadataType2["State"] = 0] = "State";
@@ -488,7 +488,7 @@ var AnimationGroupPlayer = class {
 };
 var ɵPRE_STYLE = "!";
 
-// node_modules/@angular/animations/fesm2022/browser.mjs
+// ../../../node_modules/@angular/animations/fesm2022/browser.mjs
 var LINE_START = "\n - ";
 function invalidTimingValue(exp) {
   return new RuntimeError(3e3, ngDevMode && `The provided timing value "${exp}" is invalid.`);
@@ -4408,7 +4408,7 @@ var AnimationRendererFactory = class {
   }
 };
 
-// node_modules/@angular/platform-browser/fesm2022/animations.mjs
+// ../../../node_modules/@angular/platform-browser/fesm2022/animations.mjs
 var InjectableAnimationEngine = class _InjectableAnimationEngine extends AnimationEngine {
   // The `ApplicationRef` is injected here explicitly to force the dependency ordering.
   // Since the `ApplicationRef` should be created earlier before the `AnimationEngine`, they
@@ -4559,7 +4559,7 @@ function provideNoopAnimations() {
   return [...BROWSER_NOOP_ANIMATIONS_PROVIDERS];
 }
 
-// node_modules/@angular/platform-server/fesm2022/platform-server.mjs
+// ../../../node_modules/@angular/platform-server/fesm2022/platform-server.mjs
 var import_rxjs = __toESM(require_cjs(), 1);
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __commonJS = (cb, mod) => function __require() {
@@ -20897,7 +20897,7 @@ var ServerXhr = class _ServerXhr {
       if (!this.xhrImpl) {
         const {
           default: xhr
-        } = yield import("./xhr2-UPQRJFHC.js");
+        } = yield import("./xhr2-VXOH6PK5.js");
         this.xhrImpl = xhr;
       }
     });
