@@ -123,34 +123,34 @@ export class DashboardComponent implements OnInit {
       raised: '$57,580',
       goal: '$65,000',
       percentage: 88,
-      progressColor: '#4361ee'
+      progressColor: '#4361ee',
     },
     {
       name: 'Agua y Saneamiento',
       icon: '💧',
-      iconBg: '#4cc9f0',
+      iconBg: '#4361ee',
       raised: '$28,350',
       goal: '$30,000',
       percentage: 94,
-      progressColor: '#4cc9f0'
+      progressColor: '#4361ee',
     },
     {
       name: 'Infraestructura',
       icon: '🏗️',
-      iconBg: '#7209b7',
+      iconBg: '#4361ee',
       raised: '$18,750',
       goal: '$20,000',
       percentage: 93,
-      progressColor: '#7209b7'
+      progressColor: '#4361ee',
     },
     {
       name: 'Alimentación',
       icon: '🍎',
-      iconBg: '#3a0ca3',
+      iconBg: '#4361ee',
       raised: '$15,300',
       goal: '$15,000',
       percentage: 102,
-      progressColor: '#3a0ca3'
+      progressColor: '#4361ee',
     }
   ];
 

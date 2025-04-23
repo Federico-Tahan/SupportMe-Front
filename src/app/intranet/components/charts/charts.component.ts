@@ -25,7 +25,7 @@ export class ChartsComponent implements OnChanges, OnInit, AfterViewInit {
     name: 'donationColors',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#4361ee', '#3a0ca3', '#7209b7', '#4cc9f0']
+    domain: ['#4361ee']
   };
 
   colorScheme2: Color = {

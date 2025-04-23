@@ -3,9 +3,9 @@
       <div class="kpi-card">
         <div class="kpi-title">{{ item.title }}</div>
         <div class="kpi-value">{{ item.value }}</div>
-        <div class="kpi-change" [ngClass]="{ 'kpi-positive': item.isPositive, 'kpi-negative': !item.isPositive }">
+      <strong><div class="kpi-change" [ngClass]="{ 'kpi-positive': item.isPositive, 'kpi-negative': !item.isPositive }">
           <span>{{ item.change }}</span>
-        </div>
+        </div></strong>
       </div>
     }
   </div>
