@@ -4,8 +4,6 @@
     <h1 class="title">Pagos</h1>
     <div class="date-range">
       <app-calendar 
-        [startDate]="startDate" 
-        [endDate]="endDate"
         (dateRangeChanged)="onDateRangeChange($event)">
       </app-calendar>
     </div>  
@@ -158,7 +156,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (payment of payments; track payment.campaign.id) {
+        @for (payment of payments; track payment.chargeId) {
           <tr>
             <td>$ {{ formatCurrency(payment.amount) }} ARS</td>
             <td>

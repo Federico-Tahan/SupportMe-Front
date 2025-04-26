@@ -16,4 +16,5 @@ export interface Campaign {
     assets : string[];
     donationsCount : number;
     supportMessages : SupportMessage[];
+    views : number;
 }

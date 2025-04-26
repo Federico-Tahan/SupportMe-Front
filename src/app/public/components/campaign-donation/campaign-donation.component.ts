@@ -41,6 +41,7 @@ export class CampaignDonationComponent implements OnInit {
   @Input() title: string = null;
   @Input() campaignId: number = null;
   @Input() amountRaised: number = null;
+  @Input() views : number = null;
   campaignService = inject(CampaignService);
   renderer = inject(Renderer2);
 
@@ -54,7 +55,6 @@ export class CampaignDonationComponent implements OnInit {
   canScrollRight = false;
   @Input() recentDonations: RecentDonation[] = [];
   
-  // Variables para los modales
   allDonations: DonationViewModel[] = [];
   topDonations: TopDonationViewModel[] = [];
   loadingModalData = false;
@@ -63,11 +63,9 @@ export class CampaignDonationComponent implements OnInit {
   modalCurrentPage = 0;
   modalHasMoreItems = true;
   
-  // Control de visibilidad de modales
   showAllDonationsModal = false;
   showTopDonationsModal = false;
   
-  // Filtros
   private recentDonationsFilter: BaseFilter = {
     limit: 4,
     sorting: [
@@ -109,11 +107,9 @@ export class CampaignDonationComponent implements OnInit {
       this.loadRecentDonations();
     }
     
-    // Verificar los botones de scroll después de inicializar
     setTimeout(() => this.checkScrollButtons(), 100);
   }
   
-  // Detectar cambios de tamaño de ventana para actualizar botones de scroll
   @HostListener('window:resize')
   onWindowResize() {
     this.checkScrollButtons();
@@ -123,7 +119,6 @@ export class CampaignDonationComponent implements OnInit {
     this.campaignService.getDonationsByCampaigniD(this.campaignId, this.recentDonationsFilter)
       .subscribe({
         next: (response) => {
-          // Transform SimpleDonation to RecentDonation
           this.recentDonations = response.items.map(donation => this.mapToRecentDonation(donation));
         },
         error: (error) => {
@@ -163,7 +158,6 @@ export class CampaignDonationComponent implements OnInit {
     console.log(this.percentageRaised);
   }
 
-  // Método mejorado para verificar la visibilidad de los botones de scroll
   checkScrollButtons() {
     if (!this.tagsContainer) return;
     
@@ -181,7 +175,6 @@ export class CampaignDonationComponent implements OnInit {
     this.canScrollRight = element.scrollLeft < (maxScroll - 2);
   }
 
-  // Método mejorado para desplazar los tags con scroll suave
   scrollTags(direction: 'left' | 'right', event?: MouseEvent) {
     if (event) {
       event.stopPropagation();
@@ -196,11 +189,9 @@ export class CampaignDonationComponent implements OnInit {
       element.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
     
-    // Actualizar los botones después de un pequeño retraso
     setTimeout(() => this.checkScrollButtons(), 300);
   }
 
-  // Abrir modal para ver todas las donaciones
   openAllDonationsModal(): void {
     this.modalCurrentPage = 0;
     this.allDonations = [];
@@ -208,10 +199,8 @@ export class CampaignDonationComponent implements OnInit {
     this.showAllDonationsModal = true;
     this.loadAllDonations();
     
-    // Prevenir scroll en el body cuando se abre el modal
     this.renderer.setStyle(document.body, 'overflow', 'hidden');
     
-    // Necesitamos esperar a que Angular renderice el modal antes de agregar el evento
     setTimeout(() => {
       const modalElement = document.querySelector('.custom-modal-body');
       if (modalElement) {
@@ -220,7 +209,6 @@ export class CampaignDonationComponent implements OnInit {
     }, 100);
   }
   
-  // Abrir modal para ver top donaciones
   openTopDonationsModal(): void {
     this.modalCurrentPage = 0;
     this.topDonations = [];

@@ -35,8 +35,13 @@ export class CampaignService {
       environment.backApi + "campaign/" + id
     );
   }
+  
+  view(id : number): Observable<any> {
 
-
+    return this.http.get<any>(
+      environment.backApi + "campaign/" + id + "/view"
+    );
+  }
 
   getDonationsByCampaigniD(id: number, filter?: BaseFilter): Observable<Pagination<SimpleDonation>> {
     // Determinar el endpoint según el campo de ordenamiento

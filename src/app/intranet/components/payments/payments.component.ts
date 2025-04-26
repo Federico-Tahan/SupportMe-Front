@@ -3,7 +3,7 @@ import { PaymentDetailRead } from '../../../core/shared/interfaces/payment-detai
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaymentService } from '../../../core/shared/services/payment.service';
-import { CalendarComponent } from "../../../components/calendar/calendar.component";
+import { CalendarComponent, DateRangeOutput } from "../../../components/calendar/calendar.component";
 import { DateParserPipe } from '../../../core/shared/pipes/date-parser.pipe';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -109,9 +109,9 @@ export class PaymentsComponent implements OnInit {
     this.loadCardBrands();
   }
   
-  onDateRangeChange(dateRange: { start: Date, end: Date }): void {
-    this.startDate = dateRange.start;
-    this.endDate = dateRange.end;
+  onDateRangeChange(dateRange: DateRangeOutput): void {
+    this.startDate = dateRange.startDate;
+    this.endDate = dateRange.endDate;
     
     this.paymentFilter.from = this.startDate;
     this.paymentFilter.to = this.endDate;

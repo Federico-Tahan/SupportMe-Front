@@ -1,363 +1,291 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-interface CalendarDay {
-  date: Date;
-  day: number;
-  differentMonth: boolean;
+import { Component, OnInit, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import moment from 'moment';
+
+export interface DateRangeOutput {
+  startDate: Date;
+  endDate: Date;
+  label?: string; 
 }
+
+interface CalendarDay {
+  date: moment.Moment;
+  dayNumber: number;
+  isToday: boolean;
+  isSelected: boolean;
+  inRange: boolean;
+  isRangeStart: boolean;
+  isRangeEnd: boolean;
+  otherMonth: boolean;
+}
+
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    FormsModule,
+  ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss'
 })
-export class CalendarComponent {
-  @Input() startDate: Date = new Date();
-  @Input() endDate: Date = new Date();
-  @Output() dateRangeChanged = new EventEmitter<{start: Date, end: Date}>();
+export class CalendarComponent implements OnInit {
+  @Output() dateRangeChanged = new EventEmitter<DateRangeOutput>();
+  startDate: moment.Moment;
+  endDate: moment.Moment;
   
-  // Estado del componente
-  isOpen = false;
-  displayDateRange = '';
-  activeOption: string | null = null;
+  currentDate: moment.Moment;
   
-  // Variables temporales
-  tempStartDate: Date | null = null;
-  tempEndDate: Date | null = null;
+  isCalendarOpen: boolean = false;
   
-  // Variables del calendario
-  currentViewMonth: Date = new Date();
-  currentMonthLabel = '';
-  nextMonthLabel = '';
-  weekDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-  currentMonthDays: CalendarDay[] = [];
+  weekdays: string[] = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+  
+  calendarDays: CalendarDay[] = [];
   nextMonthDays: CalendarDay[] = [];
   
-  // Meses en español
-  months = [
-    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-  ];
+  isSelectingRange: boolean = false;
+  tempStartDate: moment.Moment | null = null;
   
-  constructor() { }
+  selectedRangeLabel: string = 'Últimos 7 días';
   
+  constructor(private elementRef: ElementRef) {
+    this.currentDate = moment().startOf('month');
+    
+    this.startDate = moment().subtract(6, 'days').startOf('day');
+    this.endDate = moment().endOf('day');
+    
+    moment.locale('es');
+  }
+
   ngOnInit(): void {
-    // Inicializar fechas
-    this.tempStartDate = new Date(this.startDate);
-    this.tempEndDate = new Date(this.endDate);
+    this.generateCalendarDays();
     
-    // Actualizar la etiqueta del rango
-    this.updateDisplayDateRange();
-    
-    // Generar calendarios iniciales
-    this.generateCalendars();
+    this.emitDateRange('Últimos 7 días');
   }
   
-  // Mostrar/ocultar el calendario
-  toggleCalendar(): void {
-    this.isOpen = !this.isOpen;
-    
-    if (this.isOpen) {
-      // Restablecer fechas temporales
-      this.tempStartDate = new Date(this.startDate);
-      this.tempEndDate = new Date(this.endDate);
-      
-      // Ajustar la vista del mes actual basado en la fecha de inicio
-      this.currentViewMonth = new Date(this.startDate);
-      
-      // Generar calendarios
-      this.generateCalendars();
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    if (this.isCalendarOpen && !this.elementRef.nativeElement.contains(event.target)) {
+      this.isCalendarOpen = false;
     }
   }
   
-  // Generar días para ambos calendarios
-  generateCalendars(): void {
-    // Configurar etiquetas de meses
-    this.updateMonthLabels();
+  toggleCalendar() {
+    this.isCalendarOpen = !this.isCalendarOpen;
     
-    // Generar días para el mes actual
-    this.currentMonthDays = this.generateMonthDays(
-      this.currentViewMonth.getFullYear(),
-      this.currentViewMonth.getMonth()
-    );
-    
-    // Generar días para el mes siguiente
-    const nextMonth = new Date(this.currentViewMonth);
-    nextMonth.setMonth(nextMonth.getMonth() + 1);
-    this.nextMonthDays = this.generateMonthDays(
-      nextMonth.getFullYear(),
-      nextMonth.getMonth()
-    );
-  }
-  
-  // Actualizar etiquetas de meses
-  updateMonthLabels(): void {
-    this.currentMonthLabel = `${this.months[this.currentViewMonth.getMonth()]} ${this.currentViewMonth.getFullYear()}`;
-    
-    const nextMonth = new Date(this.currentViewMonth);
-    nextMonth.setMonth(nextMonth.getMonth() + 1);
-    this.nextMonthLabel = `${this.months[nextMonth.getMonth()]} ${nextMonth.getFullYear()}`;
-  }
-  
-  // Generar días para un mes específico
-  generateMonthDays(year: number, month: number): CalendarDay[] {
-    const days: CalendarDay[] = [];
-    
-    // Primer día del mes
-    const firstDay = new Date(year, month, 1);
-    // Último día del mes
-    const lastDay = new Date(year, month + 1, 0);
-    
-    // Ajustar para que la semana empiece en lunes (0 = lunes, 6 = domingo)
-    let firstDayOfWeek = firstDay.getDay() - 1;
-    if (firstDayOfWeek < 0) firstDayOfWeek = 6; // Si es domingo (0), ajustar a 6
-    
-    // Días del mes anterior
-    if (firstDayOfWeek > 0) {
-      const prevMonth = new Date(year, month, 0);
-      const prevMonthDays = prevMonth.getDate();
+    if (this.isCalendarOpen) {
+      this.generateCalendarDays();
       
-      for (let i = firstDayOfWeek - 1; i >= 0; i--) {
-        const day = prevMonthDays - i;
-        const date = new Date(year, month - 1, day);
-        days.push({
-          date,
-          day,
-          differentMonth: true
-        });
+      this.currentDate = moment(this.startDate).startOf('month');
+      this.generateCalendarDays();
+    }
+  }
+  
+  formatSelectedRange(): string {
+    if (this.startDate && this.endDate) {
+      if (this.selectedRangeLabel && this.selectedRangeLabel !== 'Personalizado') {
+        return this.selectedRangeLabel;
+      } else {
+        return `${this.startDate.format('DD/MM/YYYY')} - ${this.endDate.format('DD/MM/YYYY')}`;
       }
     }
+    return 'Seleccionar fechas';
+  }
+  
+  get currentMonthTitle(): string {
+    return this.currentDate.format('MMM YYYY');
+  }
+  
+  get nextMonthTitle(): string {
+    return moment(this.currentDate).add(1, 'month').format('MMM YYYY');
+  }
+  
+  generateCalendarDays(): void {
+    this.calendarDays = this.generateMonthDays(this.currentDate);
     
-    // Días del mes actual
-    for (let i = 1; i <= lastDay.getDate(); i++) {
-      const date = new Date(year, month, i);
-      days.push({
-        date,
-        day: i,
-        differentMonth: false
-      });
+    this.nextMonthDays = this.generateMonthDays(moment(this.currentDate).add(1, 'month'));
+  }
+  
+  generateMonthDays(date: moment.Moment): CalendarDay[] {
+    const days: CalendarDay[] = [];
+    const today = moment().startOf('day');
+    
+    const startOfMonth = moment(date).startOf('month');
+    
+    let dayOfWeek = startOfMonth.day();
+    dayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    
+    const prevMonth = moment(startOfMonth).subtract(1, 'month');
+    const daysInPrevMonth = prevMonth.daysInMonth();
+    
+    for (let i = dayOfWeek - 1; i >= 0; i--) {
+      const day = moment(prevMonth).date(daysInPrevMonth - i);
+      days.push(this.createCalendarDay(day, true));
     }
     
-    // Días del mes siguiente para completar la cuadrícula (42 celdas = 6 semanas * 7 días)
-    const daysNeeded = 42 - days.length;
-    for (let i = 1; i <= daysNeeded; i++) {
-      const date = new Date(year, month + 1, i);
-      days.push({
-        date,
-        day: i,
-        differentMonth: true
-      });
+    const daysInMonth = startOfMonth.daysInMonth();
+    for (let i = 1; i <= daysInMonth; i++) {
+      const day = moment(startOfMonth).date(i);
+      days.push(this.createCalendarDay(day, false));
+    }
+    
+    const remainingDays = 42 - days.length;
+    
+    const nextMonth = moment(startOfMonth).add(1, 'month');
+    for (let i = 1; i <= remainingDays; i++) {
+      const day = moment(nextMonth).date(i);
+      days.push(this.createCalendarDay(day, true));
     }
     
     return days;
   }
   
-  // Actualizar la etiqueta de rango mostrada
-  updateDisplayDateRange(): void {
-    if (!this.startDate || !this.endDate) {
-      this.displayDateRange = 'Seleccionar fechas';
+  createCalendarDay(date: moment.Moment, otherMonth: boolean): CalendarDay {
+    const today = moment().startOf('day');
+    
+    const isSelected = !otherMonth && (date.isSame(this.startDate, 'day') || date.isSame(this.endDate, 'day'));
+    const inRange = !otherMonth && date.isBetween(this.startDate, this.endDate, 'day', '[]');
+    const isRangeStart = !otherMonth && date.isSame(this.startDate, 'day');
+    const isRangeEnd = !otherMonth && date.isSame(this.endDate, 'day');
+    
+    return {
+      date: date,
+      dayNumber: date.date(),
+      isToday: date.isSame(today, 'day'),
+      isSelected: isSelected,
+      inRange: inRange,
+      isRangeStart: isRangeStart,
+      isRangeEnd: isRangeEnd,
+      otherMonth: otherMonth
+    };
+  }
+  
+  prevMonth(event: MouseEvent): void {
+    event.stopPropagation(); 
+    this.currentDate = moment(this.currentDate).subtract(1, 'month');
+    this.generateCalendarDays();
+  }
+  
+  nextMonth(event: MouseEvent): void {
+    event.stopPropagation();
+    this.currentDate = moment(this.currentDate).add(1, 'month');
+    this.generateCalendarDays();
+  }
+  
+  selectDay(day: CalendarDay, event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    
+    if (day.otherMonth) {
       return;
     }
     
-    const formatDate = (date: Date) => {
-      return `${date.getDate()} ${this.months[date.getMonth()].substring(0, 3)}, ${date.getFullYear()}`;
-    };
-    
-    if (this.startDate.getTime() === this.endDate.getTime()) {
-      this.displayDateRange = formatDate(this.startDate);
+    if (!this.isSelectingRange) {
+      this.tempStartDate = moment(day.date);
+      this.isSelectingRange = true;
+      
+      this.startDate = moment(day.date).startOf('day');
+      this.endDate = moment(day.date).endOf('day');
+      this.selectedRangeLabel = 'Personalizado';
     } else {
-      this.displayDateRange = `${formatDate(this.startDate)} - ${formatDate(this.endDate)}`;
-    }
-  }
-  
-  // Navegar al mes anterior
-  prevMonth(): void {
-    this.currentViewMonth.setMonth(this.currentViewMonth.getMonth() - 1);
-    this.generateCalendars();
-  }
-  
-  // Navegar al mes siguiente
-  nextMonth(): void {
-    this.currentViewMonth.setMonth(this.currentViewMonth.getMonth() + 1);
-    this.generateCalendars();
-  }
-  
-  // Seleccionar una fecha
-  selectDate(date: Date): void {
-    if (!date) return;
-    
-    // No permitir seleccionar fechas de meses diferentes
-    const currentMonth = this.currentViewMonth.getMonth();
-    const nextMonth = new Date(this.currentViewMonth);
-    nextMonth.setMonth(currentMonth + 1);
-    
-    const dateMonth = date.getMonth();
-    
-    if (dateMonth !== currentMonth && dateMonth !== nextMonth.getMonth()) {
-      return;
-    }
-    
-    if (!this.tempStartDate || (this.tempStartDate && this.tempEndDate)) {
-      // Iniciar nueva selección
-      this.tempStartDate = new Date(date);
-      this.tempEndDate = null;
-      this.activeOption = null;
-    } else if (this.tempStartDate && !this.tempEndDate) {
-      // Completar selección
-      if (date < this.tempStartDate) {
-        this.tempEndDate = new Date(this.tempStartDate);
-        this.tempStartDate = new Date(date);
-      } else {
-        this.tempEndDate = new Date(date);
-      }
-    }
-  }
-  
-  // Verificar si un día está seleccionado (inicio o fin)
-  isDaySelected(date: Date): boolean {
-    if (!this.tempStartDate) return false;
-    
-    const isSameDate = (date1: Date, date2: Date) => {
-      return date1.getDate() === date2.getDate() && 
-             date1.getMonth() === date2.getMonth() && 
-             date1.getFullYear() === date2.getFullYear();
-    };
-    
-    return isSameDate(date, this.tempStartDate) || 
-           (this.tempEndDate && isSameDate(date, this.tempEndDate));
-  }
-  
-  // Verificar si es el inicio del rango
-  isRangeStart(date: Date): boolean {
-    if (!this.tempStartDate) return false;
-    
-    return date.getDate() === this.tempStartDate.getDate() && 
-           date.getMonth() === this.tempStartDate.getMonth() && 
-           date.getFullYear() === this.tempStartDate.getFullYear();
-  }
-  
-  // Verificar si es el fin del rango
-  isRangeEnd(date: Date): boolean {
-    if (!this.tempEndDate) return false;
-    
-    return date.getDate() === this.tempEndDate.getDate() && 
-           date.getMonth() === this.tempEndDate.getMonth() && 
-           date.getFullYear() === this.tempEndDate.getFullYear();
-  }
-  
-  // Verificar si una fecha está dentro del rango
-  isInRange(date: Date): boolean {
-    if (!this.tempStartDate || !this.tempEndDate) return false;
-    
-    const time = date.getTime();
-    return time > this.tempStartDate.getTime() && time < this.tempEndDate.getTime();
-  }
-  
-  // Verificar si es el día actual
-  isToday(date: Date): boolean {
-    const today = new Date();
-    return date.getDate() === today.getDate() && 
-           date.getMonth() === today.getMonth() && 
-           date.getFullYear() === today.getFullYear();
-  }
-  
-  // Aplicar la selección
-  apply(): void {
-    if (this.tempStartDate) {
-      this.startDate = new Date(this.tempStartDate);
+      const tempEndDate = moment(day.date);
       
-      if (this.tempEndDate) {
-        this.endDate = new Date(this.tempEndDate);
+      if (tempEndDate.isBefore(this.tempStartDate)) {
+        this.startDate = moment(tempEndDate).startOf('day');
+        this.endDate = moment(this.tempStartDate).endOf('day');
       } else {
-        // Si solo se seleccionó una fecha, usar la misma para inicio y fin
-        this.endDate = new Date(this.tempStartDate);
+        this.startDate = moment(this.tempStartDate).startOf('day');
+        this.endDate = moment(tempEndDate).endOf('day');
       }
       
-      this.updateDisplayDateRange();
-      this.dateRangeChanged.emit({
-        start: this.startDate,
-        end: this.endDate
-      });
+      this.isSelectingRange = false;
+      this.tempStartDate = null;
+    }
+    
+    this.generateCalendarDays();
+  }
+  
+  calendarClick(event: MouseEvent): void {
+    event.stopPropagation();
+  }
+  
+  selectRange(rangeName: string, event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    
+    this.selectedRangeLabel = rangeName;
+    this.isSelectingRange = false;
+    this.tempStartDate = null;
+    
+    const now = moment();
+    
+    switch (rangeName) {
+      case 'Hoy':
+        this.startDate = moment().startOf('day');
+        this.endDate = moment().endOf('day');
+        break;
+      case 'Ayer':
+        this.startDate = moment().subtract(1, 'days').startOf('day');
+        this.endDate = moment().subtract(1, 'days').endOf('day');
+        break;
+      case 'Esta semana':
+        this.startDate = moment().startOf('week');
+        this.endDate = moment().endOf('week');
+        break;
+      case 'Últimos 7 días':
+        this.startDate = moment().subtract(6, 'days').startOf('day');
+        this.endDate = moment().endOf('day');
+        break;
+      case 'Últimos 30 días':
+        this.startDate = moment().subtract(29, 'days').startOf('day');
+        this.endDate = moment().endOf('day');
+        break;
+      case 'Este mes':
+        this.startDate = moment().startOf('month');
+        this.endDate = moment().endOf('month');
+        break;
+      case 'Mes pasado':
+        this.startDate = moment().subtract(1, 'month').startOf('month');
+        this.endDate = moment().subtract(1, 'month').endOf('month');
+        break;
+      case 'Este año':
+        this.startDate = moment().startOf('year');
+        this.endDate = moment().endOf('year');
+        break;
+      case 'Año pasado':
+        this.startDate = moment().subtract(1, 'year').startOf('year');
+        this.endDate = moment().subtract(1, 'year').endOf('year');
+        break;
+    }
+    
+    this.currentDate = moment(this.startDate).startOf('month');
+    
+    this.generateCalendarDays();
+  }
+  
+  cancelSelection(event: MouseEvent): void {
+    event.stopPropagation(); 
+    this.isCalendarOpen = false;
+  }
+  
+  applySelection(event: MouseEvent): void {
+    event.stopPropagation();
+    this.emitDateRange(this.selectedRangeLabel);
+    this.isCalendarOpen = false;
+  }
+  
+  private emitDateRange(label?: string): void {
+    if (this.startDate && this.endDate) {
+      const output: DateRangeOutput = {
+        startDate: this.startDate.toDate(),
+        endDate: this.endDate.toDate(),
+        label: label === 'Personalizado' ? undefined : label
+      };
       
-      this.isOpen = false;
-    }
-  }
-  
-  // Cancelar la selección
-  cancel(): void {
-    this.tempStartDate = new Date(this.startDate);
-    this.tempEndDate = new Date(this.endDate);
-    this.isOpen = false;
-  }
-  
-  // Seleccionar opción rápida
-  selectQuickOption(option: string): void {
-    this.activeOption = option;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    switch (option) {
-      case 'today':
-        this.tempStartDate = new Date(today);
-        this.tempEndDate = new Date(today);
-        break;
-        
-      case 'yesterday':
-        const yesterday = new Date(today);
-        yesterday.setDate(yesterday.getDate() - 1);
-        this.tempStartDate = new Date(yesterday);
-        this.tempEndDate = new Date(yesterday);
-        break;
-        
-      case 'thisWeek':
-        const thisWeekStart = new Date(today);
-        const dayOfWeek = today.getDay() || 7; // 0 es domingo, lo convertimos a 7
-        thisWeekStart.setDate(today.getDate() - dayOfWeek + 1); // Lunes de esta semana
-        this.tempStartDate = new Date(thisWeekStart);
-        this.tempEndDate = new Date(today);
-        break;
-        
-      case 'lastWeek':
-        const lastWeekEnd = new Date(today);
-        const currentDayOfWeek = today.getDay() || 7;
-        lastWeekEnd.setDate(today.getDate() - currentDayOfWeek); // Domingo de la semana anterior
-        const lastWeekStart = new Date(lastWeekEnd);
-        lastWeekStart.setDate(lastWeekEnd.getDate() - 6); // Lunes de la semana anterior
-        this.tempStartDate = new Date(lastWeekStart);
-        this.tempEndDate = new Date(lastWeekEnd);
-        break;
-        
-      case 'thisMonth':
-        const thisMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
-        this.tempStartDate = new Date(thisMonthStart);
-        this.tempEndDate = new Date(today);
-        break;
-        
-      case 'lastMonth':
-        const lastMonthStart = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-        const lastMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0);
-        this.tempStartDate = new Date(lastMonthStart);
-        this.tempEndDate = new Date(lastMonthEnd);
-        break;
-        
-      case 'thisYear':
-        const thisYearStart = new Date(today.getFullYear(), 0, 1);
-        this.tempStartDate = new Date(thisYearStart);
-        this.tempEndDate = new Date(today);
-        break;
-        
-      case 'lastYear':
-        const lastYearStart = new Date(today.getFullYear() - 1, 0, 1);
-        const lastYearEnd = new Date(today.getFullYear() - 1, 11, 31);
-        this.tempStartDate = new Date(lastYearStart);
-        this.tempEndDate = new Date(lastYearEnd);
-        break;
-    }
-    
-    // Actualizar vista del calendario para mostrar el mes de inicio del rango
-    if (this.tempStartDate) {
-      this.currentViewMonth = new Date(this.tempStartDate);
-      this.generateCalendars();
+      this.dateRangeChanged.emit(output);
     }
   }
 }

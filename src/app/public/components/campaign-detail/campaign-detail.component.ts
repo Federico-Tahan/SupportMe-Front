@@ -47,8 +47,14 @@ export class CampaignDetailComponent implements AfterViewInit, OnInit {
 
         },
         error: (error) => {
-          console.error('Error loading campaign:', error);
           this.isLoading = false;
+        }
+      })
+
+      this.campaignService.view(this.campaignId).subscribe({
+        next : (data) => {
+        },
+        error: (error) => {
         }
       })
     });  

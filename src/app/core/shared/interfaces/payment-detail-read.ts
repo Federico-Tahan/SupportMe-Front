@@ -8,4 +8,5 @@ export interface PaymentDetailRead {
     campaign : SimpleCampaign;
     paymentDate: Date;
     customerName : string;
+    chargeId : string;
 }

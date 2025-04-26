@@ -1,13 +1,25 @@
 <div class="dashboard-container">
-    <app-kpi-cards [kpiData]="kpiData"></app-kpi-cards>
-    <app-campaign-details 
-      [campaigns]="campaigns" 
-      [selectedCampaign]="selectedCampaign"
-      (campaignChanged)="onCampaignChange($event)">
-    </app-campaign-details>
-    <app-charts 
-      [donationsData]="getChartData(selectedCampaign.donations)" 
-      [visitsData]="getChartData(selectedCampaign.visits)">
-    </app-charts>
-    <app-categories-chart [categories]="categories"></app-categories-chart>
+  <!-- Nuevo filtro de fecha global -->
+  <div class="date-filter-container">
+    <div class="date-filter-card">
+      <div class="filter-header">
+        <div class="filter-title">Filtros</div>
+          <app-calendar 
+          (dateRangeChanged)="onDateRangeChange($event)">
+          </app-calendar>
+        </div>
+    </div>
   </div>
+
+  <app-kpi-cards [kpiData]="filteredKpiData"></app-kpi-cards>
+  <app-campaign-details 
+    [campaigns]="filteredCampaigns" 
+    [selectedCampaign]="selectedCampaign"
+    (campaignChanged)="onCampaignChange($event)">
+  </app-campaign-details>
+  <app-charts 
+    [donationsData]="donationsChartData" 
+    [visitsData]="visitsChartData">
+  </app-charts>
+  <app-categories-chart [categories]="filteredCategories"></app-categories-chart>
+</div>

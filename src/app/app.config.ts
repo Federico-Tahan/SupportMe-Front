@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
@@ -9,6 +9,7 @@ import { environment } from '../environment/environment';
 import { routes } from './app.routes';
 import { tokenInterceptor } from './core/shared/interceptor/auth.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,5 +23,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
+    importProvidersFrom(NgxDaterangepickerMd.forRoot())
   ]
 };

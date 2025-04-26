@@ -1,102 +1,92 @@
-<!-- date-picker.component.html -->
-<div class="date-picker-container">
-    <!-- Botón para mostrar/ocultar el calendario -->
-    <button class="date-picker-button" (click)="toggleCalendar()">
-      <i class="fa fa-calendar"></i>
-      {{ displayDateRange }}
-    </button>
-    
-    <!-- Calendario desplegable -->
-    @if (isOpen) {
-      <div class="calendar-dropdown">
-        <!-- Opciones rápidas de selección -->
-        <div class="calendar-sidebar">
-          <div class="quick-option" [class.active]="activeOption === 'today'" (click)="selectQuickOption('today')">Hoy</div>
-          <div class="quick-option" [class.active]="activeOption === 'yesterday'" (click)="selectQuickOption('yesterday')">Ayer</div>
-          <div class="quick-option" [class.active]="activeOption === 'thisWeek'" (click)="selectQuickOption('thisWeek')">Esta semana</div>
-          <div class="quick-option" [class.active]="activeOption === 'lastWeek'" (click)="selectQuickOption('lastWeek')">Última semana</div>
-          <div class="quick-option" [class.active]="activeOption === 'thisMonth'" (click)="selectQuickOption('thisMonth')">Este mes</div>
-          <div class="quick-option" [class.active]="activeOption === 'lastMonth'" (click)="selectQuickOption('lastMonth')">Último mes</div>
-          <div class="quick-option" [class.active]="activeOption === 'thisYear'" (click)="selectQuickOption('thisYear')">Este año</div>
-          <div class="quick-option" [class.active]="activeOption === 'lastYear'" (click)="selectQuickOption('lastYear')">Último año</div>
-        </div>
-        
-        <div class="calendar-main">
-          <!-- Navegación de meses -->
-          <div class="calendar-nav">
-            <button class="nav-btn" (click)="prevMonth()">
+<!-- Mostrar el rango seleccionado -->
+<div class="date-range-wrapper">
+  <div class="selected-range" (click)="toggleCalendar()">
+    <span>{{ formatSelectedRange() }}</span>
+    <i class="fa fa-calendar-alt"></i>
+  </div>
+
+  <!-- Popup del calendario -->
+  <div class="calendar-popup" [class.open]="isCalendarOpen" (click)="calendarClick($event)">
+    <div class="calendar-container">
+      <!-- Rangos predefinidos (panel izquierdo) -->
+      <div class="ranges-panel">
+        <div class="range-option" (click)="selectRange('Hoy', $event)">Hoy</div>
+        <div class="range-option" (click)="selectRange('Ayer', $event)">Ayer</div>
+        <div class="range-option" (click)="selectRange('Esta semana', $event)">Esta semana</div>
+        <div class="range-option" [class.active]="selectedRangeLabel === 'Últimos 7 días'" (click)="selectRange('Últimos 7 días', $event)">Últimos 7 días</div>
+        <div class="range-option" (click)="selectRange('Últimos 30 días', $event)">Últimos 30 días</div>
+        <div class="range-option" (click)="selectRange('Este mes', $event)">Este mes</div>
+        <div class="range-option" (click)="selectRange('Mes pasado', $event)">Mes pasado</div>
+        <div class="range-option" (click)="selectRange('Este año', $event)">Este año</div>
+        <div class="range-option" (click)="selectRange('Año pasado', $event)">Año pasado</div>
+      </div>
+
+      <div class="calendar-panel">
+        <!-- Calendario -->
+        <div class="calendars-wrapper">
+          <!-- Navegación -->
+          <div class="month-navigation">
+            <button class="month-nav prev" (click)="prevMonth($event)">
               <i class="fa fa-chevron-left"></i>
             </button>
-            
-            <div class="month-labels">
-              <div class="month-label">{{ currentMonthLabel }}</div>
-              <div class="month-label">{{ nextMonthLabel }}</div>
-            </div>
-            
-            <button class="nav-btn" (click)="nextMonth()">
+            <button class="month-nav next" (click)="nextMonth($event)">
               <i class="fa fa-chevron-right"></i>
             </button>
           </div>
           
-          <!-- Contenedor de calendarios -->
-          <div class="calendars-wrapper">
-            <!-- Primer calendario (mes actual) -->
-            <div class="calendar">
-              <div class="weekdays">
-                @for (day of weekDays; track day) {
-                  <div class="weekday">{{ day }}</div>
-                }
+          <div class="calendars-container">
+            <!-- Calendario actual -->
+            <div class="month-calendar">
+              <div class="month-header">{{ currentMonthTitle }}</div>
+              <div class="weekdays-header">
+                <div class="weekday" *ngFor="let day of weekdays">{{ day }}</div>
               </div>
-              
-              <div class="days">
-                @for (day of currentMonthDays; track day.date) {
-                  <div 
-                    class="day" 
-                    [class.different-month]="day.differentMonth"
-                    [class.selected]="!day.differentMonth && isDaySelected(day.date)"
-                    [class.range-start]="!day.differentMonth && isRangeStart(day.date)"
-                    [class.range-end]="!day.differentMonth && isRangeEnd(day.date)"
-                    [class.in-range]="!day.differentMonth && isInRange(day.date)"
-                    [class.today]="isToday(day.date)"
-                    (click)="!day.differentMonth && selectDate(day.date)">
-                    {{ day.day }}
-                  </div>
-                }
+              <div class="days-grid">
+                <div class="day" 
+                    *ngFor="let day of calendarDays" 
+                    [class.other-month]="day.otherMonth"
+                    [class.today]="day.isToday"
+                    [class.selected]="day.isSelected"
+                    [class.in-range]="day.inRange"
+                    [class.range-start]="day.isRangeStart"
+                    [class.range-end]="day.isRangeEnd"
+                    [class.disabled]="day.otherMonth"
+                    (click)="selectDay(day, $event)">
+                  {{ day.dayNumber }}
+                </div>
               </div>
             </div>
             
-            <!-- Segundo calendario (mes siguiente) -->
-            <div class="calendar">
-              <div class="weekdays">
-                @for (day of weekDays; track day) {
-                  <div class="weekday">{{ day }}</div>
-                }
+            <!-- Siguiente mes -->
+            <div class="month-calendar">
+              <div class="month-header">{{ nextMonthTitle }}</div>
+              <div class="weekdays-header">
+                <div class="weekday" *ngFor="let day of weekdays">{{ day }}</div>
               </div>
-              
-              <div class="days">
-                @for (day of nextMonthDays; track day.date) {
-                  <div 
-                    class="day" 
-                    [class.different-month]="day.differentMonth"
-                    [class.selected]="!day.differentMonth && isDaySelected(day.date)"
-                    [class.range-start]="!day.differentMonth && isRangeStart(day.date)"
-                    [class.range-end]="!day.differentMonth && isRangeEnd(day.date)"
-                    [class.in-range]="!day.differentMonth && isInRange(day.date)"
-                    [class.today]="isToday(day.date)"
-                    (click)="!day.differentMonth && selectDate(day.date)">
-                    {{ day.day }}
-                  </div>
-                }
+              <div class="days-grid">
+                <div class="day" 
+                    *ngFor="let day of nextMonthDays" 
+                    [class.other-month]="day.otherMonth"
+                    [class.today]="day.isToday"
+                    [class.selected]="day.isSelected"
+                    [class.in-range]="day.inRange"
+                    [class.range-start]="day.isRangeStart"
+                    [class.range-end]="day.isRangeEnd"
+                    [class.disabled]="day.otherMonth"
+                    (click)="selectDay(day, $event)">
+                  {{ day.dayNumber }}
+                </div>
               </div>
             </div>
           </div>
-          
-          <!-- Botones de acción -->
-          <div class="calendar-actions">
-            <button class="cancel-btn" (click)="cancel()">Cancelar</button>
-            <button class="apply-btn" (click)="apply()">Aplicar</button>
-          </div>
+        </div>
+        
+        <!-- Botones de acción -->
+        <div class="action-buttons">
+          <button class="btn-cancel" (click)="cancelSelection($event)">Cancelar</button>
+          <button class="btn-apply" (click)="applySelection($event)">Aplicar</button>
         </div>
       </div>
-    }
+    </div>
   </div>
+</div>
