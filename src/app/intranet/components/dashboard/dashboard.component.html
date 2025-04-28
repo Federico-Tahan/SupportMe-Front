@@ -1,25 +1,40 @@
 <div class="dashboard-container">
-  <!-- Nuevo filtro de fecha global -->
+  <!-- Filtro de fecha global -->
   <div class="date-filter-container">
     <div class="date-filter-card">
       <div class="filter-header">
         <div class="filter-title">Filtros</div>
-          <app-calendar 
+        <app-calendar 
           (dateRangeChanged)="onDateRangeChange($event)">
-          </app-calendar>
-        </div>
+        </app-calendar>
+      </div>
     </div>
   </div>
 
-  <app-kpi-cards [kpiData]="filteredKpiData"></app-kpi-cards>
+  <!-- Contenedor para KPI cards con loading integrado -->
+  <div class="kpi-cards-wrapper">
+    <div class="loading-skeleton" *ngIf="loading">
+      <div class="skeleton-kpi-row">
+        <div class="skeleton-kpi" *ngFor="let i of [1,2,3,4]">
+          <div class="skeleton-title"></div>
+          <div class="skeleton-value"></div>
+          <div class="skeleton-change"></div>
+        </div>
+      </div>
+      <div class="centered-spinner">
+        <app-inline-loading-spinner [isLoading]="true"></app-inline-loading-spinner>
+      </div>
+    </div>
+    <app-kpi-cards [kpiData]="filteredKpiData" *ngIf="!loading"></app-kpi-cards>
+  </div>
+
   <app-campaign-details 
-    [campaigns]="filteredCampaigns" 
-    [selectedCampaign]="selectedCampaign"
-    (campaignChanged)="onCampaignChange($event)">
-  </app-campaign-details>
+  [from]="startDate"
+  [to]="endDate">
+</app-campaign-details>
+
   <app-charts 
     [donationsData]="donationsChartData" 
     [visitsData]="visitsChartData">
   </app-charts>
-  <app-categories-chart [categories]="filteredCategories"></app-categories-chart>
 </div>

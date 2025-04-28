@@ -9,6 +9,7 @@ import { AuthContextService } from '../interceptor/auth-context';
 import { CampaignWrite } from '../interfaces/campaign-write';
 import { SimpleDonation } from '../interfaces/simple-donation';
 import { BaseFilter } from '../filters/base-filter';
+import { SimpleCampaign } from '../interfaces/simple-campaign';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,12 @@ export class CampaignService {
   updateCampaign(campaign: CampaignWrite) : Observable<any>{
     return this.http.put<any>(environment.backApi + "campaign", campaign);
   }
-
+  getCampaignSimple(): Observable<SimpleCampaign[]> {
+    this.authContextService.withAuth();
+    return this.http.get<SimpleCampaign[]>(
+      environment.backApi + "campaign/simple"
+    );
+  }
 
   getCampaignById(id : number): Observable<Campaign> {
 
@@ -44,11 +50,9 @@ export class CampaignService {
   }
 
   getDonationsByCampaigniD(id: number, filter?: BaseFilter): Observable<Pagination<SimpleDonation>> {
-    // Determinar el endpoint según el campo de ordenamiento
-    let endpoint = 'donations/recents'; // Por defecto usamos /recents
+    let endpoint = 'donations/recents';
     
     if (filter && filter.sorting && filter.sorting.length > 0) {
-      // Si el campo de ordenamiento es "amount", usamos el endpoint top
       if (filter.sorting[0].field === 'amount') {
         endpoint = 'donations/top';
       }
@@ -70,7 +74,6 @@ export class CampaignService {
       if (filter.sorting && filter.sorting.length > 0) {
         const sorting = filter.sorting[0];
         queryParams.push(`sortBy=${sorting.sortBy}`);
-        // No incluimos el campo field en la URL ya que está implícito en el endpoint
       }
       
       if (queryParams.length > 0) {
