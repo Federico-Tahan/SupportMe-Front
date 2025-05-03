@@ -18,7 +18,7 @@ export class FaqComponent {
   faqItems: FaqItem[] = [
     {
       question: '¿Qué es SupportMe?',
-      answer: '<strong>SupportMe</strong> es una plataforma que permite a personas y ONGs crear campañas para recaudar fondos destinados a causas solidarias, sociales o personales, recibiendo donaciones de forma segura a través de Mercado Pago.',
+      answer: '<strong>SupportMe</strong> es una plataforma que permite a personas crear campañas para recaudar fondos destinados a causas solidarias, sociales o personales, recibiendo donaciones de forma segura a través de Mercado Pago.',
       isOpen: true
     },
     {
@@ -48,7 +48,7 @@ export class FaqComponent {
     },
     {
       question: '¿Qué medios de pago puedo usar?',
-      answer: 'Los pagos se realizan a través de <strong>Mercado Pago</strong>, por lo que podés utilizar tarjeta de crédito, débito, saldo en cuenta, o los medios habilitados por la pasarela.',
+      answer: 'Los pagos se realizan a través de tarjeta de crédito, débito.',
       isOpen: false
     },
     {
@@ -58,7 +58,7 @@ export class FaqComponent {
     },
     {
       question: '¿Puedo dejar un mensaje al donar?',
-      answer: 'Sí. Al realizar una donación, tenés la opción de dejar un mensaje de apoyo que será visible en la campaña (dependiendo de la configuración del creador).',
+      answer: 'Sí. Al realizar una donación, tenés la opción de dejar un mensaje de apoyo que será visible en la campaña.',
       isOpen: false
     },
     {
