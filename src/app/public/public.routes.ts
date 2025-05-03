@@ -4,6 +4,7 @@ import { onlyPublicGuard } from '../core/shared/guards/only.public.guard';
 import { HowWorksComponent } from './components/how-works/how-works.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { PaymentResponseComponent } from './components/payment-response/payment-response.component';
+import { FaqComponent } from './components/faq/faq.component';
 
 export const PUBLIC_ROUTES: Routes = [
     {path : '', loadComponent: () => import('./components/landing/landing.component').then(m => m.LandingComponent)},
@@ -13,5 +14,6 @@ export const PUBLIC_ROUTES: Routes = [
     {path : 'payment/response', loadComponent: () => import('../public/components/payment-response/payment-response.component').then(m => m.PaymentResponseComponent)},
     {path : 'login', canActivate: [onlyPublicGuard], component: LoginComponent},
     {path : 'signup', canActivate: [onlyPublicGuard], component: SignupComponent},
+    {path : 'faq', component: FaqComponent},
     {path : 'payment/form', loadComponent: () => import('./components/payment-form/payment-form.component').then(m => m.PaymentFormComponent)},
 ];
