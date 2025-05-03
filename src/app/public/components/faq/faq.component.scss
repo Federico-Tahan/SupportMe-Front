@@ -1,8 +1,8 @@
 // Variables
 $primary-color: #6c7af3;
-$secondary-color: #b066f8;
-$accent-color: #5ce0aa;
-$gradient-primary: linear-gradient(135deg, $primary-color, $secondary-color);
+$secondary-color: #6c7af3; // Unificado al color principal
+$accent-color: #6c7af3; // Unificado al color principal
+$gradient-primary: linear-gradient(135deg, $primary-color, $primary-color);
 $question-color: #5a6178;
 $answer-color: #555b6e;
 $bg-light: #f9faff;
@@ -78,62 +78,32 @@ $transition-speed: 0.35s;
     @include card-hover;
   }
   
-  &:nth-child(even) {
-    .toggle-icon {
-      background: rgba($secondary-color, 0.1);
-      color: $secondary-color;
-      
-      &::after {
-        border-color: $secondary-color;
-      }
-    }
+  // Mismo color para todos los elementos
+  .toggle-icon {
+    background: rgba($primary-color, 0.1);
+    color: $primary-color;
     
-    .faq-question.active {
-      border-left-color: $secondary-color;
-      
-      .toggle-icon {
-        background-color: $secondary-color;
-        
-        &::after {
-          border-color: white;
-          transform: rotate(-135deg);
-        }
-      }
-    }
-    
-    .faq-answer strong, 
-    .faq-answer b {
-      color: $secondary-color;
+    &::after {
+      border-color: $primary-color;
     }
   }
   
-  &:nth-child(3n+3) {
+  .faq-question.active {
+    border-left-color: $primary-color;
+    
     .toggle-icon {
-      background: rgba($accent-color, 0.1);
-      color: $accent-color;
+      background-color: $primary-color;
       
       &::after {
-        border-color: $accent-color;
+        border-color: white;
+        transform: rotate(-135deg);
       }
     }
-    
-    .faq-question.active {
-      border-left-color: $accent-color;
-      
-      .toggle-icon {
-        background-color: $accent-color;
-        
-        &::after {
-          border-color: white;
-          transform: rotate(-135deg);
-        }
-      }
-    }
-    
-    .faq-answer strong, 
-    .faq-answer b {
-      color: $accent-color;
-    }
+  }
+  
+  .faq-answer strong, 
+  .faq-answer b {
+    color: $primary-color;
   }
 }
 

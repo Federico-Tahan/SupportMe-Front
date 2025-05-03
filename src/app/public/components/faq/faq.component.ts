@@ -73,50 +73,20 @@ export class FaqComponent {
     }
   ];
   
-  isMobile: boolean = false;
+  constructor() {}
   
-  constructor() {
-    this.checkScreenSize();
-  }
-  
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.checkScreenSize();
-  }
-  
-  checkScreenSize() {
-    this.isMobile = window.innerWidth < 768;
-    
-    // Si es mobile, asegurarse de que solo una pregunta esté abierta a la vez
-    if (this.isMobile) {
-      // Count open items
-      const openItems = this.faqItems.filter(item => item.isOpen).length;
-      if (openItems > 1) {
-        // Keep only the first one open
-        let foundFirst = false;
-        this.faqItems.forEach(item => {
-          if (item.isOpen) {
-            if (!foundFirst) {
-              foundFirst = true;
-            } else {
-              item.isOpen = false;
-            }
-          }
-        });
-      }
-    }
-  }
-  
+  // Siempre cierra todos los demás elementos cuando se abre uno nuevo
   toggleFaq(selectedItem: FaqItem): void {
-    // En mobile, cierra otras preguntas cuando se abre una nueva
-    if (this.isMobile && !selectedItem.isOpen) {
+    // Si está cerrado y va a abrirse, cerrar todos los demás
+    if (!selectedItem.isOpen) {
       this.faqItems.forEach(item => {
-        if (item !== selectedItem && item.isOpen) {
+        if (item !== selectedItem) {
           item.isOpen = false;
         }
       });
     }
     
+    // Toggle el estado del elemento seleccionado
     selectedItem.isOpen = !selectedItem.isOpen;
   }
 }
