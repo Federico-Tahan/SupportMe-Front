@@ -1,0 +1,28 @@
+<div class="faq-wrapper">
+    <div class="faq-container">
+      <h2 class="faq-title">Preguntas Frecuentes (FAQ)</h2>
+      
+      <div class="faq-list">
+        @for (item of faqItems; track item.question) {
+          <div class="faq-item">
+            <div 
+              class="faq-question" 
+              [class.active]="item.isOpen"
+              (click)="toggleFaq(item)"
+            >
+              <div class="question-header">
+                <span class="question-text">{{ item.question }}</span>
+                <span class="toggle-icon"></span>
+              </div>
+            </div>
+            
+            @if (item.isOpen) {
+              <div class="faq-answer">
+                <p [innerHTML]="item.answer"></p>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
