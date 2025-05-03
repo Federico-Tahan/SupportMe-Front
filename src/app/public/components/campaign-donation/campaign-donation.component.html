@@ -43,8 +43,19 @@
     </div>
     
     <div class="action-buttons">
-      <button class="btn-share" (click)="share()">Compartir</button>
-      <button class="btn-donate" [routerLink]="['/payment/form']" [queryParams]="{campaignId: campaignId}">Donar ahora!</button>
+      <button 
+      class="btn-share" 
+      [class.copied]="isUrlCopied" 
+      (click)="share()"
+    >
+      <span class="btn-text">{{ isUrlCopied ? 'URL Copiada!' : 'Compartir' }}</span>
+      <span class="copy-indicator">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </span>
+    </button>
+    <button class="btn-donate" [routerLink]="['/payment/form']" [queryParams]="{campaignId: campaignId}">Donar ahora!</button>
     </div>
     
     <div class="recent-donations">

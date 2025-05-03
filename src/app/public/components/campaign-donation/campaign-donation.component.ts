@@ -153,8 +153,27 @@ export class CampaignDonationComponent implements OnInit {
       return `hace ${days} ${days === 1 ? 'dia' : 'dias'}`;
     }
   }
-  
+  isUrlCopied: boolean = false;
+
   share(): void {
+    // Obtener la URL actual
+    const currentUrl = window.location.href;
+    
+    // Copiar al portapapeles
+    navigator.clipboard.writeText(currentUrl)
+      .then(() => {
+        // Mostrar animación de confirmación
+        this.isUrlCopied = true;
+        
+        // Restablecer el estado después de la animación
+        setTimeout(() => {
+          this.isUrlCopied = false;
+        }, 2000); // La animación dura 2 segundos
+      })
+      .catch(err => {
+        console.error('Error al copiar URL: ', err);
+        // Opcionalmente, mostrar un mensaje de error
+      });
   }
 
   checkScrollButtons() {

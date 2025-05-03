@@ -340,16 +340,6 @@
     transition: all 0.2s ease;
   }
   
-  .btn-share {
-    background-color: white;
-    color: #6366F1;
-    border: 1px solid #6366F1;
-    
-    &:hover {
-      background-color: #F5F5FF;
-    }
-  }
-  
   .btn-donate {
     background-color: #6366F1;
     color: white;
@@ -357,6 +347,80 @@
     &:hover {
       background-color: #5254cc;
     }
+  }
+}
+
+/* Botón de compartir con animación */
+.btn-share {
+  background-color: white;
+  border: 1px solid #6366F1 !important;
+  color: #6366F1;
+  flex: 1;
+  padding: 12px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: rgba(99, 102, 241, 0.05);
+  }
+  
+  // Estado cuando se ha copiado la URL
+  &.copied {
+    background-color: #10b981; // Color verde de éxito
+    border-color: #10b981 !important;
+    color: white;
+    
+    .copy-indicator {
+      opacity: 1;
+      transform: translateY(0) translateX(0) scale(1);
+    }
+    
+    .btn-text {
+      transform: translateX(-10px);
+    }
+  }
+  
+  .btn-text {
+    transition: transform 0.3s ease;
+  }
+  
+  // Indicador de copia (check icon)
+  .copy-indicator {
+    position: absolute;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(5px) translateX(5px) scale(0.8);
+    transition: all 0.3s ease;
+    
+    .check-icon {
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+    }
+  }
+  
+  &.copied .check-icon {
+    animation: check-draw 0.8s ease forwards;
+  }
+}
+
+// Animación para dibujar el check
+@keyframes check-draw {
+  from {
+    stroke-dashoffset: 40;
+  }
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
@@ -592,6 +656,20 @@
     }
   }
   
+  /* Ajustes para boton compartir en móvil */
+  .btn-share {
+    padding: 10px;
+    font-size: 14px;
+    
+    .copy-indicator {
+      right: 15px;
+    }
+    
+    &.copied .btn-text {
+      transform: translateX(-5px);
+    }
+  }
+  
   .donation-links {
     flex-direction: column;
     gap: 8px;
@@ -703,5 +781,20 @@
   .no-donations {
     padding: 30px 0;
     font-size: 14px;
+  }
+}
+
+@media (max-width: 375px) {
+  .btn-share {
+    padding: 8px;
+    font-size: 13px;
+    .copy-indicator {
+      right: 10px;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
   }
 }
