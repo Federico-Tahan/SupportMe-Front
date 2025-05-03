@@ -28,16 +28,9 @@
     font-size: 12px;
     display: flex;
     align-items: center;
+    color: #909396;
   }
-  
-  .kpi-positive {
-    color: #4ade80;
-  }
-  
-  .kpi-negative {
-    color: #f43f5e;
-  }
-  
+    
   @media (max-width: 1200px) {
     .kpi-container {
       grid-template-columns: repeat(2, 1fr);

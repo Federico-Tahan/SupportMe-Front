@@ -1,47 +1,79 @@
-<div class="campaign-details-container">
-    <div class="campaign-selector-card">
-      <div class="selector-header">
-        <h2 class="selector-title">Detalle de Campaña</h2>
-        <select 
-          class="campaign-dropdown" 
-          [(ngModel)]="selectedCampaignName" 
-          (change)="onCampaignSelect()">
-          @for (campaign of campaigns; track campaign.name) {
-            <option [value]="campaign.name">{{ campaign.name }}</option>
+<div class="campaign-details-container" (click)="closeDropdown($event)">
+  <div class="campaign-selector-card">
+    <div class="selector-header">
+      <h2 class="selector-title">Detalle de Campaña</h2>
+      
+      <!-- Custom dropdown with logo -->
+      <div class="custom-dropdown">
+        <div class="dropdown-selected" (click)="toggleDropdown()">
+          <img *ngIf="selectedCampaign?.logoUrl" [src]="selectedCampaign.logoUrl" class="campaign-logo" alt="Logo">
+          <span class="campaign-name">{{ selectedCampaign?.name || 'Seleccionar campaña' }}</span>
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        
+        <div class="dropdown-options" *ngIf="isDropdownOpen">
+          @for (campaign of campaigns; track campaign.id) {
+            <div class="dropdown-option" (click)="selectCampaign(campaign)">
+              <img *ngIf="campaign.logoUrl" [src]="campaign.logoUrl" class="campaign-logo" alt="Logo">
+              <span class="campaign-name">{{ campaign.name }}</span>
+            </div>
           }
-        </select>
-      </div>
-  
-      <div class="campaign-stats-bar">
-        <div class="stat-card">
-          <div class="stat-title">Recaudado</div>
-          <div class="stat-value">{{ selectedCampaign.raised }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Meta</div>
-          <div class="stat-value">{{ selectedCampaign.goal }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Donantes</div>
-          <div class="stat-value">{{ selectedCampaign.donors }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Días Restantes</div>
-          <div class="stat-value">{{ selectedCampaign.daysLeft }}</div>
-        </div>
-      </div>
-  
-      <div class="campaign-progress-container">
-        <div class="progress-info">
-          <span>{{ selectedCampaign.name }}</span>
-          <span>{{ selectedCampaign.percentage }}</span>
-        </div>
-        <div class="campaign-progress-bar">
-          <div 
-            class="campaign-progress-value"
-            [style.width]="selectedCampaign.percentage">
-          </div>
         </div>
       </div>
     </div>
+
+    <!-- Loading con skeleton -->
+    <div *ngIf="loading" class="loading-content">
+      <div class="skeleton-stats-row">
+        <div class="skeleton-stat" *ngFor="let i of [1,2,3,4]">
+          <div class="skeleton-title"></div>
+          <div class="skeleton-value"></div>
+        </div>
+      </div>
+      <div class="loading-overlay">
+        <app-inline-loading-spinner [isLoading]="true"></app-inline-loading-spinner>
+      </div>
+    </div>
+    
+    <!-- Campaign statistics display -->
+    <div class="campaign-stats-bar" *ngIf="!loading && campaignStatistic">
+      <div class="stat-card">
+        <div class="stat-title">Recaudado</div>
+        <div class="stat-value">{{ campaignStatistic.income }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Meta</div>
+        <div class="stat-value">{{ campaignStatistic.goal }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Donantes</div>
+        <div class="stat-value">{{ campaignStatistic.donations }}</div>
+      </div>
+      <!--<div class="stat-card">
+        <div class="stat-title">Días Restantes</div>
+        <div class="stat-value">{{ campaignStatistic.remaigninDays }}</div>
+      </div>
+    -->
+    </div>
+    
+    <!-- Campaign progress bar -->
+    <div class="campaign-progress-container" *ngIf="!loading && campaignStatistic">
+      <div class="progress-info">
+        <span>{{ selectedCampaign?.name }}</span>
+        <span>{{ (campaignStatistic.income / campaignStatistic.goal) * 100 | number:'1.2-2' }}%</span>
+      </div>
+      <div class="campaign-progress-bar">
+        <div class="campaign-progress-value" [style.width.%]="(campaignStatistic.income / campaignStatistic.goal) * 100"></div>
+      </div>
+    </div>
   </div>
+
+  <!-- Charts Component -->
+  <ng-container *ngIf="from && to && selectedCampaign?.id">
+    <app-charts
+      [from]="from"
+      [to]="to"
+      [campaignId]="selectedCampaign.id">
+    </app-charts>
+  </ng-container>
+</div>

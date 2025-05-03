@@ -155,7 +155,6 @@ export class CampaignDonationComponent implements OnInit {
   }
   
   share(): void {
-    console.log(this.percentageRaised);
   }
 
   checkScrollButtons() {
