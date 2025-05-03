@@ -64,7 +64,6 @@ export class CampaignDetailComponent implements AfterViewInit, OnInit {
   }
     
   share(): void {
-    console.log('Compartiendo campaña...');
   }
   
   ngAfterViewInit(): void {

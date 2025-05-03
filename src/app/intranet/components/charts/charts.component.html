@@ -2,16 +2,16 @@
   <h2 class="charts-title">Estadísticas de la Campaña</h2>
   <div class="charts-grid">
     <div class="chart-box">
-      <h3 class="chart-title">Donaciones Mensuales</h3>
+      <h3 class="chart-title">Donaciones</h3>
       <div class="chart-container">
         <ngx-charts-bar-vertical
-          [results]="donationsData"
+          [results]="processedDonationsData"
           [xAxis]="true"
           [yAxis]="true"
           [legend]="false"
           [showXAxisLabel]="true"
           [showYAxisLabel]="true"
-          xAxisLabel="Mes"
+          xAxisLabel="Fecha"
           yAxisLabel="Donaciones ($)"
           [roundDomains]="true"
           [showDataLabel]="false"
@@ -30,7 +30,7 @@
           [legend]="false"
           [showXAxisLabel]="true"
           [showYAxisLabel]="true"
-          xAxisLabel="Mes"
+          xAxisLabel="Fecha"
           yAxisLabel="Visitas"
           [roundDomains]="true"
           [scheme]="colorScheme2"

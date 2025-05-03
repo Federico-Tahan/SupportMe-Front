@@ -58,14 +58,11 @@ export class CampaignFormComponent implements OnInit {
     });
     
     // Verificar la URL actual para debugging
-    console.log('Current URL:', window.location.href);
     
     // Check for query parameters
     this.route.queryParams.subscribe(params => {
-      console.log('Query params received:', params);
       
       if (params['id']) {
-        console.log('Edit mode detected with ID:', params['id']);
         this.isEditMode.set(true);
         this.campaignId.set(+params['id']);
         this.pageTitle.set('Editar campaña');
@@ -74,7 +71,6 @@ export class CampaignFormComponent implements OnInit {
         // Fetch campaign data
         this.campaignService.getCampaignById(+params['id']).subscribe({
           next: (campaign) => {
-            console.log('Campaign data received:', campaign);
             if (campaign) {
               this.loadCampaignData(campaign);
             }
@@ -84,7 +80,6 @@ export class CampaignFormComponent implements OnInit {
           }
         });
       } else {
-        console.log('Create mode detected');
       }
     });
   }
@@ -114,7 +109,6 @@ export class CampaignFormComponent implements OnInit {
   }
   
   loadCampaignData(campaign: Campaign): void {
-    console.log('Loading campaign data into form:', campaign);
     
     // Update form values - handle the case where categoryId might not be present
     this.campaignForm.patchValue({
@@ -161,13 +155,6 @@ export class CampaignFormComponent implements OnInit {
       
       this.galleryItems.set(newGalleryItems);
     }
-    
-    console.log('Form initialized with:', {
-      formValues: this.campaignForm.value,
-      mainImage: this.mainImageBase64() ? 'Image loaded' : 'No image',
-      tags: this.tags(),
-      galleryItems: this.galleryItems().length
-    });
   }
 
   onMainImageSelected(event: Event): void {
@@ -336,7 +323,6 @@ export class CampaignFormComponent implements OnInit {
       
       request.subscribe({
         next: (response) => {
-          console.log(`Campaign ${this.isEditMode() ? 'updated' : 'created'} successfully:`, response);
           this.router.navigate(['/campaign']);
         },
         error: (error) => {

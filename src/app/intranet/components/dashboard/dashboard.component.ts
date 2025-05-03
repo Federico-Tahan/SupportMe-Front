@@ -2,8 +2,6 @@ import { Component, ChangeDetectionStrategy, OnInit, inject, ChangeDetectorRef }
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { CategoriesChartComponent } from '../categories-chart/categories-chart.component';
-import { ChartsComponent } from '../charts/charts.component';
 import { CampaignDetailsComponent } from '../campaign-details/campaign-details.component';
 import { KpiCardsComponent } from '../kpi-cards/kpi-cards.component';
 import { CalendarComponent, DateRangeOutput } from '../../../components/calendar/calendar.component';
@@ -11,9 +9,9 @@ import { DashboardService } from '../../../core/shared/services/dashboard.servic
 import { finalize, forkJoin } from 'rxjs';
 import { Summary } from '../../../core/shared/interfaces/summary';
 import { InlineLoadingSpinnerComponent } from '../../../components/inline-loading-spinner/inline-loading-spinner.component';
-import { CampaignDetailComponent } from "../../../public/components/campaign-detail/campaign-detail.component";
+import { SimpleCampaign } from '../../../core/shared/interfaces/simple-campaign';
 
-// Definir solo la interfaz KpiData que es la que necesitamos
+// KPI data interface
 interface KpiData {
   title: string;
   value: string;
@@ -29,43 +27,51 @@ interface KpiData {
     CommonModule,
     FormsModule,
     NgxChartsModule,
-    ChartsComponent,
     KpiCardsComponent,
     CampaignDetailsComponent,
-    CategoriesChartComponent,
     CalendarComponent,
-    InlineLoadingSpinnerComponent,
-    CampaignDetailComponent
-],
+    InlineLoadingSpinnerComponent
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
+  // Date range parameters
   selectedDateRange: string = '30';
   startDate: string;
   endDate: string;
   
+  // Selected campaign
+  selectedCampaign: SimpleCampaign;
+  
+  // Service and change detection
   dashboardService = inject(DashboardService);
   cdr = inject(ChangeDetectorRef);
   
+  // KPI data arrays
   kpiData: KpiData[] = [];
   filteredKpiData: KpiData[] = [];
   
+  // Loading state
   loading: boolean = false;
   
-  donationsChartData: any[] = [];
-  visitsChartData: any[] = [];
-
-  constructor() {}
-
   ngOnInit(): void {
-
+    // Initialize with default values
+    const today = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    
+    this.startDate = this.formatDateForInput(thirtyDaysAgo);
+    this.endDate = this.formatDateForInput(today);
+    
+    this.loadKpiData(this.startDate, this.endDate);
   }
 
   loadKpiData(currentFromStr: string, currentToStr: string): void {
     this.loading = true;
     this.cdr.detectChanges();
+    
     
     const [currentStartYear, currentStartMonth, currentStartDay] = currentFromStr.split('-').map(Number);
     const [currentEndYear, currentEndMonth, currentEndDay] = currentToStr.split('-').map(Number);
@@ -87,6 +93,7 @@ export class DashboardComponent implements OnInit {
     const previousFromStr = this.formatDateForInput(previousStartDate);
     const previousToStr = this.formatDateForInput(previousEndDate);
     
+    
     forkJoin({
       current: this.dashboardService.getSummary(currentFromStr, currentToStr),
       previous: this.dashboardService.getSummary(previousFromStr, previousToStr)
@@ -97,11 +104,14 @@ export class DashboardComponent implements OnInit {
       })
     ).subscribe({
       next: (result) => {
+
+        
         const currentSummary = result.current;
         const previousSummary = result.previous;
         
         this.kpiData = this.calculateKpiData(currentSummary, previousSummary);
         this.filteredKpiData = [...this.kpiData];
+        
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -111,55 +121,88 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+  
   calculateKpiData(current: Summary, previous: Summary): KpiData[] {
+    // Create fallback objects with default values to prevent undefined errors
+    const safeCurrent: Summary = current || {
+      income: 0,
+      donations: 0,
+      avgIncome: 0,
+      visit: 0
+    };
+    
+    const safePrevious: Summary = previous || {
+      income: 0,
+      donations: 0,
+      avgIncome: 0,
+      visit: 0
+    };
+    
+    // Ensure all properties are initialized to prevent undefined errors
+    const currentIncome = safeCurrent.income || 0;
+    const previousIncome = safePrevious.income || 0;
+    const currentDonations = safeCurrent.donations || 0;
+    const previousDonations = safePrevious.donations || 0;
+    const currentAvgIncome = safeCurrent.avgIncome || 0;
+    const previousAvgIncome = safePrevious.avgIncome || 0;
+    const currentVisit = safeCurrent.visit || 0;
+    const previousVisit = safePrevious.visit || 0;
+    
     return [
       {
         title: 'Total Recaudado',
-        value: this.formatCurrency(current.income),
-        change: this.formatCurrency(previous.income) + ' periodo anterior',
-        isPositive: current.income >= previous.income,
-        originalValue: current.income
+        value: this.formatCurrency(currentIncome),
+        change: this.formatCurrency(previousIncome) + ' periodo anterior',
+        isPositive: currentIncome >= previousIncome,
+        originalValue: currentIncome
       },
       {
         title: 'Total Donaciones',
-        value: current.donations.toString(),
-        change: previous.donations.toString() + ' periodo anterior',
-        isPositive: current.donations >= previous.donations,
-        originalValue: current.donations
+        value: currentDonations.toString(),
+        change: previousDonations.toString() + ' periodo anterior',
+        isPositive: currentDonations >= previousDonations,
+        originalValue: currentDonations
       },
       {
         title: 'Donación Promedio',
-        value: this.formatCurrency(current.avgIncome),
-        change: this.formatCurrency(previous.avgIncome) + ' periodo anterior',
-        isPositive: current.avgIncome >= previous.avgIncome,
-        originalValue: current.avgIncome
+        value: this.formatCurrency(currentAvgIncome),
+        change: this.formatCurrency(previousAvgIncome) + ' periodo anterior',
+        isPositive: currentAvgIncome >= previousAvgIncome,
+        originalValue: currentAvgIncome
       },
       {
         title: 'Visitas',
-        value: current.visit.toString(),
-        change: previous.visit.toString() + ' periodo anterior',
-        isPositive: current.visit >= previous.visit,
-        originalValue: current.visit
+        value: currentVisit.toString(),
+        change: previousVisit.toString() + ' periodo anterior',
+        isPositive: currentVisit >= previousVisit,
+        originalValue: currentVisit
       }
     ];
   }
   
-
-  initializeEmptyKpiData(): void {
-    this.kpiData = [
+  initializeEmptyKpiData(): KpiData[] {
+    const emptyData = [
       { title: 'Total Recaudado', value: '$0', change: '$0 periodo anterior', isPositive: false, originalValue: 0 },
       { title: 'Total Donaciones', value: '0', change: '0 periodo anterior', isPositive: false, originalValue: 0 },
       { title: 'Donación Promedio', value: '$0', change: '$0 periodo anterior', isPositive: false, originalValue: 0 },
       { title: 'Visitas', value: '0', change: '0 periodo anterior', isPositive: false, originalValue: 0 }
     ];
-    this.filteredKpiData = [...this.kpiData];
+    
+    this.kpiData = emptyData;
+    this.filteredKpiData = [...emptyData];
+    
+    return emptyData;
   }
   
-
   onDateRangeChange(dateRange: DateRangeOutput): void {
     this.startDate = this.formatDateForInput(dateRange.startDate);
     this.endDate = this.formatDateForInput(dateRange.endDate);
     this.loadKpiData(this.startDate, this.endDate);
+  }
+  
+  onCampaignChanged(campaign: SimpleCampaign): void {
+    this.selectedCampaign = campaign;
+    this.cdr.detectChanges();
   }
   
   private formatDateForInput(date: Date): string {
@@ -168,6 +211,11 @@ export class DashboardComponent implements OnInit {
   }
   
   private formatCurrency(value: number): string {
+    // Check if value is undefined or null
+    if (value === undefined || value === null) {
+      return '$0';
+    }
+    
     return '$' + value.toLocaleString('en-US', { 
       minimumFractionDigits: value % 1 === 0 ? 0 : 2,
       maximumFractionDigits: value % 1 === 0 ? 0 : 2

@@ -7,7 +7,7 @@
       <div class="custom-dropdown">
         <div class="dropdown-selected" (click)="toggleDropdown()">
           <img *ngIf="selectedCampaign?.logoUrl" [src]="selectedCampaign.logoUrl" class="campaign-logo" alt="Logo">
-          <span class="campaign-name">{{ selectedCampaign?.name }}</span>
+          <span class="campaign-name">{{ selectedCampaign?.name || 'Seleccionar campaña' }}</span>
           <span class="dropdown-arrow">▼</span>
         </div>
         
@@ -49,21 +49,31 @@
         <div class="stat-title">Donantes</div>
         <div class="stat-value">{{ campaignStatistic.donations }}</div>
       </div>
-      <div class="stat-card">
+      <!--<div class="stat-card">
         <div class="stat-title">Días Restantes</div>
         <div class="stat-value">{{ campaignStatistic.remaigninDays }}</div>
       </div>
+    -->
     </div>
     
     <!-- Campaign progress bar -->
     <div class="campaign-progress-container" *ngIf="!loading && campaignStatistic">
       <div class="progress-info">
         <span>{{ selectedCampaign?.name }}</span>
-        <span>{{ 30 }}%</span>
+        <span>{{ (campaignStatistic.income / campaignStatistic.goal) * 100 | number:'1.2-2' }}%</span>
       </div>
       <div class="campaign-progress-bar">
-        <div class="campaign-progress-value" [style.width.%]="30"></div>
+        <div class="campaign-progress-value" [style.width.%]="(campaignStatistic.income / campaignStatistic.goal) * 100"></div>
       </div>
     </div>
   </div>
+
+  <!-- Charts Component -->
+  <ng-container *ngIf="from && to && selectedCampaign?.id">
+    <app-charts
+      [from]="from"
+      [to]="to"
+      [campaignId]="selectedCampaign.id">
+    </app-charts>
+  </ng-container>
 </div>

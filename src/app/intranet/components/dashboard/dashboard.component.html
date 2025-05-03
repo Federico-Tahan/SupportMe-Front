@@ -28,13 +28,10 @@
     <app-kpi-cards [kpiData]="filteredKpiData" *ngIf="!loading"></app-kpi-cards>
   </div>
 
+  <!-- Campaign details component -->
   <app-campaign-details 
-  [from]="startDate"
-  [to]="endDate">
-</app-campaign-details>
-
-  <app-charts 
-    [donationsData]="donationsChartData" 
-    [visitsData]="visitsChartData">
-  </app-charts>
+    [from]="startDate"
+    [to]="endDate"
+    (campaignChanged)="onCampaignChanged($event)">
+  </app-campaign-details>
 </div>
