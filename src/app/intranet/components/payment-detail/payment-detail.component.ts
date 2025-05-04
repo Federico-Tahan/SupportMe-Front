@@ -72,4 +72,9 @@ export class PaymentDetailComponent implements OnInit {
       return 'default-card-icon';
     }
   }
+
+  hasCommissions()
+  {
+    return (this.paymentDetail.commissionSupportMe !== undefined && this.paymentDetail.commissionSupportMe) > 0 || (this.paymentDetail.commissionMP !== undefined && this.paymentDetail.commissionMP > 0);
+  }
 }

@@ -72,14 +72,6 @@ export class PaymentsComponent implements OnInit {
   // Definición para los filtros
   filters: Filter[] = [
     {
-      name: 'Campaña',
-      options: [
-        { label: 'Opción 1', value: 'opt1', isActive: false },
-        { label: 'Opción 2', value: 'opt2', isActive: false }
-      ],
-      selectedOptions: []
-    },
-    {
       name: 'Tarjetas',
       options: [
         { label: 'VISA', value: 'visa', isActive: false },

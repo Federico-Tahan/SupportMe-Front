@@ -1,255 +1,351 @@
 :host {
-    display: block;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  display: block;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+// Variables
+$color-primary: #6366F1;
+$color-success: #10B981;
+$color-error: #EF4444;
+$color-background: #F9FAFB;
+$color-card: #FFFFFF;
+$color-text: #111827;
+$color-text-light: #6B7280;
+$color-border: #E5E7EB;
+$shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$radius: 12px;
+
+// Contenedor principal
+.card {
+  max-width: 550px;
+  margin: 0 auto;
+  background: $color-card;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  overflow: hidden;
+  border: 1px solid $color-border;
+  
+  // Ajuste para dispositivos móviles
+  @media (max-width: 576px) {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
   }
+}
+
+// Cabecera de la tarjeta
+.card-header {
+  padding: 24px 30px;
+  background: $color-primary;
+  color: white;
+  position: relative;
   
-  // Variables
-  $color-primary: #6366F1;
-  $color-success: #10B981;
-  $color-error: #EF4444;
-  $color-background: #F9FAFB;
-  $color-card: #FFFFFF;
-  $color-text: #111827;
-  $color-text-light: #6B7280;
-  $color-border: #E5E7EB;
-  $shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  $radius: 12px;
-  
-  // Contenedor principal
-  .card {
-    max-width: 550px;
-    margin: 0 auto;
-    background: $color-card;
-    border-radius: $radius;
-    box-shadow: $shadow;
-    overflow: hidden;
-    border: 1px solid $color-border;
-  }
-  
-  // Cabecera de la tarjeta
-  .card-header {
-    padding: 24px 30px;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 30px;
+    width: 20px;
+    height: 20px;
     background: $color-primary;
-    color: white;
-    position: relative;
+    transform: rotate(45deg);
+  }
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+// Cuerpo de la tarjeta
+.card-body {
+  padding: 30px;
+  
+  // Ajuste para dispositivos móviles
+  @media (max-width: 576px) {
+    padding: 20px 15px;
+  }
+}
+
+// Sección del monto y estado
+.amount-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid $color-border;
+  margin-bottom: 25px;
+  
+  // Ajuste para dispositivos móviles
+  @media (max-width: 400px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    
+    .status {
+      align-self: flex-start;
+    }
+  }
+}
+
+.amount {
+  font-size: 32px;
+  font-weight: 700;
+  color: $color-text;
+}
+
+// Estados de la donación
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  
+  &.success {
+    background-color: rgba($color-success, 0.1);
+    color: $color-success;
+  }
+  
+  &.error {
+    background-color: rgba($color-error, 0.1);
+    color: $color-error;
+  }
+}
+
+.status-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Grid de información
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-bottom: 25px;
+  
+  // Ajuste para dispositivos móviles
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+.info-group {
+  margin-bottom: 20px;
+  
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.info-label {
+  font-size: 14px;
+  color: $color-text-light;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.info-value {
+  font-weight: 600;
+  color: $color-text;
+}
+
+// Información de pago
+.payment-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #F3F4F6;
+  padding: 14px;
+  border-radius: $radius;
+  margin-top: 10px;
+  transition: all 0.2s;
+  
+  &:hover {
+    background-color: #E5E7EB;
+  }
+}
+
+// Estilos para las imágenes de tarjetas
+.card-brand-image {
+  width: 40px;
+  height: 25px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+// Icono de tarjeta genérico (para tarjetas no reconocidas)
+.card-icon {
+  width: 40px;
+  height: 25px;
+  border-radius: 6px;
+  position: relative;
+  
+  &.default-card-icon {
+    background-color: #1A237E;
     
     &::after {
       content: "";
       position: absolute;
-      bottom: -10px;
-      left: 30px;
-      width: 20px;
-      height: 20px;
-      background: $color-primary;
-      transform: rotate(45deg);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      background-color: #F44336;
+      border-radius: 50%;
     }
   }
+}
+
+// Información de fecha
+.date-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-icon {
+  color: $color-primary;
+}
+
+// Etiqueta de campaña
+.campaign-tag {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+// Contenedor de mensaje de apoyo
+.support-message-container {
+  margin-top: 5px;
+  width: 100%;
+}
+
+// Mensaje de apoyo
+.support-message {
+  background-color: #F3F4F6;
+  border-radius: $radius;
+  padding: 20px;
+  margin-top: 10px;
+  font-style: italic;
+  position: relative;
+  border-left: 3px solid $color-primary;
+  transition: all 0.2s;
   
-  .card-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
-    letter-spacing: 0.2px;
+  &:hover {
+    background-color: #E5E7EB;
   }
   
-  // Cuerpo de la tarjeta
-  .card-body {
-    padding: 30px;
-  }
-  
-  // Sección del monto y estado
-  .amount-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-    border-bottom: 1px solid $color-border;
-    margin-bottom: 25px;
-  }
-  
-  .amount {
-    font-size: 32px;
-    font-weight: 700;
-    color: $color-text;
-  }
-  
-  // Estados de la donación
-  .status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-radius: 30px;
-    font-size: 14px;
-    font-weight: 600;
-    
-    &.success {
-      background-color: rgba($color-success, 0.1);
-      color: $color-success;
-    }
-    
-    &.error {
-      background-color: rgba($color-error, 0.1);
-      color: $color-error;
-    }
-  }
-  
-  .status-icon {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  // Grid de información
-  .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 25px;
-    margin-bottom: 25px;
-  }
-  
-  .info-group {
-    margin-bottom: 20px;
-    
-    &:last-of-type {
-      margin-bottom: 0;
-    }
-  }
-  
-  .info-label {
-    font-size: 14px;
-    color: $color-text-light;
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-  
-  .info-value {
-    font-weight: 600;
-    color: $color-text;
-  }
-  
-  // Información de pago
-  .payment-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background-color: #F3F4F6;
-    padding: 14px;
-    border-radius: $radius;
-    margin-top: 10px;
-    transition: all 0.2s;
-    
-    &:hover {
-      background-color: #E5E7EB;
-    }
-  }
-  
-  // Estilos para las imágenes de tarjetas
-  .card-brand-image {
-    width: 40px;
-    height: 25px;
-    border-radius: 4px;
-    object-fit: contain;
-  }
-  
-  // Icono de tarjeta genérico (para tarjetas no reconocidas)
-  .card-icon {
-    width: 40px;
-    height: 25px;
-    border-radius: 6px;
-    position: relative;
-    
-    &.default-card-icon {
-      background-color: #1A237E;
-      
-      &::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 14px;
-        height: 14px;
-        background-color: #F44336;
-        border-radius: 50%;
-      }
-    }
-  }
-  
-  // Información de fecha
-  .date-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .date-icon {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 40px;
     color: $color-primary;
+    opacity: 0.2;
+    line-height: 1;
   }
+}
+
+// Estado de carga
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: $color-text-light;
+}
+
+// Mensaje cuando no hay datos
+.no-data-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  padding: 20px;
   
-  // Etiqueta de campaña
-  .campaign-tag {
-    font-size: 14px;
-    font-weight: 500;
-  }
-  
-  // Contenedor de mensaje de apoyo
-  .support-message-container {
-    margin-top: 5px;
-    width: 100%;
-  }
-  
-  // Mensaje de apoyo
-  .support-message {
-    background-color: #F3F4F6;
-    border-radius: $radius;
-    padding: 20px;
-    margin-top: 10px;
-    font-style: italic;
-    position: relative;
-    border-left: 3px solid $color-primary;
-    transition: all 0.2s;
-    
-    &:hover {
-      background-color: #E5E7EB;
-    }
-    
-    &::before {
-      content: "";
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 40px;
-      color: $color-primary;
-      opacity: 0.2;
-      line-height: 1;
-    }
-  }
-  
-  // Estado de carga
-  .loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
+  p {
+    margin-bottom: 20px;
     color: $color-text-light;
   }
+}
+
+// Nuevos estilos para la sección de comisiones
+.commissions-container {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+
+}
+
+.commissions-grid {
+  margin-top: 10px;
+  background-color: #F3F4F6;
+  border-radius: $radius;
+  padding: 5px;
   
-  // Mensaje cuando no hay datos
-  .no-data-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 200px;
-    padding: 20px;
-    
-    p {
-      margin-bottom: 20px;
-      color: $color-text-light;
-    }
+  @media (max-width: 576px) {
+    padding: 2px;
+    border-radius: 8px;
   }
+}
+
+.commission-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba($color-border, 0.5);
+  }
+}
+
+.commission-label {
+  font-size: 14px;
+  color: $color-text;
+}
+
+.commission-value {
+  font-weight: 600;
+  color: $color-text;
+}
+
+// Estilos para el total recibido
+.total-received-container {
+  margin-top: 25px;
+  border-top: 1px solid $color-border;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  // Destacar más en dispositivos móviles
+  @media (max-width: 576px) {
+    background-color: rgba($color-success, 0.05);
+    padding: 15px;
+    border-radius: $radius;
+    margin-left: -5px;
+    margin-right: -5px;
+  }
+}
+
+.total-received-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: $color-success;
+}

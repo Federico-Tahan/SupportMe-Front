@@ -7,4 +7,7 @@ export interface PaymentDetail {
     brand : string;
     date : Date;
     comment : string;
+    commissionSupportMe : number;
+    commissionMP : number;
+    netReceived : number;
 }
