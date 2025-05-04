@@ -1,0 +1,89 @@
+<div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Detalle de Donación</h2>
+    </div>
+    
+    @if (isLoading) {
+      <div class="loading-container">
+        <app-loading-snipper [isLoading]="isLoading"></app-loading-snipper>
+      </div>
+    } @else if (paymentDetail) {
+      <div class="card-body">
+        <div class="amount-section">
+          <div class="amount">{{ paymentDetail.amount | currency:'ARS':' $ ' }}</div>
+          <div class="status" [ngClass]="{ 'success': isSuccessful(paymentDetail.status), 'error': !isSuccessful(paymentDetail.status) }">
+            @if (isSuccessful(paymentDetail.status)) {
+              <svg class="status-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+              OK
+            } @else {
+              <svg class="status-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Error
+            }
+          </div>
+        </div>
+        
+        <div class="info-grid">
+          <div>
+            <div class="info-group">
+              <div class="info-label">Método de pago</div>
+              <div class="info-value">Tarjeta de crédito</div>
+              <div class="payment-info">
+                @if (getCardIconClass(paymentDetail.brand) === 'visa') {
+                  <img src="https://img.icons8.com/?size=100&id=13608&format=png&color=000000" class="card-brand-image">
+                } @else if (getCardIconClass(paymentDetail.brand) === 'mastercard') {
+                  <img src="https://img.icons8.com/?size=100&id=13610&format=png&color=000000" class="card-brand-image">
+                }
+                  
+                <div>•••• {{ paymentDetail.last4 }}</div>
+              </div>
+            </div>
+            
+            <div class="info-group">
+              <div class="info-label">Fecha de transacción</div>
+              <div class="info-value date-info">
+                <svg class="date-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                {{ paymentDetail.date | dateParser | date:'dd MMM, yyyy, h:mm a' }}
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <div class="info-group">
+              <div class="info-label">Campaña</div>
+              <div class="info-value">
+                <div class="campaign-tag">{{ paymentDetail.campaignName }}</div>
+              </div>
+            </div>
+            
+            <div class="info-group">
+              <div class="info-label">Cliente</div>
+              <div class="info-value">{{ paymentDetail.donatorName }}</div>
+            </div>
+          </div>
+        </div>
+        
+        @if (paymentDetail.comment) {
+          <div class="support-message-container">
+            <div class="info-label">Palabras de apoyo</div>
+            <div class="support-message">
+              {{ paymentDetail.comment }}
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="no-data-container">
+        <p>No se encontraron detalles para esta donación.</p>
+      </div>
+    }
+  </div>

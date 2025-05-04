@@ -32,5 +32,8 @@ export const INTRANET_ROUTES: Routes = [
       path: 'payments', loadComponent: () =>
         import('./components/payments/payments.component').then(m => m.PaymentsComponent)
     },    
-
+    {
+      path: 'payments/detail', loadComponent: () =>
+        import('./components/payment-detail/payment-detail.component').then(m => m.PaymentDetailComponent)
+    },
 ];

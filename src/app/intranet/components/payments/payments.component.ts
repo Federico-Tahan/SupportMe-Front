@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { PaymentFilter } from '../../../core/shared/interfaces/payment-filter';
 import { InlineLoadingSpinnerComponent } from "../../../components/inline-loading-spinner/inline-loading-spinner.component";
+import { RouterLink } from '@angular/router';
 
 interface FilterOption {
   label: string;
@@ -25,7 +26,7 @@ interface Filter {
 @Component({
   selector: 'app-payments',
   standalone: true,
-  imports: [CommonModule, FormsModule, CalendarComponent, DateParserPipe, DatePipe, InlineLoadingSpinnerComponent],
+  imports: [CommonModule, FormsModule, CalendarComponent, DateParserPipe, DatePipe, InlineLoadingSpinnerComponent, RouterLink],
   templateUrl: './payments.component.html',
   styleUrl: './payments.component.scss'
 })

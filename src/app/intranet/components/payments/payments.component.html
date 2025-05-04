@@ -10,7 +10,6 @@
   </header>
 
   <div class="stats-cards-container">
-    <!-- Tarjeta Total -->
     <div class="stats-card total" 
          (mouseenter)="totalHovered = true" 
          (mouseleave)="totalHovered = false"
@@ -157,7 +156,7 @@
       </thead>
       <tbody>
         @for (payment of payments; track payment.chargeId) {
-          <tr>
+          <tr  routerLink="/payments/detail" [queryParams]="{id: payment.chargeId}" style="cursor:pointer;">
             <td>$ {{ formatCurrency(payment.amount) }} ARS</td>
             <td>
               <span class="status-badge" [ngClass]="payment.status.toLowerCase()">{{ payment.status }}</span>

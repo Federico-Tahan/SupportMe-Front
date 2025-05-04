@@ -8,11 +8,14 @@ import { PaymentDetailRead } from '../interfaces/payment-detail-read';
 import { Livefeedpayment } from '../interfaces/livefeedpayment';
 import { PaymentFilter } from '../interfaces/payment-filter';
 import { PaymentDonation } from '../interfaces/payment-donation';
+import { PaymentDetail } from '../interfaces/payment-detail';
+import { AuthContextService } from '../interceptor/auth-context';
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
   http = inject(HttpClient);
+  authContextService = inject(AuthContextService);
 
   payment(paymentInformation : PaymentInformation, campaignId : number) : Observable<any>{
     return this.http.post(environment.backApi + 'payment/' + campaignId + '/campaign', paymentInformation);
@@ -20,6 +23,10 @@ export class PaymentService {
 
    getPaymentDonation(chargeId : string): Observable<PaymentDonation> {
     return this.http.get<PaymentDonation>(environment.backApi + 'payment/' + chargeId + "/donation" );
+  }
+  getPaymentDetail(chargeId : string): Observable<PaymentDetail> {
+    this.authContextService.withAuth();
+    return this.http.get<PaymentDetail>(environment.backApi + 'payment/' + chargeId + "/detail" );
   }
    getPayments(filter: PaymentFilter): Observable<Livefeedpayment> {
     let params = new HttpParams()
