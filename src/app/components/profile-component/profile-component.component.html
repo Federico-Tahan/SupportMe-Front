@@ -10,7 +10,7 @@
   
   <ul class="dropdown-menu dropdown-menu-end dropdown-custom" aria-labelledby="profileDropdown">
     <li class="p-2">
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center" routerLink="/profile">
         <div class="user-avatar me-2">
           @if (currentUser?.profilePic) {
             <img [src]="currentUser.profilePic" alt="Profile" class="profile-image">

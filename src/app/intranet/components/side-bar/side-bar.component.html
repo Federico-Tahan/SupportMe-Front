@@ -1,39 +1,39 @@
 <!-- sidebar.component.html -->
-<div class="sidebar" [class.collapsed]="collapsed">
-    <!-- Project header -->
-    <div class="project-header">
-      <div class="project-logo">
-        <div class="logo-container">
-          <img src="https://supportme2.s3.sa-east-1.amazonaws.com/Group+408.png">
-        </div>
-      </div>
-      <div class="project-info" [class.d-none]="collapsed">
-        <div class="project-name">{{ projectName }}</div>
+<div class="sidebar" [class.collapsed]="collapsed || isMobile">
+  <!-- Project header -->
+  <div class="project-header">
+    <div class="project-logo">
+      <div class="logo-container">
+        <img src="https://supportme2.s3.sa-east-1.amazonaws.com/Group+408.png">
       </div>
     </div>
-  
-    <!-- Main navigation -->
-    <nav class="main-nav">
+    <div class="project-info" [class.d-none]="collapsed || isMobile">
+      <div class="project-name">{{ projectName }}</div>
+    </div>
+  </div>
+
+  <!-- Main navigation -->
+  <nav class="main-nav">
+    <ul class="nav flex-column">
+      <li *ngFor="let item of navItems" class="nav-item" [routerLink]="item.route" routerLinkActive="active">
+        <i class="fa-solid fa-{{ item.icon }}"></i>
+        <span class="item-label" [class.d-none]="collapsed || isMobile">{{ item.label }}</span>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Label section -->
+  <div class="label-section" [class.labels-collapsed]="collapsed || isMobile">
+    <nav class="label-nav">
       <ul class="nav flex-column">
-        <li *ngFor="let item of navItems" class="nav-item" [routerLink]="item.route" routerLinkActive="active">
-          <i class="fa-solid fa-{{ item.icon }}"></i>
-          <span class="item-label" [class.d-none]="collapsed">{{ item.label }}</span>
+        <li *ngFor="let label of labels" class="nav-item" [routerLink]="label.route" routerLinkActive="active">
+          <i class="fa-solid fa-{{ label.icon }}"></i>
+          <span class="item-label" [class.d-none]="collapsed || isMobile">{{ label.label }}</span>
         </li>
       </ul>
     </nav>
-  
-    <!-- Label section -->
-    <div class="label-section" [class.labels-collapsed]="collapsed">
-
-      <nav class="label-nav">
-        <ul class="nav flex-column">
-          <li *ngFor="let label of labels" class="nav-item" [routerLink]="label.route" routerLinkActive="active">
-            <i class="fa-solid fa-{{ label.icon }}"></i>
-            <span class="item-label" [class.d-none]="collapsed">{{ label.label }}</span>
-          </li>
-        </ul>
-      </nav>
-    </div>
-      <!-- Colapsable border control -->
-    <div class="sidebar-resizer" (click)="toggleSidebar()"></div>
   </div>
+  
+  <!-- Colapsable border control - only visible on desktop -->
+  <div class="sidebar-resizer" (click)="toggleSidebar()" *ngIf="!isMobile"></div>
+</div>

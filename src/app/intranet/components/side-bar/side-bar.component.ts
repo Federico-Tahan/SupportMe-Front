@@ -1,5 +1,6 @@
+// side-bar.component.ts
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -9,8 +10,9 @@ import { RouterLink } from '@angular/router';
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss'
 })
-export class SideBarComponent {
+export class SideBarComponent implements OnInit {
   collapsed = false;
+  isMobile = false;
   
   projectName = 'SupportMe';
   
@@ -25,7 +27,26 @@ export class SideBarComponent {
     { icon: 'motorcycle', label: 'Explorar campañas', route: '/' }
   ];
   
+  ngOnInit() {
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isMobile = window.innerWidth < 768; // Common breakpoint for mobile
+    if (this.isMobile) {
+      this.collapsed = true; // Force collapsed state on mobile
+    }
+  }
+  
   toggleSidebar() {
-    this.collapsed = !this.collapsed;
+    // Only allow toggling if not on mobile
+    if (!this.isMobile) {
+      this.collapsed = !this.collapsed;
+    }
   }
 }

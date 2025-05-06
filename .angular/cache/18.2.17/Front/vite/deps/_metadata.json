@@ -1,97 +1,97 @@
 {
-  "hash": "02e16561",
-  "configHash": "075d8af4",
+  "hash": "8c6fb487",
+  "configHash": "daf624ba",
   "lockfileHash": "d9996411",
-  "browserHash": "bd21fb87",
+  "browserHash": "81d2bee7",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "3a5c066a",
+      "fileHash": "6fc75dee",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "80e0e506",
+      "fileHash": "161292a6",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "632a3c88",
+      "fileHash": "eb7d4f3c",
       "needsInterop": false
     },
     "@angular/fire/app": {
       "src": "../../../../../../node_modules/@angular/fire/fesm2022/angular-fire-app.mjs",
       "file": "@angular_fire_app.js",
-      "fileHash": "0ceed797",
+      "fileHash": "2da344f5",
       "needsInterop": false
     },
     "@angular/fire/auth": {
       "src": "../../../../../../node_modules/@angular/fire/fesm2022/angular-fire-auth.mjs",
       "file": "@angular_fire_auth.js",
-      "fileHash": "8901e176",
+      "fileHash": "f13a5471",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "a92d843b",
+      "fileHash": "8c0ea952",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "c12bc6b8",
+      "fileHash": "ffdd3532",
       "needsInterop": false
     },
     "@angular/platform-browser/animations": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/animations.mjs",
       "file": "@angular_platform-browser_animations.js",
-      "fileHash": "06b06dd2",
+      "fileHash": "faa578ab",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "e6ca39e6",
+      "fileHash": "77f718fc",
       "needsInterop": false
     },
     "@swimlane/ngx-charts": {
       "src": "../../../../../../node_modules/@swimlane/ngx-charts/fesm2022/swimlane-ngx-charts.mjs",
       "file": "@swimlane_ngx-charts.js",
-      "fileHash": "8a6af4cb",
+      "fileHash": "a7fd4a82",
       "needsInterop": false
     },
     "d3-shape": {
       "src": "../../../../../../node_modules/d3-shape/src/index.js",
       "file": "d3-shape.js",
-      "fileHash": "2cc95e44",
+      "fileHash": "deeacd3b",
       "needsInterop": false
     },
     "moment": {
       "src": "../../../../../../node_modules/moment/moment.js",
       "file": "moment.js",
-      "fileHash": "075f9a7a",
+      "fileHash": "3b6e2742",
       "needsInterop": true
     },
     "ngx-daterangepicker-material": {
       "src": "../../../../../../node_modules/ngx-daterangepicker-material/fesm2020/ngx-daterangepicker-material.mjs",
       "file": "ngx-daterangepicker-material.js",
-      "fileHash": "87be419c",
+      "fileHash": "e6ab8b5c",
       "needsInterop": false
     },
     "rxjs": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "76db1d01",
+      "fileHash": "3341bbb3",
       "needsInterop": false
     },
     "rxjs/operators": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/operators/index.js",
       "file": "rxjs_operators.js",
-      "fileHash": "3a72b6c8",
+      "fileHash": "c50a6263",
       "needsInterop": false
     }
   },

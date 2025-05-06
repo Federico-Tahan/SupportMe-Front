@@ -21,7 +21,7 @@ export class SettingsComponent {
       description: 'Ingresa a tu perfil, podrás ver un resumen de tus campañas y modificar tus datos',
       icon: 'user-circle',
       iconColor: 'purple',
-      route: '/commission'
+      route: '/profile'
     },
     {
       title: 'Mercado Pago',

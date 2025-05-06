@@ -1,0 +1,227 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .profile-container {
+    background-color: white;
+    margin-top: 30px;
+    padding: 15px;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  
+  .profile-photo-container {
+    position: relative;
+    margin-right: 30px;
+  }
+  
+  .profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #7662f9;
+  }
+  
+  .edit-photo {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #7662f9;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .profile-info {
+    flex: 1;
+  }
+  
+  .profile-name {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .profile-email {
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  .profile-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .stat-card {
+    background-color: #f8f8ff;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 200px;
+    flex: 1;
+  }
+  
+  .stat-number {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #7662f9;
+  }
+  
+  .stat-label {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  /* Sección de donaciones */
+  .donations-section {
+    margin-top: 40px;
+  }
+  
+  .section-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .donation-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+  }
+  
+  .donation-card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .donation-project-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+  }
+  
+  .donation-info {
+    flex: 1;
+  }
+  
+  .donation-project {
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .donation-comment {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .donation-amount {
+    font-weight: bold;
+    color: #7662f9;
+    font-size: 18px;
+    margin-left: 20px;
+  }
+  
+  .donation-date {
+    color: #999;
+    font-size: 12px;
+    margin-left: 20px;
+    min-width: 150px;
+    text-align: right;
+  }
+  
+  /* Botones y elementos de acción */
+  .btn {
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary {
+    background-color: #7662f9;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #6553e0;
+  }
+  
+  .btn-group {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  /* Mensaje sin donaciones */
+  .no-donations {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+    background-color: #f8f8ff;
+    border-radius: 8px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .profile-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .profile-photo-container {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+    
+    .profile-stats {
+      flex-direction: column;
+    }
+    
+    .donation-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .donation-project-icon {
+      margin-bottom: 10px;
+    }
+    
+    .donation-amount, .donation-date {
+      margin-left: 0;
+      margin-top: 10px;
+      text-align: left;
+    }
+    
+    .donation-date {
+      min-width: auto;
+    }
+  }

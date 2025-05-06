@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PaymentsComponent } from './components/payments/payments.component';
@@ -35,5 +34,9 @@ export const INTRANET_ROUTES: Routes = [
     {
       path: 'payments/detail', loadComponent: () =>
         import('./components/payment-detail/payment-detail.component').then(m => m.PaymentDetailComponent)
+    },
+    {
+      path: 'profile', loadComponent: () =>
+        import('./components/profile/profile.component').then(m => m.ProfileComponent)
     },
 ];
