@@ -140,7 +140,7 @@
       </div>
     </div>
     
-    <button class="download-button" [disabled]="totalPayments === 0">Descargar</button>
+    <button class="download-button" [disabled]="totalPayments === 0" (click)="downloadExcel()">Descargar</button>
   </div>
   @if (!isLoading) {
     <table class="payments-table">

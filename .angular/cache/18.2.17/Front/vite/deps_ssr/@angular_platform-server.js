@@ -2,18 +2,18 @@ import { createRequire } from 'module';const require = createRequire(import.meta
 import {
   NoopAnimationsModule,
   provideNoopAnimations
-} from "./chunk-YMBHGTRW.js";
-import "./chunk-TUQSUSAW.js";
+} from "./chunk-ULV76I4W.js";
+import "./chunk-4KZ5KVGJ.js";
 import {
   BrowserDomAdapter,
   BrowserModule,
   EVENT_MANAGER_PLUGINS,
   EventManagerPlugin
-} from "./chunk-AUQKB3GN.js";
+} from "./chunk-JLFMIVJY.js";
 import {
   HTTP_ROOT_INTERCEPTOR_FNS,
   HttpClientModule
-} from "./chunk-ACPMSNMH.js";
+} from "./chunk-5CWFR3TL.js";
 import {
   DOCUMENT,
   NullViewportScroller,
@@ -23,7 +23,7 @@ import {
   XhrFactory,
   getDOM,
   setRootDomAdapter
-} from "./chunk-RYOSJUIZ.js";
+} from "./chunk-EPB4VXWW.js";
 import {
   ALLOW_MULTIPLE_PLATFORMS,
   APP_ID,
@@ -56,16 +56,16 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-SHV3FFJ5.js";
-import "./chunk-EHW3H5C7.js";
+} from "./chunk-EY6J7ZWE.js";
 import {
   require_cjs
-} from "./chunk-5PQT2HUX.js";
-import "./chunk-5PAAC246.js";
+} from "./chunk-JJNOAQFS.js";
+import "./chunk-MX2NWRAD.js";
+import "./chunk-IIVUO3FN.js";
 import {
   __async,
   __toESM
-} from "./chunk-LI6NGK76.js";
+} from "./chunk-IHMUSDEK.js";
 
 // node_modules/@angular/platform-server/fesm2022/platform-server.mjs
 var import_rxjs = __toESM(require_cjs(), 1);
@@ -16405,7 +16405,7 @@ var ServerXhr = class _ServerXhr {
       if (!this.xhrImpl) {
         const {
           default: xhr
-        } = yield import("./xhr2-UPQRJFHC.js");
+        } = yield import("./xhr2-VBC5YRKM.js");
         this.xhrImpl = xhr;
       }
     });
