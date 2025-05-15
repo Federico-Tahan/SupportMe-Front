@@ -31,33 +31,18 @@ body {
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
-  max-width: 1100px;
+  max-width: 950px;
 }
 
-/* Header con banner */
-.profile-header-banner {
-  height: 200px;
-  background-image: var(--primary-gradient);
-  position: relative;
-}
-
-.banner-pattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.7;
-}
-
+/* Header actualizado (sin banner) */
 .profile-header {
   display: flex;
-  align-items: flex-end;
-  padding: 0 40px;
-  margin-top: -75px;
-  margin-bottom: 30px;
+  align-items: flex-start;
+  padding: 40px;
   position: relative;
   z-index: 1;
+  background-color: var(--light);
+  border-bottom: 1px solid rgba(108, 75, 244, 0.1);
 }
 
 .profile-photo-container {
@@ -69,7 +54,20 @@ body {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  object-fit: cover;
+}
+
+/* Nuevo estilo para mostrar iniciales cuando no hay foto */
+.profile-initials {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #6366F1;
+  color: white;
+  font-size: 60px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 5px solid white;
   box-shadow: var(--shadow-sm);
 }
@@ -78,16 +76,21 @@ body {
   position: absolute;
   bottom: 10px;
   right: 5px;
-  background: var(--primary-gradient);
-  color: white;
+  color: black;
   width: 36px;
   height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: white;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.edit-photo:hover {
+  transform: scale(1.1);
 }
 
 .profile-info {
@@ -96,7 +99,6 @@ body {
   padding: 20px 25px;
   box-shadow: var(--shadow-sm);
   flex: 1;
-  transform: translateY(15px);
 }
 
 .profile-name {
@@ -152,6 +154,16 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 75, 244, 0.25);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 .btn svg {
@@ -159,9 +171,28 @@ body {
 }
 
 .btn-primary {
-  background: var(--primary-gradient);
+  background: #6366F1;
   color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Nuevo estilo para el botón "Ver más" */
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: 8px 20px;
+}
+
+.btn-outline:hover {
+  background: rgba(108, 75, 244, 0.05);
+}
+
+/* Contenedor del botón Ver más */
+.view-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 /* Estadísticas */
@@ -183,7 +214,9 @@ body {
   position: relative;
   border: 1px solid rgba(108, 75, 244, 0.1);
   box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 
 .stat-card::before {
   content: '';
@@ -193,6 +226,7 @@ body {
   width: 100%;
   height: 5px;
   background: var(--primary-gradient);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .stat-icon {
@@ -222,13 +256,21 @@ body {
 
 /* Layout de contenido principal */
 .main-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 30px;
   padding: 0 40px 40px;
 }
 
 /* Estilos comunes para secciones */
+.section-container {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s ease;
+}
+
 .section-header {
   margin-bottom: 25px;
 }
@@ -247,14 +289,6 @@ body {
 }
 
 /* Top Campañas */
-.top-campaigns-section {
-  background-color: white;
-  border-radius: var(--border-radius);
-  padding: 30px;
-  box-shadow: var(--shadow-sm);
-  height: 100%;
-}
-
 .campaigns-list {
   display: flex;
   flex-direction: column;
@@ -268,6 +302,7 @@ body {
   box-shadow: var(--shadow-sm);
   position: relative;
   display: flex;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .campaign-rank {
@@ -299,7 +334,11 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
+
+
+
 
 .campaign-info {
   flex: 1;
@@ -326,6 +365,7 @@ body {
   height: 100%;
   background: var(--primary-gradient);
   border-radius: 4px;
+  transition: width 0.5s ease-out;
 }
 
 .campaign-stats {
@@ -353,14 +393,6 @@ body {
 }
 
 /* Sección de donaciones */
-.donations-section {
-  background-color: white;
-  border-radius: var(--border-radius);
-  padding: 30px;
-  box-shadow: var(--shadow-sm);
-  height: 100%;
-}
-
 .donations-list {
   display: flex;
   flex-direction: column;
@@ -373,7 +405,10 @@ body {
   padding: 20px;
   border-radius: var(--border-radius);
   background-color: var(--light);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+
 
 .donation-project-icon {
   width: 60px;
@@ -382,6 +417,8 @@ body {
   margin-right: 20px;
   object-fit: cover;
   border: 3px solid white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
 .donation-info {
@@ -406,6 +443,7 @@ body {
   position: relative;
   margin-top: 8px;
   max-width: 90%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .donation-comment::before {
@@ -437,6 +475,7 @@ body {
   background: rgba(0, 209, 132, 0.1);
   padding: 5px 12px;
   border-radius: 20px;
+  transition: transform 0.2s ease;
 }
 
 .donation-amount svg {
@@ -501,13 +540,13 @@ body {
     padding-left: 20px;
     padding-right: 20px;
   }
+  
+  .section-container {
+    padding: 20px;
+  }
 }
 
 @media (max-width: 768px) {
-  .main-content {
-    grid-template-columns: 1fr;
-  }
-  
   .donation-card {
     flex-direction: column;
     align-items: flex-start;
@@ -527,5 +566,81 @@ body {
   
   .donation-amount {
     margin-bottom: 0;
+  }
+  
+  .campaign-card {
+    flex-direction: column;
+  }
+  
+  .campaign-image {
+    width: 100%;
+    height: 120px;
+  }
+  
+  .campaign-rank {
+    top: 10px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .profile-container {
+    margin: 0;
+    border-radius: 0;
+  }
+  
+  .profile-photo, .profile-initials {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-initials {
+    font-size: 48px;
+  }
+  
+  .profile-name {
+    font-size: 24px;
+  }
+  
+  .stat-card {
+    padding: 15px;
+  }
+  
+  .stat-number {
+    font-size: 24px;
+  }
+  
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .section-title {
+    font-size: 18px;
+  }
+  
+  .donation-card, .campaign-card {
+    padding: 15px;
+  }
+  
+  .donation-project {
+    font-size: 14px;
+  }
+  
+  .donation-comment {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .donation-amount {
+    font-size: 14px;
+    padding: 4px 10px;
+  }
+  
+  .donation-date {
+    font-size: 11px;
   }
 }
