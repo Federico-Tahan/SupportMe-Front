@@ -28,6 +28,16 @@ export class PaymentService {
     this.authContextService.withAuth();
     return this.http.get<PaymentDetail>(environment.backApi + 'payment/' + chargeId + "/detail" );
   }
+
+  getDonationsPayments(skip : number, take : number): Observable<Livefeedpayment> {
+    this.authContextService.withAuth();
+    let params = new HttpParams()
+      .set('take', take.toString())
+      .set('skip', skip.toString());
+
+    return this.http.get<Livefeedpayment>(environment.backApi + 'payment/donations', { params });
+  }
+
    getPayments(filter: PaymentFilter): Observable<Livefeedpayment> {
     let params = new HttpParams()
       .set('limit', filter.Limit.toString())

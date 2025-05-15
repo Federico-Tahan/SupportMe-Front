@@ -35,6 +35,7 @@ export class CampaignService {
     );
   }
 
+
   getCampaignById(id : number): Observable<Campaign> {
 
     return this.http.get<Campaign>(
@@ -47,6 +48,11 @@ export class CampaignService {
     return this.http.get<any>(
       environment.backApi + "campaign/" + id + "/view"
     );
+  }
+
+  getMostRaisedCampaigns(): Observable<Campaign[]> {
+    this.authContextService.withAuth();
+    return this.http.get<Campaign[]>(environment.backApi + "campaign/most/raised");
   }
 
   getDonationsByCampaigniD(id: number, filter?: BaseFilter): Observable<Pagination<SimpleDonation>> {
