@@ -797,4 +797,30 @@
       }
     }
   }
+
+  .goal-date {
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .date-text {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Para agregar un icono de calendario si lo deseas */
+  .date-text::before {
+    content: "\f133"; /* Código de Font Awesome para el calendario */
+    font-family: "FontAwesome";
+    margin-right: 5px;
+    color: #6366F1;
+  }
+  
+  @media (max-width: 576px) {
+    .goal-date {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+  }
 }

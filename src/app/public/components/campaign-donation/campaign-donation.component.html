@@ -1,4 +1,3 @@
-<!-- campaign-donation.component.html -->
 <div class="donation-card">
   <h1 class="donation-title">{{ title }}</h1>
   
@@ -28,12 +27,20 @@
       </button>
     </div>
   
+    <!-- Mostrar cantidad recaudada siempre -->
     <div class="donation-amount">
       <span class="amount-raised">${{ amountRaised | number }}</span>
-      <span class="goal-text">/ recaudado de ${{ goalAmount | number }} meta</span>
+      <!-- Mostrar texto de meta solo si goalAmount está definido -->
+      <span class="goal-text" *ngIf="goalAmount">/ recaudado de ${{ goalAmount | number }} meta</span>
     </div>
     
-    <div class="progress-bar">
+    <!-- Mostrar fecha de finalización si existe -->
+    <div class="goal-date" *ngIf="goalDate">
+      <span class="date-text">Fecha de finalización: {{ goalDate | date:'dd/MM/yyyy' }}</span>
+    </div>
+    
+    <!-- Mostrar progress bar solo si goalAmount está definido -->
+    <div class="progress-bar" *ngIf="goalAmount">
       <div class="progress-fill" [style.width.%]="percentageRaised"></div>
     </div>
     

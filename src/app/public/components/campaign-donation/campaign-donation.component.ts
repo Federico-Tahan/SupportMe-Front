@@ -44,7 +44,7 @@ export class CampaignDonationComponent implements OnInit {
   @Input() views : number = null;
   campaignService = inject(CampaignService);
   renderer = inject(Renderer2);
-
+  @Input() goalDate : string = null;
   @Input() goalAmount: number = null;
   get percentageRaised(): number {
     if (!this.goalAmount || this.goalAmount === 0) return 0;
