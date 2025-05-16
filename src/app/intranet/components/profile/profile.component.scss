@@ -337,9 +337,6 @@ body {
   transition: transform 0.3s ease;
 }
 
-
-
-
 .campaign-info {
   flex: 1;
   padding: 15px;
@@ -405,20 +402,18 @@ body {
   padding: 20px;
   border-radius: var(--border-radius);
   background-color: var(--light);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: opacity 0.3s ease;
 }
-
-
 
 .donation-project-icon {
   width: 60px;
   height: 60px;
-  border-radius: var(--border-radius);
+  border-radius: 50%; /* Cambiado a circular */
   margin-right: 20px;
   object-fit: cover;
   border: 3px solid white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
 }
 
 .donation-info {
@@ -433,29 +428,20 @@ body {
 }
 
 .donation-comment {
-  color: var(--text-muted);
+  color: #8a8a98; /* Color más grisáceo */
   font-size: 13px;
   font-style: italic;
-  background-color: white;
+  background-color: #f5f5fa;
   padding: 8px 15px;
-  border-radius: 15px;
-  border-top-left-radius: 0;
+  border-radius: 10px;
   position: relative;
   margin-top: 8px;
   max-width: 90%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+/* Eliminar los pseudo-elementos que no se necesitan */
 .donation-comment::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -8px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 8px 8px 0;
-  border-color: transparent white transparent transparent;
+  display: none;
 }
 
 .donation-meta {
@@ -483,7 +469,7 @@ body {
 }
 
 .donation-date {
-  color: var(--text-muted);
+  color: #9b9bb0; /* Color más grisáceo para la fecha */
   font-size: 12px;
   display: flex;
   align-items: center;
@@ -512,6 +498,62 @@ body {
   opacity: 0.5;
   width: 50px;
   height: 50px;
+}
+
+/* Indicador de carga para donaciones */
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(108, 75, 244, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--primary);
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mejoras para los efectos de fade in */
+.donation-card, .no-donations, .loading-indicator {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Estilos para el botón deshabilitado */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn:disabled:hover {
+  box-shadow: none;
+}
+
+/* Eliminar efectos de hover que no queremos */
+.donation-card:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.donation-project-icon:hover {
+  transform: none;
+}
+
+.donation-amount:hover {
+  transform: none;
 }
 
 /* Responsive */

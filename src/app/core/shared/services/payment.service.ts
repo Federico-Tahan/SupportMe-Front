@@ -10,6 +10,7 @@ import { PaymentFilter } from '../interfaces/payment-filter';
 import { PaymentDonation } from '../interfaces/payment-donation';
 import { PaymentDetail } from '../interfaces/payment-detail';
 import { AuthContextService } from '../interceptor/auth-context';
+import { SimpleDonations } from '../interfaces/simple-donations';
 @Injectable({
   providedIn: 'root'
 })
@@ -29,13 +30,13 @@ export class PaymentService {
     return this.http.get<PaymentDetail>(environment.backApi + 'payment/' + chargeId + "/detail" );
   }
 
-  getDonationsPayments(skip : number, take : number): Observable<Livefeedpayment> {
+  getDonationsPayments(skip : number, take : number): Observable<SimpleDonations[]> {
     this.authContextService.withAuth();
     let params = new HttpParams()
       .set('take', take.toString())
       .set('skip', skip.toString());
 
-    return this.http.get<Livefeedpayment>(environment.backApi + 'payment/donations', { params });
+    return this.http.get<SimpleDonations[]>(environment.backApi + 'payment/donations', { params });
   }
 
    getPayments(filter: PaymentFilter): Observable<Livefeedpayment> {

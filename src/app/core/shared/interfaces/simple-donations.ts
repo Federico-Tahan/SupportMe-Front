@@ -3,4 +3,5 @@ export interface SimpleDonations {
     amount : number;
     campaignName : string;
     comment : string;
+    campaignPic : string;
 }

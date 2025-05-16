@@ -1,4 +1,4 @@
-<!-- profile.component.html -->
+<!-- profile.component.html (modificado) -->
 <div class="profile-container">
   <div class="profile-header">
     <div class="profile-photo-container">
@@ -140,12 +140,15 @@
       </div>
       
       <div class="donations-list">
+        <!-- Donaciones cargadas desde la API -->
         @for (donation of visibleDonations; track donation.date) {
-          <div class="donation-card">
-            <img [src]="donation.projectIcon" alt="{{ donation.projectName }}" class="donation-project-icon">
+          <div class="donation-card" @fadeInUp>
+            <img [src]="donation.campaignPic" alt="{{ donation.campaignName }}" class="donation-project-icon">
             <div class="donation-info">
-              <div class="donation-project">{{ donation.projectName }}</div>
-              <div class="donation-comment">{{ donation.comment }}</div>
+              <div class="donation-project">{{ donation.campaignName }}</div>
+              @if (donation.comment && donation.comment.trim().length > 0) {
+                <div class="donation-comment">{{ donation.comment }}</div>
+              }
             </div>
             <div class="donation-meta">
               <span class="donation-amount">
@@ -160,14 +163,15 @@
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                {{ donation.date }}
+                {{ donation.date | date:'dd MMM, yyyy, hh:mm a' }}
               </span>
             </div>
           </div>
         }
 
-        @if (visibleDonations.length === 0) {
-          <div class="no-donations">
+        <!-- Mensaje cuando no hay donaciones -->
+        @if (visibleDonations.length === 0 && !isLoadingDonations) {
+          <div class="no-donations" @fadeIn>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="8" y1="12" x2="16" y2="12"></line>
@@ -176,25 +180,22 @@
           </div>
         }
         
+        <!-- Indicador de carga -->
+        @if (isLoadingDonations) {
+          <div class="loading-indicator" @fadeIn>
+            <div class="spinner"></div>
+            <p>Cargando donaciones...</p>
+          </div>
+        }
+        
         <!-- Botón "Ver más" para donaciones -->
-        @if (allDonations.length > 3) {
+        @if (hasMoreDonations && visibleDonations.length > 0) {
           <div class="view-more-container">
-            <button class="btn btn-outline" (click)="toggleDonations()">
-              @if (showAllDonations) {
-                <span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="18 15 12 9 6 15"></polyline>
-                  </svg>
-                  Ver menos
-                </span>
-              } @else {
-                <span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                  Ver más
-                </span>
-              }
+            <button class="btn btn-outline" (click)="loadMoreDonations()" [disabled]="isLoadingDonations">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+              Ver más
             </button>
           </div>
         }

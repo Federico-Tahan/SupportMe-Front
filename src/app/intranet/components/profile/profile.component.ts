@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { trigger, transition, style, animate } from '@angular/animations';
-
-interface Donation {
-  projectIcon: string;
-  projectName: string;
-  comment: string;
-  amount: string;
-  date: string;
-}
+import { HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { PaymentService } from '../../../core/shared/services/payment.service';
+import { SimpleDonations } from '../../../core/shared/interfaces/simple-donations';
 
 interface Campaign {
   rank: number;
@@ -22,7 +18,7 @@ interface Campaign {
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe],
+  imports: [CommonModule, CurrencyPipe, DatePipe],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
   animations: [
@@ -41,6 +37,9 @@ interface Campaign {
   ]
 })
 export class ProfileComponent implements OnInit {
+  // Inyección del servicio usando la nueva sintaxis de Angular
+  private paymentService = inject(PaymentService);
+
   profileName: string = 'Fernando Gómez';
   profileEmail: string = 'fernando.gomez@email.com';
   hasProfileImage: boolean = false; // Control para mostrar iniciales o imagen
@@ -62,56 +61,18 @@ export class ProfileComponent implements OnInit {
     { number: 'Dic 2023', label: 'Miembro desde' },
   ];
   
-  // Todas las donaciones
-  allDonations: Donation[] = [
-    {
-      projectIcon: '/api/placeholder/60/60',
-      projectName: 'El Amazonas arde: Salvemos el pulmón del planeta',
-      comment: '"Gracias por el trabajo que hacen, sigamos luchando juntos."',
-      amount: '$10,000.00 ARS',
-      date: '03 May, 2025, 10:45 PM'
-    },
-    {
-      projectIcon: '/api/placeholder/60/60',
-      projectName: 'El Amazonas arde: Salvemos el pulmón del planeta',
-      comment: '"Continuando con el apoyo a esta causa tan importante."',
-      amount: '$10,000.00 ARS',
-      date: '04 May, 2025, 12:17 AM'
-    },
-    {
-      projectIcon: '/api/placeholder/60/60',
-      projectName: 'El Amazonas arde: Salvemos el pulmón del planeta',
-      comment: '"Pequeña contribución adicional."',
-      amount: '$1,000.00 ARS',
-      date: '04 May, 2025, 12:48 AM'
-    },
-    {
-      projectIcon: '/api/placeholder/60/60',
-      projectName: 'El Amazonas arde: Salvemos el pulmón del planeta',
-      comment: '"Mi última donación para completar mi meta mensual."',
-      amount: '$10,000.00 ARS',
-      date: '04 May, 2025, 12:50 AM'
-    },
-    // Donaciones adicionales para demostrar "Ver más"
-    {
-      projectIcon: '/api/placeholder/60/60',
-      projectName: 'Agua potable para comunidades rurales',
-      comment: '"Feliz de apoyar esta iniciativa."',
-      amount: '$5,000.00 ARS',
-      date: '08 May, 2025, 9:30 AM'
-    },
-    {
-      projectIcon: '/api/placeholder/60/60',
-      projectName: 'Educación digital para niños',
-      comment: '"Espero que ayude a mejorar el acceso a tecnología."',
-      amount: '$8,000.00 ARS',
-      date: '10 May, 2025, 3:15 PM'
-    }
-  ];
+  // Lista de donaciones que se llenará con el servicio
+  donationsList: SimpleDonations[] = [];
   
-  // Donaciones visibles (limitadas o todas)
-  get visibleDonations(): Donation[] {
-    return this.showAllDonations ? this.allDonations : this.allDonations.slice(0, 3);
+  // Parámetros para paginación
+  currentPage: number = 0;
+  pageSize: number = 5;
+  hasMoreDonations: boolean = true;
+  isLoadingDonations: boolean = false;
+
+  // Getter para mostrar donaciones visibles
+  get visibleDonations(): SimpleDonations[] {
+    return this.donationsList;
   }
 
   // Top 5 campañas con mayor recaudación
@@ -159,8 +120,48 @@ export class ProfileComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    // Aquí podrías cargar datos desde un servicio
+    // Cargar los datos iniciales de donaciones
+    this.loadDonations();
+    
+    // Animar números de estadísticas
     this.animateStatNumbers();
+  }
+
+  // Método para cargar donaciones usando el servicio
+  loadDonations(): void {
+    if (!this.hasMoreDonations || this.isLoadingDonations) return;
+    
+    this.isLoadingDonations = true;
+    
+    this.paymentService.getDonationsPayments(this.currentPage * this.pageSize, this.pageSize)
+      .subscribe({
+        next: (donations) => {
+          // Si recibimos menos elementos que el tamaño de página, no hay más que cargar
+          if (donations.length < this.pageSize) {
+            this.hasMoreDonations = false;
+          }
+          
+          // Agregar las nuevas donaciones a la lista existente
+          this.donationsList = [...this.donationsList, ...donations];
+          
+          // Actualizar estadísticas si es necesario
+          if (this.currentPage === 0) {
+            this.stats[0].number = this.donationsList.length.toString();
+          }
+          
+          this.isLoadingDonations = false;
+        },
+        error: (error) => {
+          console.error('Error al cargar donaciones:', error);
+          this.isLoadingDonations = false;
+        }
+      });
+  }
+
+  // Método para cargar más donaciones
+  loadMoreDonations(): void {
+    this.currentPage++;
+    this.loadDonations();
   }
 
   // Función para animar los números de estadísticas
@@ -189,10 +190,5 @@ export class ProfileComponent implements OnInit {
       return `${(amount / 1000).toFixed(1)}K`;
     }
     return amount.toString();
-  }
-  
-  // Método para alternar mostrar más/menos donaciones
-  toggleDonations(): void {
-    this.showAllDonations = !this.showAllDonations;
   }
 }
