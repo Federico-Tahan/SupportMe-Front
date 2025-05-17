@@ -5,15 +5,10 @@ import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PaymentService } from '../../../core/shared/services/payment.service';
 import { SimpleDonations } from '../../../core/shared/interfaces/simple-donations';
-
-interface Campaign {
-  rank: number;
-  name: string;
-  image: string;
-  raised: number;
-  goal: number;
-  donors: number;
-}
+import { UserService } from '../../../core/shared/services/user.service';
+import { UserProfile } from '../../../core/shared/interfaces/user-profile';
+import { CampaignService } from '../../../core/shared/services/campaign.service';
+import { Campaign } from '../../../core/shared/interfaces/campaign';
 
 @Component({
   selector: 'app-profile',
@@ -37,29 +32,52 @@ interface Campaign {
   ]
 })
 export class ProfileComponent implements OnInit {
-  // Inyección del servicio usando la nueva sintaxis de Angular
+  // Inyección de servicios usando la nueva sintaxis de Angular
   private paymentService = inject(PaymentService);
+  private userService = inject(UserService);
+  private campaignService = inject(CampaignService);
 
-  profileName: string = 'Fernando Gómez';
-  profileEmail: string = 'fernando.gomez@email.com';
-  hasProfileImage: boolean = false; // Control para mostrar iniciales o imagen
-  showAllDonations: boolean = false; // Control para mostrar todas las donaciones
+  // Datos del perfil del usuario
+  userProfile: UserProfile | null = null;
+  hasProfileImage: boolean = false;
+  showAllDonations: boolean = false;
+  isLoadingProfile: boolean = false;
+  
+  // Getter para mostrar el nombre completo
+  get profileName(): string {
+    if (this.userProfile) {
+      return `${this.userProfile.name} ${this.userProfile.lastName}`;
+    }
+    return '';
+  }
+  
+  // Getter para mostrar el email
+  get profileEmail(): string {
+    return this.userProfile?.email || '';
+  }
   
   // Calcular iniciales para el avatar
   get userInitials(): string {
-    return this.profileName
-      .split(' ')
-      .map(name => name.charAt(0))
-      .join('')
-      .substring(0, 1)
-      .toUpperCase();
+    if (this.userProfile) {
+      const firstInitial = this.userProfile.name.charAt(0);
+      return (firstInitial).toUpperCase();
+    }
+    return '';
   }
   
-  stats = [
-    { number: '4', label: 'Donaciones realizadas' },
-    { number: '$31,000', label: 'Total donado (ARS)' },
-    { number: 'Dic 2023', label: 'Miembro desde' },
-  ];
+  // Estadísticas actualizadas desde la API
+  get stats() {
+    return [
+      { number: this.userProfile?.donationsCount.toString() || '0', label: 'Donaciones realizadas' },
+      { number: `$${this.formatLargeAmount(this.userProfile?.totalDonated || 0)}`, label: 'Total donado (ARS)' },
+      { 
+        number: this.userProfile ? 
+          new Date(this.userProfile.createdDate).toLocaleDateString('es-AR', { month: 'short', year: 'numeric' }) : 
+          '-', 
+        label: 'Miembro desde' 
+      },
+    ];
+  }
   
   // Lista de donaciones que se llenará con el servicio
   donationsList: SimpleDonations[] = [];
@@ -75,58 +93,65 @@ export class ProfileComponent implements OnInit {
     return this.donationsList;
   }
 
-  // Top 5 campañas con mayor recaudación
-  topCampaigns: Campaign[] = [
-    {
-      rank: 1,
-      name: 'Salvemos el Amazonas: Reforestación urgente',
-      image: '/api/placeholder/60/60',
-      raised: 45000000,
-      goal: 50000000,
-      donors: 1245
-    },
-    {
-      rank: 2,
-      name: 'Agua potable para comunidades rurales de Córdoba',
-      image: '/api/placeholder/60/60',
-      raised: 28700000,
-      goal: 35000000,
-      donors: 876
-    },
-    {
-      rank: 3,
-      name: 'Educación digital para niños en situación vulnerable',
-      image: '/api/placeholder/60/60',
-      raised: 21500000,
-      goal: 25000000,
-      donors: 734
-    },
-    {
-      rank: 4,
-      name: 'Conservación del yaguareté: Especies en peligro',
-      image: '/api/placeholder/60/60',
-      raised: 15800000,
-      goal: 20000000,
-      donors: 523
-    },
-    {
-      rank: 5,
-      name: 'Energía solar para escuelas rurales argentinas',
-      image: '/api/placeholder/60/60',
-      raised: 12300000,
-      goal: 18000000,
-      donors: 411
-    }
-  ];
+  // Top campañas con mayor recaudación
+  topCampaigns: Campaign[] = [];
+  isLoadingCampaigns: boolean = false;
+  
+  // Verificar si tenemos campañas para mostrar
+  get hasCampaigns(): boolean {
+    return this.topCampaigns.length > 0;
+  }
 
   ngOnInit(): void {
+    // Cargar datos del perfil del usuario
+    this.loadUserProfile();
+    
     // Cargar los datos iniciales de donaciones
     this.loadDonations();
+    
+    // Cargar las campañas con mayor recaudación
+    this.loadTopCampaigns();
     
     // Animar números de estadísticas
     this.animateStatNumbers();
   }
 
+  // Método para cargar el perfil del usuario
+  loadUserProfile(): void {
+    this.isLoadingProfile = true;
+    
+    this.userService.getProfile().subscribe({
+      next: (profile) => {
+        this.userProfile = profile;
+        this.hasProfileImage = !!profile.profilePc; // Verificar si hay imagen de perfil
+        this.isLoadingProfile = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar el perfil:', error);
+        this.isLoadingProfile = false;
+      }
+    });
+  }
+  
+  // Método para cargar las campañas con mayor recaudación
+  loadTopCampaigns(): void {
+    this.isLoadingCampaigns = true;
+    
+    this.campaignService.getMostRaisedCampaigns().subscribe({
+      next: (campaigns) => {
+        // Ordenar campañas por monto recaudado (de mayor a menor)
+        const sortedCampaigns = campaigns.sort((a, b) => b.raised - a.raised);
+        
+        // Obtener las 5 primeras campañas (o menos si no hay 5)
+        this.topCampaigns = sortedCampaigns.slice(0, 5);
+        this.isLoadingCampaigns = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar las campañas:', error);
+        this.isLoadingCampaigns = false;
+      }
+    });
+  }
   // Método para cargar donaciones usando el servicio
   loadDonations(): void {
     if (!this.hasMoreDonations || this.isLoadingDonations) return;
@@ -143,12 +168,6 @@ export class ProfileComponent implements OnInit {
           
           // Agregar las nuevas donaciones a la lista existente
           this.donationsList = [...this.donationsList, ...donations];
-          
-          // Actualizar estadísticas si es necesario
-          if (this.currentPage === 0) {
-            this.stats[0].number = this.donationsList.length.toString();
-          }
-          
           this.isLoadingDonations = false;
         },
         error: (error) => {

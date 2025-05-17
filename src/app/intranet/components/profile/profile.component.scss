@@ -257,7 +257,7 @@ body {
 /* Layout de contenido principal */
 .main-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 30px;
   padding: 0 40px 40px;
 }
@@ -288,7 +288,7 @@ body {
   color: var(--primary);
 }
 
-/* Top Campañas */
+/* Top Campañas - ACTUALIZADO */
 .campaigns-list {
   display: flex;
   flex-direction: column;
@@ -305,29 +305,17 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.campaign-rank {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: var(--primary-gradient);
-  color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 13px;
-  z-index: 1;
-}
 
 .campaign-image {
-  width: 80px;
-  height: 80px;
+  width: 60px;  /* Ajustado para que coincida con donation-project-icon */
+  height: 60px; /* Ajustado para que coincida con donation-project-icon */
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
+  margin-right: 20px; /* Ajustado para que coincida con donation-project-icon */
+  margin-left: 10px; /* Añadido para dar espacio desde el borde */
+  margin-top: 10px; /* Añadido para dar espacio desde el borde superior */
+  margin-bottom: 10px; /* Añadido para dar espacio desde el borde inferior */
 }
 
 .campaign-image img {
@@ -335,6 +323,9 @@ body {
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+  border-radius: 50%; /* Mismo border-radius que donation-project-icon */
+  border: 3px solid white; /* Mismo borde que donation-project-icon */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Mismo shadow que donation-project-icon */
 }
 
 .campaign-info {
@@ -350,24 +341,9 @@ body {
   line-height: 1.4;
 }
 
-.campaign-progress-container {
-  height: 6px;
-  background-color: #f0f2f5;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  overflow: hidden;
-}
-
-.campaign-progress-bar {
-  height: 100%;
-  background: var(--primary-gradient);
-  border-radius: 4px;
-  transition: width 0.5s ease-out;
-}
-
 .campaign-stats {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   font-size: 13px;
   align-items: center;
 }
@@ -377,16 +353,12 @@ body {
   color: var(--primary);
   display: flex;
   align-items: center;
+  font-size: 18px; /* Aumentado el tamaño del monto */
 }
 
 .campaign-raised svg {
   margin-right: 5px;
   color: var(--primary);
-}
-
-.campaign-percent {
-  color: var(--text-muted);
-  font-size: 12px;
 }
 
 /* Sección de donaciones */
@@ -409,7 +381,7 @@ body {
 .donation-project-icon {
   width: 60px;
   height: 60px;
-  border-radius: 50%; /* Cambiado a circular */
+  border-radius: 50%;
   margin-right: 20px;
   object-fit: cover;
   border: 3px solid white;
@@ -454,14 +426,14 @@ body {
 .donation-amount {
   font-weight: 700;
   color: var(--success);
-  font-size: 16px;
+  font-size: 18px; /* Aumentado para que coincida con campaign-raised */
   margin-bottom: 8px;
   display: flex;
   align-items: center;
   background: rgba(0, 209, 132, 0.1);
   padding: 5px 12px;
   border-radius: 20px;
-  transition: transform 0.2s ease;
+  /* Eliminada la transición para quitar el hover */
 }
 
 .donation-amount svg {
@@ -552,6 +524,7 @@ body {
   transform: none;
 }
 
+/* Eliminado el hover para donation-amount */
 .donation-amount:hover {
   transform: none;
 }
@@ -581,6 +554,10 @@ body {
   .profile-stats, .main-content {
     padding-left: 20px;
     padding-right: 20px;
+  }
+  
+  .main-content {
+    flex-direction: column; /* Cambia a columna en pantallas más pequeñas */
   }
   
   .section-container {
@@ -615,16 +592,13 @@ body {
   }
   
   .campaign-image {
-    width: 100%;
-    height: 120px;
+    width: 60px; /* Mantiene el mismo tamaño */
+    height: 60px; /* Mantiene el mismo tamaño */
+    margin: 15px auto; /* Centra la imagen en vista móvil */
   }
   
-  .campaign-rank {
-    top: 10px;
-    left: 10px;
-    width: 30px;
-    height: 30px;
-    font-size: 16px;
+  .campaign-image img {
+    border-radius: 50%; /* Mantiene el mismo border-radius circular */
   }
 }
 
@@ -678,8 +652,12 @@ body {
   }
   
   .donation-amount {
-    font-size: 14px;
+    font-size: 16px; /* Ligeramente más pequeño en móvil */
     padding: 4px 10px;
+  }
+  
+  .campaign-raised {
+    font-size: 16px; /* Ligeramente más pequeño en móvil */
   }
   
   .donation-date {
