@@ -1,6 +1,3 @@
-/* campaign-form.component.scss */
-
-/* Base styles */
 * {
   margin: 0;
   padding: 0;
@@ -13,14 +10,12 @@ body {
   line-height: 1.5;
 }
 
-/* Container layout */
 .campaign-form-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Header styles */
 .form-header {
   text-align: center;
   margin-bottom: 30px;
@@ -58,7 +53,6 @@ body {
   margin: 0;
 }
 
-/* Two-column layout */
 .form-layout {
   display: flex;
   gap: 24px;
@@ -73,7 +67,6 @@ body {
   flex: 1;
 }
 
-/* Section styling */
 .form-section {
   background-color: #ffffff;
   border-radius: 8px;
@@ -91,7 +84,6 @@ h3 {
   border-bottom: 1px solid #e9ecef;
 }
 
-/* Form group styles */
 .form-group {
   margin-bottom: 16px;
 }
@@ -104,19 +96,16 @@ h3 {
   margin-bottom: 6px;
 }
 
-/* Campo requerido - asterisco rojo */
 .required {
   color: #ef4444;
   margin-left: 3px;
 }
 
-/* Campo requerido alternativo (para campos de opción) */
 .required-alt {
   color: #ff9800;
   margin-left: 3px;
 }
 
-/* Campos en fila */
 .form-row {
   display: flex;
   gap: 16px;
@@ -128,7 +117,6 @@ h3 {
   margin-bottom: 0;
 }
 
-/* Input styles */
 .input-group {
   position: relative;
   width: 100%;
@@ -138,10 +126,10 @@ h3 {
 .input-icon {
   position: absolute;
   left: 14px;
-  top: 16px; /* Posición fija desde arriba en lugar de usar transform */
+  top: 16px;
   color: #9ca3af;
   font-size: 16px;
-  z-index: 1; /* Asegura que el icono esté por encima */
+  z-index: 1;
 }
 
 .input-group input,
@@ -189,7 +177,6 @@ h3 {
   transform: none;
 }
 
-/* Especial para textarea */
 .input-group textarea {
   padding-top: 15px;
 }
@@ -207,7 +194,6 @@ h3 {
   padding-right: 10px;
 }
 
-/* Error state */
 .error-message {
   color: #ef4444;
   font-size: 12px;
@@ -216,14 +202,13 @@ h3 {
   display: block;
   width: 100%;
   position: relative;
-  padding-left: 0; /* Sin padding para no alinearlo con el icono */
+  padding-left: 0;
 }
 
 .hidden {
   display: none;
 }
 
-/* File upload styles */
 .file-upload-container {
   margin-bottom: 20px;
 }
@@ -267,7 +252,6 @@ h3 {
   color: #9ca3af;
 }
 
-/* Image preview styles */
 .image-preview {
   position: relative;
   max-height: 300px;
@@ -318,7 +302,6 @@ h3 {
   background-color: #f3f4f6;
 }
 
-/* Gallery styles */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -400,7 +383,6 @@ h3 {
   transform: scale(1.1);
 }
 
-/* Tags styles */
 .tags-input-container {
   margin-bottom: 16px;
 }
@@ -460,7 +442,6 @@ h3 {
   color: #ef4444;
 }
 
-/* Modal styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -519,7 +500,6 @@ h3 {
   transform: scale(1.1);
 }
 
-/* Button styles */
 .form-actions {
   display: flex;
   justify-content: flex-end;
@@ -555,7 +535,6 @@ h3 {
   background-color: #e5e7eb;
 }
 
-/* Estilos para el checkbox */
 .checkbox-group {
   margin-bottom: 16px;
 }
@@ -592,7 +571,6 @@ h3 {
   margin-top: 2px;
 }
 
-/* Media queries para versión móvil */
 @media (max-width: 768px) {
   .form-layout {
     flex-direction: column;
@@ -605,5 +583,114 @@ h3 {
   
   .form-row .form-group {
     width: 100%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.loading-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.skeleton {
+  background: linear-gradient(to right, #f0f0f0 8%, #e0e0e0 18%, #f0f0f0 33%);
+  background-size: 800px 104px;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+}
+
+.skeleton.back-button {
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+  border-radius: 50%;
+}
+
+.skeleton.title {
+  height: 24px;
+  width: 180px;
+}
+
+.skeleton.section-title {
+  height: 20px;
+  width: 140px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.skeleton.label {
+  height: 16px;
+  width: 120px;
+  margin-bottom: 8px;
+}
+
+.skeleton.input {
+  height: 48px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.skeleton.textarea {
+  height: 120px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.skeleton.tag {
+  height: 32px;
+  width: 80px;
+  border-radius: 6px;
+}
+
+.skeleton.checkbox {
+  height: 40px;
+  display: flex;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.skeleton.upload-placeholder {
+  height: 200px;
+  width: 100%;
+  border-radius: 8px;
+  
+  &.small {
+    height: 100px;
+  }
+}
+
+.skeleton.gallery-item {
+  height: 120px;
+  border-radius: 6px;
+}
+
+.skeleton.button {
+  height: 40px;
+  border-radius: 6px;
+  
+  &.secondary {
+    width: 100px;
+  }
+  
+  &.primary {
+    width: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .skeleton.title {
+    width: 120px;
+  }
+  
+  .skeleton.button {
+    width: 100% !important;
   }
 }

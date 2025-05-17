@@ -1,261 +1,344 @@
-<!-- campaign-form.component.html -->
-<div class="header-left">
-  <a routerLink="/campaign" class="back-button"><i class="fas fa-chevron-left"></i></a>
-  <h4>{{ pageTitle() }}</h4>
-</div>
 
-<div class="campaign-form-container">
-  <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()">
+@if (isLoading) {
+<div class="loading-wrapper">
+
+  <div class="campaign-form-container">
     <div class="form-layout">
-      <!-- Columna principal - izquierda -->
       <div class="main-column">
-        <!-- Información básica -->
         <div class="form-section">
-          <h3>Información básica</h3>
+          <div class="skeleton section-title"></div>
           
           <div class="form-group">
-            <label for="campaignName">Nombre de la campaña <span class="required">*</span></label>
-            <div class="input-group">
-              <i class="input-icon fas fa-heading"></i>
-              <input 
-                type="text" 
-                id="campaignName"
-                formControlName="name" 
-                placeholder="Ingresa el nombre de la campaña"
-                required
-              >
-              @if (campaignForm.get('name')?.invalid && campaignForm.get('name')?.touched) {
-                <div class="error-message">
-                  Nombre es requerido
-                </div>
-              }
-            </div>
+            <div class="skeleton label"></div>
+            <div class="skeleton input"></div>
           </div>
           
           <div class="form-group">
-            <label for="campaignDescription">Descripción breve de la campaña</label>
-            <div class="input-group">
-              <i class="input-icon fas fa-align-left"></i>
-              <textarea 
-                id="campaignDescription"
-                formControlName="description" 
-                placeholder="Describe brevemente tu campaña"
-                rows="4"
-              ></textarea>
-            </div>
+            <div class="skeleton label"></div>
+            <div class="skeleton textarea"></div>
           </div>
           
-          <!-- Campos uno al lado del otro -->
           <div class="form-row">
             <div class="form-group">
-              <label for="goalAmount">Monto objetivo <span class="required-alt">*</span></label>
-              <div class="input-group">
-                <i class="input-icon fas fa-dollar-sign"></i>
-                <input 
-                  type="number" 
-                  id="goalAmount"
-                  formControlName="goalAmount" 
-                  placeholder="0.00"
-                  min="0"
-                  step="0.01"
-                >
-                @if (campaignForm.get('goalAmount')?.invalid && campaignForm.get('goalAmount')?.touched) {
-                  <div class="error-message">
-                    @if (campaignForm.get('goalAmount')?.errors?.['required']) {
-                      Monto es requerido
-                    } @else if (campaignForm.get('goalAmount')?.errors?.['min']) {
-                      El monto debe ser mayor a 0
-                    }
-                  </div>
-                }
-              </div>
+              <div class="skeleton label"></div>
+              <div class="skeleton input"></div>
             </div>
             
             <div class="form-group">
-              <label for="publicationEndDate">Fecha de finalización <span class="required-alt">*</span></label>
-              <div class="input-group">
-                <i class="input-icon fas fa-calendar-alt"></i>
-                <input 
-                  type="date" 
-                  id="publicationEndDate"
-                  formControlName="publicationEndDate"
-                >
-                @if (campaignForm.get('publicationEndDate')?.invalid && campaignForm.get('publicationEndDate')?.touched) {
-                  <div class="error-message">
-                    Fecha de finalización es requerida
-                  </div>
-                }
-              </div>
+              <div class="skeleton label"></div>
+              <div class="skeleton input"></div>
             </div>
           </div>
-          @if (goalAmountDateError()) {
-            <div class="error-message">
-              Debes ingresar al menos un monto objetivo o una fecha de finalización
-            </div>
-          }
           
           <div class="form-group">
-            <label for="categoryId">Categoría <span class="required">*</span></label>
-            <div class="input-group">
-              <i class="input-icon fas fa-tags"></i>
-              <select id="categoryId" formControlName="categoryId">
-                <option value="" disabled selected>Seleccionar categoría</option>
-                @for (item of categories(); track $index) {
-                  <option [value]="item.id">{{ item.name }}</option>
-                }
-                
-              </select>
-              @if (campaignForm.get('categoryId')?.invalid && campaignForm.get('categoryId')?.touched) {
-                <div class="error-message">
-                  Categoría es requerida
-                </div>
-              }
-            </div>
+            <div class="skeleton label"></div>
+            <div class="skeleton input"></div>
           </div>
         </div>
         
-        <!-- Etiquetas -->
         <div class="form-section">
-          <h3>Etiquetas</h3>
+          <div class="skeleton section-title"></div>
           
           <div class="tags-input-container">
-            <div class="input-group">
-              <i class="input-icon fas fa-tag"></i>
-              <input 
-                type="text" 
-                id="newTagInput"
-                placeholder="Agregar etiqueta"
-                (keyup.enter)="addTag()"
-              >
-              <button type="button" class="add-tag-btn" (click)="addTag()">
-                <i class="fas fa-plus"></i>
-              </button>
-            </div>
+            <div class="skeleton input"></div>
             
             <div class="tags-container">
-              @for (tag of tags(); track $index) {
-                <div class="tag-item">
-                  <span>{{ tag }}</span>
-                  <button type="button" class="tag-remove-btn" (click)="removeTag($index)">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              }
+              <div class="skeleton tag" *ngFor="let i of [1, 2, 3]"></div>
             </div>
           </div>
         </div>
       </div>
               
-      <!-- Columna secundaria - derecha -->
       <div class="side-column">
-        <!-- Estado de la campaña -->
         <div class="form-section">
-          <h3>Estado de la campaña</h3>
+          <div class="skeleton section-title"></div>
           <div class="checkbox-group">
-            <label class="checkbox-container">
-              <input type="checkbox" formControlName="isActive">
-              <div class="checkbox-content">
-                <span class="checkbox-label">Activo</span>
-                <span class="checkbox-hint">Indica si la campaña será visible para los usuarios</span>
-              </div>
-            </label>
-          </div>
-        </div>
-        <!-- Imagen principal -->
-        <div class="form-section">
-          <h3>Imagen principal <span class="required">*</span></h3>
-          
-          <div class="file-upload-container">
-            <div class="file-upload" (click)="triggerFileInput(mainImageInput)">
-              <input 
-                #mainImageInput
-                type="file" 
-                (change)="onMainImageSelected($event)"
-                accept="image/*"
-                style="display: none"
-              >
-              
-              @if (!mainImageBase64()) {
-                <div class="upload-placeholder">
-                  <i class="fas fa-cloud-upload-alt"></i>
-                  <p>Haz clic para subir imagen de portada</p>
-                  <span>PNG, JPG, WEBP hasta 4 MB</span>
-                </div>
-              } @else {
-                <div class="image-preview">
-                  <img [src]="mainImageBase64()" alt="Vista previa de imagen principal">
-                  <div class="image-overlay">
-                    <button type="button" class="change-image-btn" (click)="triggerFileInput(mainImageInput); $event.stopPropagation()">
-                      <i class="fas fa-sync-alt"></i> Cambiar
-                    </button>
-                  </div>
-                </div>
-              }
-              
-              @if (campaignForm.get('mainImage')?.invalid && campaignForm.get('mainImage')?.touched) {
-                <div class="error-message">
-                  Imagen principal es requerida
-                </div>
-              }
-            </div>
+            <div class="skeleton checkbox"></div>
           </div>
         </div>
         
-        <!-- Galería -->
         <div class="form-section">
-          <h3>Galería</h3>
+          <div class="skeleton section-title"></div>
           
           <div class="file-upload-container">
-            <div class="file-upload gallery-upload" (click)="triggerFileInput(galleryInput)">
-              <input 
-                #galleryInput
-                type="file" 
-                (change)="onGalleryImageSelected($event)"
-                accept="image/*,video/*"
-                multiple
-                style="display: none"
-              >
-              
-              <div class="upload-placeholder">
-                <i class="fas fa-images"></i>
-                <p>Haz clic para subir imágenes o videos</p>
-                <span>Video: 9:16 (hasta 100 MB), Imagen: 1920x1080px (hasta 4 Mb)</span>
-              </div>
-            </div>
+            <div class="skeleton upload-placeholder"></div>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <div class="skeleton section-title"></div>
+          
+          <div class="file-upload-container">
+            <div class="skeleton upload-placeholder small"></div>
           </div>
           
-          @if (galleryItems().length > 0) {
-            <div class="gallery-grid">
-              @for (item of galleryItems(); track $index) {
-                <div class="gallery-item">
-                  @if (item.type === 'image') {
-                    <img [src]="item.src" alt="Vista previa de galería">
-                  } @else if (item.type === 'video') {
-                    <video [src]="item.src" muted playsinline preload="metadata"></video>
-                  }
-                  <div class="gallery-item-overlay">
-                    <div class="gallery-actions">
-                      <button type="button" class="gallery-expand-btn" (click)="expandItem(item)">
-                        <i class="fas fa-expand"></i>
-                      </button>
-                      <button type="button" class="gallery-remove-btn" (click)="removeGalleryItem($index)">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              }
-            </div>
-          }
+          <div class="gallery-grid">
+            <div class="skeleton gallery-item" *ngFor="let i of [1, 2, 3, 4]"></div>
+          </div>
         </div>
       </div>
     </div>
       
     <div class="form-actions">
-      <a routerLink="/campaigns" class="btn btn-secondary">Cancelar</a>
-      <button type="button" class="btn btn-primary" (click)="onSubmit()">{{ submitButtonText() }}</button>
+      <div class="skeleton button secondary"></div>
+      <div class="skeleton button primary"></div>
     </div>
-  </form>
+  </div>
+</div>
+
+}@else {
+
+<div>
+  <div class="header-left">
+    <a routerLink="/campaign" class="back-button"><i class="fas fa-chevron-left"></i></a>
+    <h4>{{ pageTitle() }}</h4>
+  </div>
+
+  <div class="campaign-form-container">
+    <form [formGroup]="campaignForm" (ngSubmit)="onSubmit()">
+      <div class="form-layout">
+        <div class="main-column">
+          <div class="form-section">
+            <h3>Información básica</h3>
+            
+            <div class="form-group">
+              <label for="campaignName">Nombre de la campaña <span class="required">*</span></label>
+              <div class="input-group">
+                <i class="input-icon fas fa-heading"></i>
+                <input 
+                  type="text" 
+                  id="campaignName"
+                  formControlName="name" 
+                  placeholder="Ingresa el nombre de la campaña"
+                  required
+                >
+                @if (campaignForm.get('name')?.invalid && campaignForm.get('name')?.touched) {
+                  <div class="error-message">
+                    Nombre es requerido
+                  </div>
+                }
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="campaignDescription">Descripción breve de la campaña</label>
+              <div class="input-group">
+                <i class="input-icon fas fa-align-left"></i>
+                <textarea 
+                  id="campaignDescription"
+                  formControlName="description" 
+                  placeholder="Describe brevemente tu campaña"
+                  rows="4"
+                ></textarea>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="goalAmount">Monto objetivo <span class="required-alt">*</span></label>
+                <div class="input-group">
+                  <i class="input-icon fas fa-dollar-sign"></i>
+                  <input 
+                    type="number" 
+                    id="goalAmount"
+                    formControlName="goalAmount" 
+                    placeholder="0.00"
+                    min="0"
+                    step="0.01"
+                  >
+                  @if (campaignForm.get('goalAmount')?.invalid && campaignForm.get('goalAmount')?.touched) {
+                    <div class="error-message">
+                      @if (campaignForm.get('goalAmount')?.errors?.['required']) {
+                        Monto es requerido
+                      } @else if (campaignForm.get('goalAmount')?.errors?.['min']) {
+                        El monto debe ser mayor a 0
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="publicationEndDate">Fecha de finalización <span class="required-alt">*</span></label>
+                <div class="input-group">
+                  <i class="input-icon fas fa-calendar-alt"></i>
+                  <input 
+                    type="date" 
+                    id="publicationEndDate"
+                    formControlName="publicationEndDate"
+                  >
+                  @if (campaignForm.get('publicationEndDate')?.invalid && campaignForm.get('publicationEndDate')?.touched) {
+                    <div class="error-message">
+                      Fecha de finalización es requerida
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+            @if (goalAmountDateError()) {
+              <div class="error-message">
+                Debes ingresar al menos un monto objetivo o una fecha de finalización
+              </div>
+            }
+            
+            <div class="form-group">
+              <label for="categoryId">Categoría <span class="required">*</span></label>
+              <div class="input-group">
+                <i class="input-icon fas fa-tags"></i>
+                <select id="categoryId" formControlName="categoryId">
+                  <option value="" disabled selected>Seleccionar categoría</option>
+                  @for (item of categories(); track $index) {
+                    <option [value]="item.id">{{ item.name }}</option>
+                  }
+                  
+                </select>
+                @if (campaignForm.get('categoryId')?.invalid && campaignForm.get('categoryId')?.touched) {
+                  <div class="error-message">
+                    Categoría es requerida
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <h3>Etiquetas</h3>
+            
+            <div class="tags-input-container">
+              <div class="input-group">
+                <i class="input-icon fas fa-tag"></i>
+                <input 
+                  type="text" 
+                  id="newTagInput"
+                  placeholder="Agregar etiqueta"
+                  (keyup.enter)="addTag()"
+                >
+                <button type="button" class="add-tag-btn" (click)="addTag()">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              
+              <div class="tags-container">
+                @for (tag of tags(); track $index) {
+                  <div class="tag-item">
+                    <span>{{ tag }}</span>
+                    <button type="button" class="tag-remove-btn" (click)="removeTag($index)">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+                
+        <div class="side-column">
+          <div class="form-section">
+            <h3>Estado de la campaña</h3>
+            <div class="checkbox-group">
+              <label class="checkbox-container">
+                <input type="checkbox" formControlName="isActive">
+                <div class="checkbox-content">
+                  <span class="checkbox-label">Activo</span>
+                  <span class="checkbox-hint">Indica si la campaña será visible para los usuarios</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div class="form-section">
+            <h3>Imagen principal <span class="required">*</span></h3>
+            
+            <div class="file-upload-container">
+              <div class="file-upload" (click)="triggerFileInput(mainImageInput)">
+                <input 
+                  #mainImageInput
+                  type="file" 
+                  (change)="onMainImageSelected($event)"
+                  accept="image/*"
+                  style="display: none"
+                >
+                
+                @if (!mainImageBase64()) {
+                  <div class="upload-placeholder">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Haz clic para subir imagen de portada</p>
+                    <span>PNG, JPG, WEBP hasta 4 MB</span>
+                  </div>
+                } @else {
+                  <div class="image-preview">
+                    <img [src]="mainImageBase64()" alt="Vista previa de imagen principal">
+                    <div class="image-overlay">
+                      <button type="button" class="change-image-btn" (click)="triggerFileInput(mainImageInput); $event.stopPropagation()">
+                        <i class="fas fa-sync-alt"></i> Cambiar
+                      </button>
+                    </div>
+                  </div>
+                }
+                
+                @if (campaignForm.get('mainImage')?.invalid && campaignForm.get('mainImage')?.touched) {
+                  <div class="error-message">
+                    Imagen principal es requerida
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <h3>Galería</h3>
+            
+            <div class="file-upload-container">
+              <div class="file-upload gallery-upload" (click)="triggerFileInput(galleryInput)">
+                <input 
+                  #galleryInput
+                  type="file" 
+                  (change)="onGalleryImageSelected($event)"
+                  accept="image/*,video/*"
+                  multiple
+                  style="display: none"
+                >
+                
+                <div class="upload-placeholder">
+                  <i class="fas fa-images"></i>
+                  <p>Haz clic para subir imágenes o videos</p>
+                  <span>Video: 9:16 (hasta 100 MB), Imagen: 1920x1080px (hasta 4 Mb)</span>
+                </div>
+              </div>
+            </div>
+            
+            @if (galleryItems().length > 0) {
+              <div class="gallery-grid">
+                @for (item of galleryItems(); track $index) {
+                  <div class="gallery-item">
+                    @if (item.type === 'image') {
+                      <img [src]="item.src" alt="Vista previa de galería">
+                    } @else if (item.type === 'video') {
+                      <video [src]="item.src" muted playsinline preload="metadata"></video>
+                    }
+                    <div class="gallery-item-overlay">
+                      <div class="gallery-actions">
+                        <button type="button" class="gallery-expand-btn" (click)="expandItem(item)">
+                          <i class="fas fa-expand"></i>
+                        </button>
+                        <button type="button" class="gallery-remove-btn" (click)="removeGalleryItem($index)">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+        
+      <div class="form-actions">
+        <a routerLink="/campaigns" class="btn btn-secondary">Cancelar</a>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">{{ submitButtonText() }}</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 @if (showModal()) {
@@ -272,3 +355,5 @@
     </div>
   </div>
 }
+}
+

@@ -16,7 +16,6 @@ interface GalleryItem {
   isNew?: boolean;
 }
 
-// Extensión de la interfaz CampaignWrite para incluir isActive
 interface CampaignWriteWithActive extends CampaignWrite {
   isActive?: boolean;
 }
@@ -48,23 +47,25 @@ export class CampaignFormComponent implements OnInit {
   campaignId = signal<number | undefined>(undefined);
   pageTitle = signal<string>('Nueva campaña');
   submitButtonText = signal<string>('Guardar campaña');
+  isLoading = false;
   
   constructor(private fb: FormBuilder) {}
   
   ngOnInit(): void {
-    // Initialize the form
+    this.isLoading = true;
     this.initForm();
     
-    // Get categories
     this.categoryService.getCategories().subscribe({
       next: (data) => {
         this.categories.set(data);
+      },
+      complete: () => {
+        if (!this.isEditMode()) {
+          this.isLoading = false;
+        }
       }
     });
     
-    // Verificar la URL actual para debugging
-    
-    // Check for query parameters
     this.route.queryParams.subscribe(params => {
       
       if (params['id']) {
@@ -73,7 +74,6 @@ export class CampaignFormComponent implements OnInit {
         this.pageTitle.set('Editar campaña');
         this.submitButtonText.set('Actualizar campaña');
         
-        // Fetch campaign data
         this.campaignService.getCampaignById(+params['id']).subscribe({
           next: (campaign) => {
             if (campaign) {
@@ -82,9 +82,12 @@ export class CampaignFormComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error loading campaign:', error);
+            this.isLoading = false;
+          },
+          complete: () => {
+            this.isLoading = false;
           }
         });
-      } else {
       }
     });
   }
@@ -108,46 +111,39 @@ export class CampaignFormComponent implements OnInit {
       publicationEndDate: [null],
       categoryId: ['', Validators.required],
       mainImage: ['', Validators.required],
-      isActive: [true] // Campo agregado, por defecto en true
+      isActive: [true]
     }, {
       validators: this.atLeastOneRequired
     });
   }
   
   loadCampaignData(campaign: Campaign): void {
-    
-    // Update form values - handle the case where categoryId might not be present
     this.campaignForm.patchValue({
       name: campaign.name,
       description: campaign.description || '',
       goalAmount: campaign.goalAmount || null,
       publicationEndDate: campaign.goalDate ? new Date(campaign.goalDate).toISOString().split('T')[0] : null,
       categoryId: campaign.categoryId ? campaign.categoryId.toString() : '',
-      mainImage: 'placeholder', // Just to pass validation, will be overridden by the actual image
-      isActive: campaign.isActive !== undefined ? campaign.isActive : true // Si existe el valor lo usamos, si no por defecto true
+      mainImage: 'placeholder',
+      isActive: campaign.isActive !== undefined ? campaign.isActive : true
     });
     
-    // Set main image
     if (campaign.mainImage) {
       this.mainImageBase64.set(campaign.mainImage);
     }
     
-    // Set tags - handle both array of strings or array of objects with tag property
     if (campaign.tags && campaign.tags.length > 0) {
       let newTags: string[] = [];
       
       if (typeof campaign.tags[0] === 'string') {
-        // Array of strings
         newTags = [...campaign.tags as string[]];
       } else if (typeof campaign.tags[0] === 'object') {
-        // Array of objects with tag property
         newTags = campaign.tags.map((t: any) => t.tag || t);
       }
       
       this.tags.set(newTags);
     }
     
-    // Set gallery items - handle both array of strings or array of objects with base64 property
     if (campaign.assets && campaign.assets.length > 0) {
       const newGalleryItems: GalleryItem[] = campaign.assets.map((asset: any) => {
         const assetSrc = typeof asset === 'string' ? asset : asset.base64 || '';
@@ -180,7 +176,6 @@ export class CampaignFormComponent implements OnInit {
       reader.onload = (e: ProgressEvent<FileReader>) => {
         if (e.target?.result) {
           this.mainImageBase64.set(e.target.result as string);
-          // Actualizamos el valor en el formulario
           this.campaignForm.get('mainImage')?.setValue(this.mainImageBase64());
           this.campaignForm.get('mainImage')?.markAsTouched();
         }
@@ -217,7 +212,6 @@ export class CampaignFormComponent implements OnInit {
               isNew: true
             };
             
-            // Actualizar el array de galleryItems usando el signal
             this.galleryItems.update(items => [...items, newItem]);
             
             if (isVideo) {
@@ -303,7 +297,6 @@ export class CampaignFormComponent implements OnInit {
     }
     
     if (this.campaignForm.valid) {
-      // Para los assets, simplemente enviamos la propiedad base64
       const assets: Assets[] = this.galleryItems().map(item => ({
         base64: item.src
       }));
@@ -322,8 +315,10 @@ export class CampaignFormComponent implements OnInit {
         tags: tags,
         id: this.isEditMode() ? this.campaignId() : undefined,
         categoryId: +this.campaignForm.get('categoryId')?.value,
-        isActive: this.campaignForm.get('isActive')?.value // Incluir el estado activo en los datos enviados
+        isActive: this.campaignForm.get('isActive')?.value
       };
+      
+      this.isLoading = true;
   
       const request = this.isEditMode() 
         ? this.campaignService.updateCampaign(campaignData)
@@ -335,6 +330,10 @@ export class CampaignFormComponent implements OnInit {
         },
         error: (error) => {
           console.error(`Error ${this.isEditMode() ? 'updating' : 'creating'} campaign:`, error);
+           this.isLoading = false;
+        },
+        complete: () => {
+           this.isLoading = false;
         }
       });
     }
