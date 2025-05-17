@@ -1,4 +1,3 @@
-// navbar-intra.component.ts
 import { Component, inject, OnInit } from '@angular/core';
 import { ProfileComponentComponent } from "../../../components/profile-component/profile-component.component";
 import { UserToken } from '../../../core/shared/interfaces/user-token';

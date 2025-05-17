@@ -44,7 +44,6 @@ export class PaymentService {
       .set('limit', filter.Limit.toString())
       .set('skip', filter.skip.toString());
 
-    // Añadir fechas
     if (filter.from) {
       params = params.set('from', filter.from.toISOString());
     }
@@ -53,26 +52,22 @@ export class PaymentService {
       params = params.set('to', filter.to.toISOString());
     }
     
-    // Filtro de texto
     if (filter.textFilter && filter.textFilter.trim() !== '') {
       params = params.set('search', filter.textFilter);
     }
     
-    // Filtros de marca de tarjeta
     if (filter.brand && filter.brand.length > 0) {
       filter.brand.forEach(brand => {
         params = params.append('brand', brand);
       });
     }
     
-    // Filtros de campaña
     if (filter.campaignId && filter.campaignId.length > 0) {
       filter.campaignId.forEach(campaignId => {
         params = params.append('campaignId', campaignId.toString());
       });
     }
     
-    // Filtros de estado
     if (filter.status && filter.status.length > 0) {
       filter.status.forEach(status => {
         params = params.append('status', status);

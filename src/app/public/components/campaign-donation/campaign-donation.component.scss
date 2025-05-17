@@ -372,9 +372,8 @@
     background-color: rgba(99, 102, 241, 0.05);
   }
   
-  // Estado cuando se ha copiado la URL
   &.copied {
-    background-color: #10b981; // Color verde de éxito
+    background-color: #10b981; 
     border-color: #10b981 !important;
     color: white;
     
@@ -392,7 +391,6 @@
     transition: transform 0.3s ease;
   }
   
-  // Indicador de copia (check icon)
   .copy-indicator {
     position: absolute;
     right: 20px;
@@ -414,7 +412,6 @@
   }
 }
 
-// Animación para dibujar el check
 @keyframes check-draw {
   from {
     stroke-dashoffset: 40;
@@ -538,7 +535,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
   
-  // Estilos especiales para top donaciones
   &.top-1 {
     background-color: #FFF9C4;
     border: 1px solid #FBC02D;
@@ -567,7 +563,6 @@
       font-weight: 700;
       color: #6366F1;
       
-      // Estilos especiales para top 3
       .top-1 & {
         color: #FBC02D;
       }

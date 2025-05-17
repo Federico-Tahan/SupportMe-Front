@@ -66,7 +66,6 @@ export class ChartsComponent implements OnChanges, OnInit, AfterViewInit {
   
   private fetchData(): void {
     if (!this.campaignId || !this.from || !this.to) {
-      // Reset data if parameters are missing
       this.donationsData = [];
       this.visitsData = [];
       this.processedDonationsData = [];
@@ -80,7 +79,6 @@ export class ChartsComponent implements OnChanges, OnInit, AfterViewInit {
       visits: this.dashboardService.getGraphVisit(this.from, this.to, this.campaignId)
     }).subscribe({
       next: (result) => {
-        // Check if items property exists, otherwise use the result directly
         this.donationsData = result.donations.items || [];
         this.visitsData = result.visits.items || [];
         
@@ -89,7 +87,6 @@ export class ChartsComponent implements OnChanges, OnInit, AfterViewInit {
       },
       error: (err) => {
         console.error('Error fetching chart data:', err);
-        // Reset data on error
         this.donationsData = [];
         this.visitsData = [];
         this.processedDonationsData = [];
@@ -110,7 +107,6 @@ export class ChartsComponent implements OnChanges, OnInit, AfterViewInit {
       return;
     }
     
-    // Check the first item to determine the property name structure
     const sampleItem = this.visitsData[0];
     const nameKey = sampleItem.name !== undefined ? 'name' : 
                    (sampleItem.key !== undefined ? 'key' : null);
@@ -120,7 +116,6 @@ export class ChartsComponent implements OnChanges, OnInit, AfterViewInit {
       return;
     }
     
-    // Para el gráfico de líneas, necesitamos un formato anidado
     this.processedVisitsData = [{
       name: 'Visitas',
       series: this.visitsData.map(item => ({
@@ -136,7 +131,6 @@ export class ChartsComponent implements OnChanges, OnInit, AfterViewInit {
       return;
     }
     
-    // Check the first item to determine the property name structure
     const sampleItem = this.donationsData[0];
     const nameKey = sampleItem.name !== undefined ? 'name' : 
                    (sampleItem.key !== undefined ? 'key' : null);
@@ -146,7 +140,6 @@ export class ChartsComponent implements OnChanges, OnInit, AfterViewInit {
       return;
     }
     
-    // Para el gráfico de barras verticales, necesitamos un formato simple
     this.processedDonationsData = this.donationsData.map(item => ({
       name: item[nameKey] || '',
       value: item.value || 0
@@ -154,6 +147,5 @@ export class ChartsComponent implements OnChanges, OnInit, AfterViewInit {
   }
     
   onSelect(event: any) {
-    console.log(event);
   }
 }

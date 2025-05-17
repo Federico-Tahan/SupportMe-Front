@@ -24,11 +24,10 @@
     max-height: 500px;
   }
   
-  // Solo añadimos justify-content center cuando está en loading
   &.loading {
     justify-content: center;
     align-items: center;
-    min-height: 40px; // Para mantener la altura cuando está cargando
+    min-height: 40px;
   }
 }
 

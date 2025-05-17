@@ -1,11 +1,9 @@
-/* campaign-detail.component.scss */
-  
-// Variables
+
 $primary-color: #6366F1;
 $border-color: #e0e0e0;
 $text-color: #333;
 $light-gray: #f5f5f5;
-$success-color: #10b981; // Color verde para el estado de éxito
+$success-color: #10b981;
 
 .campaign-layout {
   max-width: 100%;
@@ -16,12 +14,11 @@ $success-color: #10b981; // Color verde para el estado de éxito
   margin-top: 5vh;
   color: $text-color;
   
-  @media (min-width: 1232px) {  // 1200px + 16px padding on each side
+  @media (min-width: 1232px) {
     max-width: 1200px;
   }
 }
 
-// Contenido principal: imagen + donación
 .main-content {
   display: flex;
   gap: 24px;
@@ -29,7 +26,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
   width: 100%;
 }
 
-// Columna izquierda (imagen y descripción)
 .left-column {
   flex: 2;
   max-width: 65%;
@@ -43,12 +39,10 @@ $success-color: #10b981; // Color verde para el estado de éxito
       width: 100%;
       height: auto;
       max-height: 450px;
-      //object-fit: cover;
       border-radius: 4px;
     }
   }
   
-  // Navegación de miniaturas
   .thumbnails-navigation {
     position: relative;
     display: flex;
@@ -110,7 +104,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
     }
   }
   
-  // Descripción de la campaña
   .campaign-description {
     margin-bottom: 24px;
     
@@ -127,7 +120,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
     }
   }
   
-  // Botones de acción
   .action-buttons {
     display: flex;
     gap: 12px;
@@ -152,7 +144,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
       }
     }
     
-    // Botón de compartir con animación
     .btn-share {
       background-color: white;
       border: 1px solid $primary-color;
@@ -168,7 +159,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
         background-color: rgba(99, 102, 241, 0.05);
       }
       
-      // Estado cuando se ha copiado la URL
       &.copied {
         background-color: $success-color;
         border-color: $success-color;
@@ -188,7 +178,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
         transition: transform 0.3s ease;
       }
       
-      // Indicador de copia (check icon)
       .copy-indicator {
         position: absolute;
         right: 20px;
@@ -212,7 +201,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
   }
 }
 
-// Animación para dibujar el check
 @keyframes check-draw {
   from {
     stroke-dashoffset: 40;
@@ -222,7 +210,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
   }
 }
 
-// Columna derecha (componente de donación)
 .right-column {
   flex: 1;
   max-width: 35%;
@@ -233,7 +220,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
   }
 }
 
-// Sección de comentarios de apoyo
 .support-section {
   border: 1px solid $border-color;
   border-radius: 8px;
@@ -307,7 +293,6 @@ $success-color: #10b981; // Color verde para el estado de éxito
   }
 }
 
-// Media queries para responsive
 @media (max-width: 992px) {
   .main-content {
     flex-direction: column;

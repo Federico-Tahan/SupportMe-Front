@@ -1,9 +1,6 @@
-// campaign-donation.component.ts
 import { Component, ElementRef, Input, OnInit, ViewChild, inject, TemplateRef, Renderer2, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SimpleCategory } from '../../../core/shared/interfaces/simple-category';
 import { RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
 import { CampaignService } from '../../../core/shared/services/campaign.service';
 import { SimpleDonation } from '../../../core/shared/interfaces/simple-donation';
 import { BaseFilter } from '../../../core/shared/filters/base-filter';
@@ -156,23 +153,18 @@ export class CampaignDonationComponent implements OnInit {
   isUrlCopied: boolean = false;
 
   share(): void {
-    // Obtener la URL actual
     const currentUrl = window.location.href;
     
-    // Copiar al portapapeles
     navigator.clipboard.writeText(currentUrl)
       .then(() => {
-        // Mostrar animación de confirmación
         this.isUrlCopied = true;
         
-        // Restablecer el estado después de la animación
         setTimeout(() => {
           this.isUrlCopied = false;
-        }, 2000); // La animación dura 2 segundos
+        }, 2000); 
       })
       .catch(err => {
         console.error('Error al copiar URL: ', err);
-        // Opcionalmente, mostrar un mensaje de error
       });
   }
 
@@ -234,10 +226,8 @@ export class CampaignDonationComponent implements OnInit {
     this.showTopDonationsModal = true;
     this.loadTopDonations();
     
-    // Prevenir scroll en el body cuando se abre el modal
     this.renderer.setStyle(document.body, 'overflow', 'hidden');
     
-    // Necesitamos esperar a que Angular renderice el modal antes de agregar el evento
     setTimeout(() => {
       const modalElement = document.querySelector('.custom-modal-body');
       if (modalElement) {
@@ -246,16 +236,13 @@ export class CampaignDonationComponent implements OnInit {
     }, 100);
   }
   
-  // Cerrar modales
   closeModal(): void {
     this.showAllDonationsModal = false;
     this.showTopDonationsModal = false;
     
-    // Restaurar scroll en el body cuando se cierra el modal
     this.renderer.removeStyle(document.body, 'overflow');
   }
   
-  // Manejar el evento de scroll en los modales
   handleModalScroll(modalType: 'all' | 'top', event: any): void {
     const element = event.target;
     const atBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 200;
@@ -269,13 +256,11 @@ export class CampaignDonationComponent implements OnInit {
     }
   }
   
-  // Cargar todas las donaciones (para el modal "Ver todas")
   loadAllDonations(loadMore = false): void {
     if (this.loadingModalData || (!loadMore && this.allDonations.length > 0)) return;
     
     this.loadingModalData = true;
     
-    // Si estamos cargando más, aumentamos el skip
     if (loadMore) {
       this.modalCurrentPage++;
     }
@@ -308,13 +293,11 @@ export class CampaignDonationComponent implements OnInit {
       });
   }
   
-  // Cargar top donaciones (para el modal "Ver top donaciones")
   loadTopDonations(loadMore = false): void {
     if (this.loadingModalData || (!loadMore && this.topDonations.length > 0)) return;
     
     this.loadingModalData = true;
     
-    // Si estamos cargando más, aumentamos el skip
     if (loadMore) {
       this.modalCurrentPage++;
     }
@@ -350,7 +333,6 @@ export class CampaignDonationComponent implements OnInit {
       });
   }
   
-  // Mapeo de objetos SimpleDonation a objetos viewModel
   private mapToDonationViewModel(donation: SimpleDonation): DonationViewModel {
     const date = new Date(donation.date);
     return {

@@ -50,14 +50,12 @@ export class ForgotPasswordComponent {
           }
         });
     } else {
-      // Marcar los campos como tocados para mostrar errores
       this.forgotPasswordForm.markAllAsTouched();
       this.recoveryError = true;
       this.errorMessage = 'Por favor, ingresa un correo electrónico válido';
     }
   }
 
-  // Método para reiniciar el formulario y volver a intentar
   resetForm() {
     this.isSubmitted = false;
     this.forgotPasswordForm.reset();

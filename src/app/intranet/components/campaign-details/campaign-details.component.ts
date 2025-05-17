@@ -56,7 +56,6 @@ export class CampaignDetailsComponent implements OnInit, OnChanges {
             this.loading = false;
             this.cdr.detectChanges();
           }
-          // Emit the initially selected campaign
           this.campaignChanged.emit(this.selectedCampaign);
         } else {
           this.loading = false;

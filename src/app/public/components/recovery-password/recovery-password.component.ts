@@ -12,7 +12,7 @@ import { environment } from '../../../../environment/environment';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule, LoadingSnipperComponent],
   templateUrl: './recovery-password.component.html',
-  styleUrls: ['./recovery-password.component.css']
+  styleUrls: ['./recovery-password.component.scss']
 })
 export class RecoveryPasswordComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -21,7 +21,7 @@ export class RecoveryPasswordComponent implements OnInit {
   private userService = inject(UserService);
   
   token: string = '';
-  rawToken: string = ''; // Token sin decodificar
+  rawToken: string = '';
   userData: UserRecoveryData | null = null;
   isLoading: boolean = false;
   showPassword: boolean = false;
@@ -38,11 +38,10 @@ export class RecoveryPasswordComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    // Obtenemos el token directamente de la URL para evitar la decodificación automática
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     this.rawToken = urlParams.get('token') || '';
-    this.token = this.rawToken; // Guardamos también el token decodificado para otros usos si fuera necesario
+    this.token = this.rawToken;
     
     if (!this.rawToken) {
       this.error = true;
@@ -55,22 +54,16 @@ export class RecoveryPasswordComponent implements OnInit {
 
   loadUserData(): void {
     this.isLoading = true;
-    
-    // Consola informativa para depuración (puedes eliminarla en producción)
-    console.log('Enviando token sin procesar:', this.rawToken);
-    console.log('URL que se enviará:', `${environment.backApi}user/password/user/data?token=${this.rawToken}`);
-    
+        
     this.userService.getRecoveryDataUser(this.rawToken).subscribe({
       next: (data: UserRecoveryData) => {
         this.userData = data;
         this.isLoading = false;
-        console.log('Datos recuperados correctamente:', data);
       },
       error: (err) => {
         this.isLoading = false;
         this.error = true;
         this.errorMessage = 'Error al recuperar los datos del usuario. El token podría haber expirado.';
-        console.error('Error al recuperar datos de usuario:', err);
       }
     });
   }
@@ -104,16 +97,10 @@ export class RecoveryPasswordComponent implements OnInit {
     this.isLoading = true;
     const newPassword = this.form.get('password')?.value;
     
-    // Consola informativa para depuración (puedes eliminarla en producción)
-    console.log('Enviando token sin procesar:', this.rawToken);
-    console.log('Contraseña a enviar:', newPassword);
-    console.log('URL que se enviará:', `${environment.backApi}user/password/change?token=${this.rawToken}&newpassword=[password-oculto]`);
-
     this.userService.changePassword(this.rawToken, newPassword).subscribe({
       next: () => {
         this.isLoading = false;
         this.success = true;
-        console.log('Contraseña cambiada con éxito');
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 3000);
@@ -122,7 +109,6 @@ export class RecoveryPasswordComponent implements OnInit {
         this.isLoading = false;
         this.error = true;
         this.errorMessage = 'Error al cambiar la contraseña. Por favor, inténtelo de nuevo.';
-        console.error('Error al cambiar la contraseña:', err);
       }
     });
   }

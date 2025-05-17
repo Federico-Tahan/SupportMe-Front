@@ -111,7 +111,7 @@ export class SignupComponent {
     }
     
     if (this.form.valid) {
-      this.isLoading = true;  // Mostrar loading
+      this.isLoading = true;
       const userData = {
         firstName: this.form.value.firstName,
         lastName: this.form.value.lastName,

@@ -3,7 +3,6 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-// Variables
 $color-primary: #6366F1;
 $color-success: #10B981;
 $color-error: #EF4444;
@@ -15,7 +14,6 @@ $color-border: #E5E7EB;
 $shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 $radius: 12px;
 
-// Contenedor principal
 .card {
   max-width: 550px;
   margin: 0 auto;
@@ -25,7 +23,6 @@ $radius: 12px;
   overflow: hidden;
   border: 1px solid $color-border;
   
-  // Ajuste para dispositivos móviles
   @media (max-width: 576px) {
     max-width: 100%;
     margin: 0;
@@ -35,7 +32,6 @@ $radius: 12px;
   }
 }
 
-// Cabecera de la tarjeta
 .card-header {
   padding: 24px 30px;
   background: $color-primary;
@@ -61,17 +57,14 @@ $radius: 12px;
   letter-spacing: 0.2px;
 }
 
-// Cuerpo de la tarjeta
 .card-body {
   padding: 30px;
   
-  // Ajuste para dispositivos móviles
   @media (max-width: 576px) {
     padding: 20px 15px;
   }
 }
 
-// Sección del monto y estado
 .amount-section {
   display: flex;
   justify-content: space-between;
@@ -80,7 +73,6 @@ $radius: 12px;
   border-bottom: 1px solid $color-border;
   margin-bottom: 25px;
   
-  // Ajuste para dispositivos móviles
   @media (max-width: 400px) {
     flex-direction: column;
     align-items: flex-start;
@@ -98,7 +90,6 @@ $radius: 12px;
   color: $color-text;
 }
 
-// Estados de la donación
 .status {
   display: flex;
   align-items: center;
@@ -128,14 +119,12 @@ $radius: 12px;
   justify-content: center;
 }
 
-// Grid de información
 .info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 25px;
   margin-bottom: 25px;
   
-  // Ajuste para dispositivos móviles
   @media (max-width: 576px) {
     grid-template-columns: 1fr;
     gap: 15px;
@@ -162,7 +151,6 @@ $radius: 12px;
   color: $color-text;
 }
 
-// Información de pago
 .payment-info {
   display: flex;
   align-items: center;
@@ -178,7 +166,6 @@ $radius: 12px;
   }
 }
 
-// Estilos para las imágenes de tarjetas
 .card-brand-image {
   width: 40px;
   height: 25px;
@@ -186,7 +173,6 @@ $radius: 12px;
   object-fit: contain;
 }
 
-// Icono de tarjeta genérico (para tarjetas no reconocidas)
 .card-icon {
   width: 40px;
   height: 25px;
@@ -210,7 +196,6 @@ $radius: 12px;
   }
 }
 
-// Información de fecha
 .date-info {
   display: flex;
   align-items: center;
@@ -221,19 +206,16 @@ $radius: 12px;
   color: $color-primary;
 }
 
-// Etiqueta de campaña
 .campaign-tag {
   font-size: 14px;
   font-weight: 500;
 }
 
-// Contenedor de mensaje de apoyo
 .support-message-container {
   margin-top: 5px;
   width: 100%;
 }
 
-// Mensaje de apoyo
 .support-message {
   background-color: #F3F4F6;
   border-radius: $radius;
@@ -260,7 +242,6 @@ $radius: 12px;
   }
 }
 
-// Estado de carga
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -270,7 +251,6 @@ $radius: 12px;
   color: $color-text-light;
 }
 
-// Mensaje cuando no hay datos
 .no-data-container {
   display: flex;
   flex-direction: column;
@@ -285,7 +265,6 @@ $radius: 12px;
   }
 }
 
-// Nuevos estilos para la sección de comisiones
 .commissions-container {
   margin-bottom: 25px;
   padding-bottom: 20px;
@@ -325,7 +304,6 @@ $radius: 12px;
   color: $color-text;
 }
 
-// Estilos para el total recibido
 .total-received-container {
   margin-top: 25px;
   border-top: 1px solid $color-border;
@@ -334,7 +312,6 @@ $radius: 12px;
   justify-content: space-between;
   align-items: center;
   
-  // Destacar más en dispositivos móviles
   @media (max-width: 576px) {
     background-color: rgba($color-success, 0.05);
     padding: 15px;

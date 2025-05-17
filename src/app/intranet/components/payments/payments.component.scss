@@ -1,4 +1,3 @@
-// Variables
 $primary-color: #0066cc;
 $success-color: #28a745;
 $error-color: #dc3545;
@@ -8,7 +7,6 @@ $light-gray: #f8f9fa;
 $border-color: #dee2e6;
 $light-border: #e9ecef;
 
-// Main Container
 .payments-container {
   color: $text-color;
   max-width: 100%;
@@ -16,7 +14,6 @@ $light-border: #e9ecef;
   padding: 16px;
 }
 
-// Header
 .header {
   display: flex;
   justify-content: space-between;
@@ -48,7 +45,6 @@ $light-border: #e9ecef;
   }
 }
 
-// Stats Cards
 .stats-cards-container {
   display: flex;
   gap: 16px;
@@ -126,12 +122,11 @@ $light-border: #e9ecef;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 400px; // Altura similar a la tabla con varios registros
+  min-height: 400px;
   background-color: #fff;
   border-radius: 8px;
   margin: 20px 0;
 }
-// Filters Section
 .filters-section {
   display: flex;
   align-items: center;
@@ -229,7 +224,6 @@ $light-border: #e9ecef;
   }
 }
 
-// Payments Table
 .payments-table {
   width: 100%;
   border-collapse: collapse;
@@ -336,7 +330,6 @@ $light-border: #e9ecef;
   }
 }
 
-// Pagination
 .pagination {
   display: flex;
   justify-content: space-between;
@@ -395,7 +388,6 @@ $light-border: #e9ecef;
   }
 }
 
-// Responsive adjustments
 @media (max-width: 992px) {
   .stats-cards-container {
     flex-wrap: wrap;
@@ -585,7 +577,6 @@ $light-border: #e9ecef;
   background-color: #3a5ce5;
 }
 
-/* Estilos para las tarjetas seleccionadas */
 .stats-card.active-filter {
   cursor: pointer;
 }
@@ -593,5 +584,4 @@ $light-border: #e9ecef;
 .stats-card:hover {
   cursor: pointer;
 }
-// Import Font Awesome
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');

@@ -11,7 +11,6 @@ import { Summary } from '../../../core/shared/interfaces/summary';
 import { InlineLoadingSpinnerComponent } from '../../../components/inline-loading-spinner/inline-loading-spinner.component';
 import { SimpleCampaign } from '../../../core/shared/interfaces/simple-campaign';
 
-// KPI data interface
 interface KpiData {
   title: string;
   value: string;
@@ -37,27 +36,21 @@ interface KpiData {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
-  // Date range parameters
   selectedDateRange: string = '30';
   startDate: string;
   endDate: string;
   
-  // Selected campaign
   selectedCampaign: SimpleCampaign;
   
-  // Service and change detection
   dashboardService = inject(DashboardService);
   cdr = inject(ChangeDetectorRef);
   
-  // KPI data arrays
   kpiData: KpiData[] = [];
   filteredKpiData: KpiData[] = [];
   
-  // Loading state
   loading: boolean = false;
   
   ngOnInit(): void {
-    // Initialize with default values
     const today = new Date();
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(today.getDate() - 30);
@@ -123,7 +116,6 @@ export class DashboardComponent implements OnInit {
   }
   
   calculateKpiData(current: Summary, previous: Summary): KpiData[] {
-    // Create fallback objects with default values to prevent undefined errors
     const safeCurrent: Summary = current || {
       income: 0,
       donations: 0,
@@ -138,7 +130,6 @@ export class DashboardComponent implements OnInit {
       visit: 0
     };
     
-    // Ensure all properties are initialized to prevent undefined errors
     const currentIncome = safeCurrent.income || 0;
     const previousIncome = safePrevious.income || 0;
     const currentDonations = safeCurrent.donations || 0;
@@ -211,7 +202,6 @@ export class DashboardComponent implements OnInit {
   }
   
   private formatCurrency(value: number): string {
-    // Check if value is undefined or null
     if (value === undefined || value === null) {
       return '$0';
     }

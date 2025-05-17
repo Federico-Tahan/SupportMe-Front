@@ -1,4 +1,3 @@
-// side-bar.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -37,14 +36,13 @@ export class SideBarComponent implements OnInit {
   }
 
   checkScreenSize() {
-    this.isMobile = window.innerWidth < 768; // Common breakpoint for mobile
+    this.isMobile = window.innerWidth < 768;
     if (this.isMobile) {
-      this.collapsed = true; // Force collapsed state on mobile
+      this.collapsed = true;
     }
   }
   
   toggleSidebar() {
-    // Only allow toggling if not on mobile
     if (!this.isMobile) {
       this.collapsed = !this.collapsed;
     }

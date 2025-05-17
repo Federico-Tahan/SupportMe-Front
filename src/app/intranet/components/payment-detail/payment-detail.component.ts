@@ -24,7 +24,6 @@ export class PaymentDetailComponent implements OnInit {
   isLoading = true;
   
   ngOnInit() {
-    // Obtener ID de los query params
     const queryId = this.route.snapshot.queryParamMap.get('id');
     
     if (queryId) {

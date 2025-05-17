@@ -1,4 +1,3 @@
-// profile-component.component.ts
 import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserToken } from '../../core/shared/interfaces/user-token';

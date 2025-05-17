@@ -1,7 +1,6 @@
-// Variables
 $primary-color: #6c7af3;
-$secondary-color: #6c7af3; // Unificado al color principal
-$accent-color: #6c7af3; // Unificado al color principal
+$secondary-color: #6c7af3; 
+$accent-color: #6c7af3; 
 $gradient-primary: linear-gradient(135deg, $primary-color, $primary-color);
 $question-color: #5a6178;
 $answer-color: #555b6e;
@@ -10,20 +9,18 @@ $border-radius: 14px;
 $box-shadow: 0 8px 25px rgba(108, 122, 243, 0.1);
 $transition-speed: 0.35s;
 
-// Mixins
 @mixin card-hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 30px rgba(108, 122, 243, 0.15);
 }
 
-// Wrapper para evitar problemas de posicionamiento con el navbar
 .faq-wrapper {
   position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 20px 0;
-  z-index: 1; // Asegura que no se superponga al navbar
+  z-index: 1;
 }
 
 .faq-container {
@@ -34,7 +31,7 @@ $transition-speed: 0.35s;
   padding: 30px 20px;
   background-color: #ffffff;
   border-radius: $border-radius;
-  position: relative; // Para elementos decorativos
+  position: relative;
 }
 
 .faq-title {
@@ -78,7 +75,6 @@ $transition-speed: 0.35s;
     @include card-hover;
   }
   
-  // Mismo color para todos los elementos
   .toggle-icon {
     background: rgba($primary-color, 0.1);
     color: $primary-color;
@@ -164,7 +160,6 @@ $transition-speed: 0.35s;
   flex-shrink: 0;
   position: relative;
   
-  // Usando un ícono de flecha personalizado con CSS
   &::after {
     content: '';
     width: 8px;
@@ -196,7 +191,6 @@ $transition-speed: 0.35s;
   }
 }
 
-// Animaciones
 @keyframes slideDown {
   from { 
     opacity: 0; 
@@ -215,7 +209,6 @@ $transition-speed: 0.35s;
   to { opacity: 1; }
 }
 
-// Media queries para responsividad
 @media (max-width: 768px) {
   .faq-wrapper {
     padding: 10px;
@@ -271,7 +264,6 @@ $transition-speed: 0.35s;
   }
 }
 
-// Para dispositivos muy pequeños
 @media (max-width: 480px) {
   .faq-container {
     padding: 15px 12px;

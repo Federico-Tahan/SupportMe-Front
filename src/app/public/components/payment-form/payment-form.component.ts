@@ -46,7 +46,7 @@ export class PaymentFormComponent implements OnInit {
   constructor() {
     this.paymentForm = new FormGroup({
       cardNumber: new FormControl('', [Validators.required]),
-      cvv: new FormControl('', [Validators.required, Validators.pattern(/^\d{3}$/)]), // Cambiado a exactamente 3 dígitos
+      cvv: new FormControl('', [Validators.required, Validators.pattern(/^\d{3}$/)]),
       expiryMonth: new FormControl('', [Validators.required]),
       expiryYear: new FormControl('', [Validators.required])
     });
@@ -144,10 +144,8 @@ ngOnInit(): void {
   }
   
   submitDonation(): void {
-    // Limpiar cualquier mensaje de error previo
     this.paymentError = '';
     
-    // Mostrar el spinner de carga
     this.isLoading = true;
     
     const paymentForm = this.paymentForm?.value;

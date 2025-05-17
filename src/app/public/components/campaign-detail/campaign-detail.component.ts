@@ -1,4 +1,3 @@
-// campaign-detail.component.ts
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CampaignDonationComponent } from "../campaign-donation/campaign-donation.component";
@@ -65,23 +64,18 @@ export class CampaignDetailComponent implements AfterViewInit, OnInit {
   isUrlCopied: boolean = false;
 
   share(): void {
-    // Obtener la URL actual
     const currentUrl = window.location.href;
     
-    // Copiar al portapapeles
     navigator.clipboard.writeText(currentUrl)
       .then(() => {
-        // Mostrar animación de confirmación
         this.isUrlCopied = true;
         
-        // Restablecer el estado después de la animación
         setTimeout(() => {
           this.isUrlCopied = false;
-        }, 2000); // La animación dura 2 segundos
+        }, 2000);
       })
       .catch(err => {
         console.error('Error al copiar URL: ', err);
-        // Opcionalmente, mostrar un mensaje de error
       });
   }
   

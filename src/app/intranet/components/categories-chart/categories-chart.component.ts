@@ -22,7 +22,6 @@ interface Category {
 export class CategoriesChartComponent {
   @Input() categories: Category[] = [];
   
-  // Track categories by property for better rendering performance
   trackByName(index: number, item: Category): string {
     return item.name;
   }

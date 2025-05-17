@@ -75,9 +75,7 @@ export class FaqComponent {
   
   constructor() {}
   
-  // Siempre cierra todos los demás elementos cuando se abre uno nuevo
   toggleFaq(selectedItem: FaqItem): void {
-    // Si está cerrado y va a abrirse, cerrar todos los demás
     if (!selectedItem.isOpen) {
       this.faqItems.forEach(item => {
         if (item !== selectedItem) {
@@ -86,7 +84,6 @@ export class FaqComponent {
       });
     }
     
-    // Toggle el estado del elemento seleccionado
     selectedItem.isOpen = !selectedItem.isOpen;
   }
 }
