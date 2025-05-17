@@ -10,7 +10,6 @@ import { PaymentService } from '../../../core/shared/services/payment.service';
 import { Card } from '../../../core/shared/interfaces/card';
 import { MpCard } from '../../../core/shared/interfaces/mp-card';
 import { PaymentInformation } from '../../../core/shared/interfaces/payment-information';
-import { environment } from '../../../../environment/environment';
 import { LoadingSnipperComponent } from '../../../components/loading-snipper/loading-snipper.component';
 
 @Component({
@@ -67,38 +66,38 @@ export class PaymentFormComponent implements OnInit {
     this.billingForm.get('description')?.setValue(this.donationMessage);
   }
   
-ngOnInit(): void {
-  this.isLoading = true;
-  
-  this.router.queryParams.subscribe(params => {
-    this.campaignId = params['campaignId'];
-    if (this.campaignId) {
-      this.campaignService.getCampaignById(this.campaignId).subscribe({
-        next: (data) => {
-          this.campaign = data;
-          
-          this.paymentService.getPublicKey(this.campaignId).subscribe({
-            next: (response) => {
-              this.publicKey = response.token;
-              this.mpService.loadMercadoPagoSDK(this.publicKey);
-              this.isLoading = false;
-            },
-            error: (error) => {
-              console.error('Error al obtener la clave pública:', error);
-              this.isLoading = false;
-            }
-          });
-        },
-        error: (error) => {
-          console.error('Error al obtener la campaña:', error);
-          this.isLoading = false;
-        }
-      });
-    } else {
-      this.isLoading = false;
-    }
-  });
-}
+  ngOnInit(): void {
+    this.isLoading = true;
+    
+    this.router.queryParams.subscribe(params => {
+      this.campaignId = params['campaignId'];
+      if (this.campaignId) {
+        this.campaignService.getCampaignById(this.campaignId).subscribe({
+          next: (data) => {
+            this.campaign = data;
+            
+            this.paymentService.getPublicKey(this.campaignId).subscribe({
+              next: (response) => {
+                this.publicKey = response.token;
+                this.mpService.loadMercadoPagoSDK(this.publicKey);
+                this.isLoading = false;
+              },
+              error: (error) => {
+                console.error('Error al obtener la clave pública:', error);
+                this.isLoading = false;
+              }
+            });
+          },
+          error: (error) => {
+            console.error('Error al obtener la campaña:', error);
+            this.isLoading = false;
+          }
+        });
+      } else {
+        this.isLoading = false;
+      }
+    });
+  }
   
   getDeviceId(): string {
     return (window as any).MP_DEVICE_SESSION_ID || '';
@@ -345,7 +344,12 @@ ngOnInit(): void {
   
   setCustomAmount(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    this.customAmount = inputElement.value;
+    // Eliminamos cualquier caracter que no sea un número
+    const numericValue = inputElement.value.replace(/\D/g, '');
+    
+    // Actualizamos el valor en el input con solo números
+    inputElement.value = numericValue;
+    this.customAmount = numericValue;
     
     const amount = parseFloat(this.customAmount);
     if (!isNaN(amount) && amount > 0) {
@@ -355,6 +359,16 @@ ngOnInit(): void {
       this.donationAmount = null;
       this.billingForm.get('amountSelected')?.setValue(null);
     }
+  }
+  
+  onDocumentInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    // Eliminamos cualquier caracter que no sea un número
+    const numericValue = inputElement.value.replace(/\D/g, '');
+    
+    // Actualizamos el valor en el input con solo números
+    inputElement.value = numericValue;
+    this.billingForm.get('documentNumber')?.setValue(numericValue);
   }
   
   markFormGroupTouched(formGroup: FormGroup) {

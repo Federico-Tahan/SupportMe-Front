@@ -136,7 +136,7 @@
             <label class="required-field">CVV</label>
             <div class="cvv-container">
               <input 
-                type="text" 
+                type="password" 
                 placeholder="Enter CVV" 
                 formControlName="cvv"
                 maxlength="3"
@@ -202,6 +202,7 @@
                 type="text" 
                 placeholder="Ingrese su documento" 
                 formControlName="documentNumber"
+                (input)="onDocumentInput($event)"
                 [disabled]="isLoading">
               @if (billingForm.get('documentNumber')?.invalid && billingForm.get('documentNumber')?.touched) {
                 <div class="error-message">El número de documento es requerido</div>
