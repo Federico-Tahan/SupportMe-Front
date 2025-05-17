@@ -13,6 +13,7 @@ export interface Campaign {
     tags : string[];
     raised: number;
     categoryId : number;
+    isActive : boolean;
     assets : string[];
     donationsCount : number;
     supportMessages : SupportMessage[];

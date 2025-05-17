@@ -16,6 +16,11 @@ interface GalleryItem {
   isNew?: boolean;
 }
 
+// Extensión de la interfaz CampaignWrite para incluir isActive
+interface CampaignWriteWithActive extends CampaignWrite {
+  isActive?: boolean;
+}
+
 @Component({
   selector: 'app-campaign-form',
   standalone: true,
@@ -102,7 +107,8 @@ export class CampaignFormComponent implements OnInit {
       goalAmount: [null],
       publicationEndDate: [null],
       categoryId: ['', Validators.required],
-      mainImage: ['', Validators.required]
+      mainImage: ['', Validators.required],
+      isActive: [true] // Campo agregado, por defecto en true
     }, {
       validators: this.atLeastOneRequired
     });
@@ -117,7 +123,8 @@ export class CampaignFormComponent implements OnInit {
       goalAmount: campaign.goalAmount || null,
       publicationEndDate: campaign.goalDate ? new Date(campaign.goalDate).toISOString().split('T')[0] : null,
       categoryId: campaign.categoryId ? campaign.categoryId.toString() : '',
-      mainImage: 'placeholder' // Just to pass validation, will be overridden by the actual image
+      mainImage: 'placeholder', // Just to pass validation, will be overridden by the actual image
+      isActive: campaign.isActive !== undefined ? campaign.isActive : true // Si existe el valor lo usamos, si no por defecto true
     });
     
     // Set main image
@@ -305,7 +312,7 @@ export class CampaignFormComponent implements OnInit {
         tag: tag
       }));
   
-      const campaignData: CampaignWrite = {
+      const campaignData: CampaignWriteWithActive = {
         name: this.campaignForm.get('name')?.value,
         description: this.campaignForm.get('description')?.value || '',
         mainImage: this.mainImageBase64(),
@@ -314,10 +321,11 @@ export class CampaignFormComponent implements OnInit {
         assets: assets,
         tags: tags,
         id: this.isEditMode() ? this.campaignId() : undefined,
-        categoryId: +this.campaignForm.get('categoryId')?.value
+        categoryId: +this.campaignForm.get('categoryId')?.value,
+        isActive: this.campaignForm.get('isActive')?.value // Incluir el estado activo en los datos enviados
       };
   
-        const request = this.isEditMode() 
+      const request = this.isEditMode() 
         ? this.campaignService.updateCampaign(campaignData)
         : this.campaignService.createCampaign(campaignData);
       

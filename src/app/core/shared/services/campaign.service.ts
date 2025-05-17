@@ -114,6 +114,10 @@ export class CampaignService {
       if (filter.textFilter) {
         params = params.set('textFilter', filter.textFilter.toString());
       }
+
+      if (filter.onlyActive !== undefined && !filter.onlyActive) {
+        params = params.set('onlyActive', filter.onlyActive.toString());
+      }
     }
     
     return this.http.get<Pagination<Campaign>>(
