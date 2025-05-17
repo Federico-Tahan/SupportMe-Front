@@ -24,7 +24,7 @@ export class SideBarComponent implements OnInit {
   ];
   
   labels = [
-    { icon: 'motorcycle', label: 'Explorar campañas', route: '/' }
+    { icon: 'hand-holding-heart', label: 'Explorar campañas', route: '/' }
   ];
   
   ngOnInit() {
