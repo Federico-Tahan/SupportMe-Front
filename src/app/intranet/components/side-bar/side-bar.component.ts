@@ -23,7 +23,7 @@ export class SideBarComponent implements OnInit {
   ];
   
   labels = [
-    { icon: 'hand-holding-heart', label: 'Explorar campañas', route: '/' }
+    { icon: 'hand-holding-heart', label: 'Explorar campañas', route: '/projects' }
   ];
   
   ngOnInit() {
