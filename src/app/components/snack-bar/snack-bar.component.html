@@ -1,0 +1,12 @@
+<div 
+  *ngIf="visible"
+  class="snack-bar" 
+  [ngClass]="type" 
+  [@snackBarState]="visible ? 'visible' : 'void'">
+  
+  <div class="icon-container">
+    <i [class]="getIconName()" aria-hidden="true"></i>
+  </div>
+  
+  <div class="message">{{ message }}</div>
+</div>

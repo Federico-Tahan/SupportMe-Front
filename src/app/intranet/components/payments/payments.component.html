@@ -125,6 +125,12 @@
                         (change)="toggleOptionInDropdown(i, j)"
                       >
                       <span class="checkmark"></span>
+                      @if (filter.type === 'campaign' && option.logoUrl) {
+                        <img [src]="option.logoUrl" class="option-logo" alt="Logo">
+                      }
+                      @if (filter.type === 'brand') {
+                        <span class="card-brand {{ option.value === 'visa' ? 'VISA' : 'MASTER' }}"></span>
+                      }
                       <span class="option-label">{{ option.label }}</span>
                     </label>
                   </div>

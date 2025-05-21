@@ -1,8 +1,11 @@
+// Actualizaciones para payments.component.ts
+
 import { Component, inject, OnInit } from '@angular/core';
 import { PaymentDetailRead } from '../../../core/shared/interfaces/payment-detail-read';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaymentService } from '../../../core/shared/services/payment.service';
+import { CampaignService } from '../../../core/shared/services/campaign.service'; // Añadir servicio de campaña
 import { CalendarComponent, DateRangeOutput } from "../../../components/calendar/calendar.component";
 import { DateParserPipe } from '../../../core/shared/pipes/date-parser.pipe';
 import { Subject } from 'rxjs';
@@ -13,16 +16,25 @@ import { RouterLink } from '@angular/router';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 
+// Añadir interfaz para campañas simplificadas
+interface SimpleCampaign {
+  id: number;
+  name: string;
+  logoUrl?: string;
+}
+
 interface FilterOption {
   label: string;
-  value: string;
+  value: string | number; // Modificar para aceptar string o number (id de campaña)
   isActive: boolean;
+  logoUrl?: string; // Para mostrar logos de campañas
 }
 
 interface Filter {
   name: string;
   options: FilterOption[];
   selectedOptions: string[];
+  type?: string; // Para identificar el tipo de filtro
 }
 
 @Component({
@@ -36,6 +48,7 @@ export class PaymentsComponent implements OnInit {
   endDate: Date = new Date();
   startDate: Date = new Date(new Date().setDate(this.endDate.getDate() - 7));  
   paymentService = inject(PaymentService);
+  campaignService = inject(CampaignService); // Inyectar el servicio de campañas
   totalPayments: number = 0;
   successfulPayments: number = 0;
   errorPayments: number = 0;
@@ -74,7 +87,14 @@ export class PaymentsComponent implements OnInit {
         { label: 'VISA', value: 'visa', isActive: false },
         { label: 'MASTERCARD', value: 'mastercard', isActive: false }
       ],
-      selectedOptions: []
+      selectedOptions: [],
+      type: 'brand'
+    },
+    {
+      name: 'Campañas',
+      options: [],
+      selectedOptions: [],
+      type: 'campaign'
     }
   ];
   
@@ -91,8 +111,9 @@ export class PaymentsComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.loadPayments();
+    this.loadCampaigns(); // Cargar campañas al inicializar
     this.loadCardBrands();
+    this.loadPayments();
   }
   
   onDateRangeChange(dateRange: DateRangeOutput): void {
@@ -110,6 +131,24 @@ export class PaymentsComponent implements OnInit {
       { label: 'VISA', value: 'visa', isActive: false },
       { label: 'MASTERCARD', value: 'mastercard', isActive: false }
     ];
+  }
+
+  // Cargar las campañas desde el servicio
+  loadCampaigns(): void {
+    this.campaignService.getCampaignSimple().subscribe({
+      next: (campaigns: SimpleCampaign[]) => {
+        // Mapear las campañas al formato de opciones de filtro
+        this.filters[1].options = campaigns.map(campaign => ({
+          label: campaign.name,
+          value: campaign.id,
+          isActive: false,
+          logoUrl: campaign.logoUrl
+        }));
+      },
+      error: (err) => {
+        console.error('Error al cargar campañas:', err);
+      }
+    });
   }
   
   onSearch(event: Event): void {
@@ -131,7 +170,6 @@ export class PaymentsComponent implements OnInit {
         this.errorPayments = livefeedpayment.totalError;
         this.totalItems = livefeedpayment.totalRegisters;
         this.isLoading = false;
-
       },
       error: (err) => {
         console.error('Error al cargar pagos:', err);
@@ -177,24 +215,6 @@ export class PaymentsComponent implements OnInit {
     this.loadPayments();
   }
   
-  toggleFilter(filterIndex: number, optionIndex: number): void {
-    const option = this.filters[filterIndex].options[optionIndex];
-    option.isActive = !option.isActive;
-    
-    this.filters[filterIndex].selectedOptions = this.filters[filterIndex].options
-      .filter(opt => opt.isActive)
-      .map(opt => opt.label);
-      
-    if (filterIndex === 0) {
-      this.paymentFilter.brand = this.filters[0].options
-        .filter(opt => opt.isActive)
-        .map(opt => opt.value);
-    }
-    
-    this.currentPage = 1;
-    this.loadPayments();
-  }
-  
   hasActiveOptions(filterIndex: number): boolean {
     return this.filters[filterIndex].options.some(option => option.isActive);
   }
@@ -232,27 +252,6 @@ export class PaymentsComponent implements OnInit {
     this.loadPayments();
   }
   
-  applyMultipleFilterOptions(filterIndex: number, selectedValues: string[]): void {
-    const filter = this.filters[filterIndex];
-    
-    filter.options.forEach(option => {
-      option.isActive = selectedValues.includes(option.value);
-    });
-    
-    filter.selectedOptions = filter.options
-      .filter(opt => opt.isActive)
-      .map(opt => opt.label);
-    
-   if (filterIndex === 0) {
-      this.paymentFilter.brand = filter.options
-        .filter(opt => opt.isActive)
-        .map(opt => opt.value);
-    }
-    
-    this.currentPage = 1;
-    this.loadPayments();
-  }
-  
   toggleFilterDropdown(index: number): void {
     if (this.openFilterIndex === index) {
       this.openFilterIndex = -1;
@@ -272,8 +271,11 @@ export class PaymentsComponent implements OnInit {
       
       this.filters[filterIndex].selectedOptions = [];
       
-     if (filterIndex === 0) {
+      // Resetear los filtros según su tipo
+      if (this.filters[filterIndex].type === 'brand') {
         this.paymentFilter.brand = [];
+      } else if (this.filters[filterIndex].type === 'campaign') {
+        this.paymentFilter.campaignId = [];
       }
       
       delete this.tempSelectedOptions[filterIndex];
@@ -284,7 +286,6 @@ export class PaymentsComponent implements OnInit {
     
     this.openFilterIndex = -1;
   }
-  
   
   toggleOptionInDropdown(filterIndex: number, optionIndex: number): void {
     if (!this.tempSelectedOptions[filterIndex]) {
@@ -307,10 +308,15 @@ export class PaymentsComponent implements OnInit {
           .filter(opt => opt.isActive)
           .map(opt => opt.label);
         
-        if (filterIndex === 0) {
+        // Aplicar filtros según el tipo
+        if (this.filters[filterIndex].type === 'brand') {
           this.paymentFilter.brand = this.filters[filterIndex].options
             .filter(opt => opt.isActive)
-            .map(opt => opt.value);
+            .map(opt => opt.value as string);
+        } else if (this.filters[filterIndex].type === 'campaign') {
+          this.paymentFilter.campaignId = this.filters[filterIndex].options
+            .filter(opt => opt.isActive)
+            .map(opt => opt.value as number);
         }
         
         delete this.tempSelectedOptions[filterIndex];

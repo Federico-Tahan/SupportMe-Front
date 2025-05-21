@@ -293,15 +293,15 @@
                   #galleryInput
                   type="file" 
                   (change)="onGalleryImageSelected($event)"
-                  accept="image/*,video/*"
+                  accept="image/*"
                   multiple
                   style="display: none"
                 >
                 
                 <div class="upload-placeholder">
                   <i class="fas fa-images"></i>
-                  <p>Haz clic para subir imágenes o videos</p>
-                  <span>Video: 9:16 (hasta 100 MB), Imagen: 1920x1080px (hasta 4 Mb)</span>
+                  <p>Haz clic para subir imágenes</p>
+                  <span>Imagen: 1920x1080px (hasta 4 Mb)</span>
                 </div>
               </div>
             </div>
@@ -334,8 +334,15 @@
       </div>
         
       <div class="form-actions">
-        <a routerLink="/campaigns" class="btn btn-secondary">Cancelar</a>
-        <button type="button" class="btn btn-primary" (click)="onSubmit()">{{ submitButtonText() }}</button>
+        <a routerLink="/campaign" class="btn btn-secondary">Cancelar</a>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          [disabled]="isLoading" 
+          (click)="onSubmit()">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          {{ submitButtonText() }}
+        </button>
       </div>
     </form>
   </div>
@@ -355,5 +362,6 @@
     </div>
   </div>
 }
+
 }
 

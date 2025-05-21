@@ -9,6 +9,8 @@ import { Assets } from '../../../core/shared/interfaces/assets';
 import { CampaignService } from '../../../core/shared/services/campaign.service';
 import { CategoryService } from '../../../core/shared/services/category.service';
 import { SimpleCategory } from '../../../core/shared/interfaces/simple-category';
+import { SnackBarService } from '../../../components/snack-bar/snack-bar.service';
+
 
 interface GalleryItem {
   src: string;
@@ -32,6 +34,11 @@ export class CampaignFormComponent implements OnInit {
   @ViewChild('galleryInput') galleryInput!: ElementRef;
   
   campaignService = inject(CampaignService);
+  categoryService = inject(CategoryService);
+  snackBarService = inject(SnackBarService);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
+  
   campaignForm!: FormGroup;
   mainImageBase64 = signal<string>('');
   galleryItems = signal<GalleryItem[]>([]);
@@ -39,9 +46,6 @@ export class CampaignFormComponent implements OnInit {
   expandedItem = signal<GalleryItem | null>(null);
   showModal = signal<boolean>(false);
   goalAmountDateError = signal<boolean>(false);
-  categoryService = inject(CategoryService);
-  route = inject(ActivatedRoute);
-  router = inject(Router);
   categories = signal<SimpleCategory[]>([]);
   isEditMode = signal<boolean>(false);
   campaignId = signal<number | undefined>(undefined);
@@ -58,6 +62,10 @@ export class CampaignFormComponent implements OnInit {
     this.categoryService.getCategories().subscribe({
       next: (data) => {
         this.categories.set(data);
+      },
+      error: (error) => {
+        this.snackBarService.error('Error al cargar categorías');
+        console.error('Error loading categories:', error);
       },
       complete: () => {
         if (!this.isEditMode()) {
@@ -81,6 +89,7 @@ export class CampaignFormComponent implements OnInit {
             }
           },
           error: (error) => {
+            this.snackBarService.error('Error al cargar los datos de la campaña');
             console.error('Error loading campaign:', error);
             this.isLoading = false;
           },
@@ -158,6 +167,7 @@ export class CampaignFormComponent implements OnInit {
       
       this.galleryItems.set(newGalleryItems);
     }
+    
   }
 
   onMainImageSelected(event: Event): void {
@@ -167,7 +177,7 @@ export class CampaignFormComponent implements OnInit {
       const file = target.files[0];
       
       if (file.size > 4000 * 1024) {
-        alert('La imagen debe ser menor a 4MB');
+        this.snackBarService.error('La imagen debe ser menor a 4MB');
         return;
       }
       
@@ -190,6 +200,8 @@ export class CampaignFormComponent implements OnInit {
     
     if (target.files && target.files.length > 0) {
       const files = target.files;
+      const successfulUploads = { images: 0, videos: 0 };
+      const failedUploads = { images: 0, videos: 0 };
       
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -198,7 +210,8 @@ export class CampaignFormComponent implements OnInit {
         const maxSize = isVideo ? 100 * 1024 * 1024 : 4000 * 1024; 
         
         if (file.size > maxSize) {
-          alert(`El ${isVideo ? 'video' : 'imagen'} "${file.name}" excede el tamaño máximo permitido`);
+          this.snackBarService.warning(`El ${isVideo ? 'video' : 'imagen'} "${file.name}" excede el tamaño máximo permitido`);
+          isVideo ? failedUploads.videos++ : failedUploads.images++;
           continue;
         }
         
@@ -213,6 +226,7 @@ export class CampaignFormComponent implements OnInit {
             };
             
             this.galleryItems.update(items => [...items, newItem]);
+            isVideo ? successfulUploads.videos++ : successfulUploads.images++;
             
             if (isVideo) {
               setTimeout(() => {
@@ -220,10 +234,24 @@ export class CampaignFormComponent implements OnInit {
                 videos.forEach(video => {
                   video.addEventListener('error', () => {
                     console.error('Error loading video:', video.src);
+                    this.snackBarService.error('Error al cargar video');
                   });
                   video.load();
                 });
               }, 100);
+            }
+            
+            // Mostrar mensaje de éxito al final (después de procesar todos los archivos)
+            if (i === files.length - 1) {
+              if (successfulUploads.images > 0 || successfulUploads.videos > 0) {
+                let message = 'Archivos agregados: ';
+                if (successfulUploads.images > 0) {
+                  message += `${successfulUploads.images} imagen(es)`;
+                }
+                if (successfulUploads.videos > 0) {
+                  message += successfulUploads.images > 0 ? ` y ${successfulUploads.videos} video(s)` : `${successfulUploads.videos} video(s)`;
+                }
+              }
             }
           }
         };
@@ -238,6 +266,9 @@ export class CampaignFormComponent implements OnInit {
   }
 
   removeGalleryItem(index: number): void {
+    const item = this.galleryItems()[index];
+    const type = item.type === 'image' ? 'Imagen' : 'Video';
+    
     this.galleryItems.update(items => items.filter((_, i) => i !== index));
   }
 
@@ -246,12 +277,20 @@ export class CampaignFormComponent implements OnInit {
     const tagValue = inputElement?.value?.trim();
     
     if (tagValue) {
-      this.tags.update(currentTags => [...currentTags, tagValue]);
-      inputElement.value = '';
+      // Verificar si la etiqueta ya existe
+      const tagExists = this.tags().some(tag => tag.toLowerCase() === tagValue.toLowerCase());
+      
+      if (tagExists) {
+        this.snackBarService.warning('Esta etiqueta ya existe');
+      } else {
+        this.tags.update(currentTags => [...currentTags, tagValue]);
+        inputElement.value = '';
+      }
     }
   }
 
   removeTag(index: number): void {
+    const tagName = this.tags()[index];
     this.tags.update(currentTags => currentTags.filter((_, i) => i !== index));
   }
 
@@ -326,16 +365,20 @@ export class CampaignFormComponent implements OnInit {
       
       request.subscribe({
         next: (response) => {
+          this.snackBarService.success(this.isEditMode() ? 'Campaña actualizada con éxito' : 'Campaña creada con éxito');
           this.router.navigate(['/campaign']);
         },
         error: (error) => {
+          this.snackBarService.error(this.isEditMode() ? 'Error al actualizar la campaña' : 'Error al crear la campaña');
           console.error(`Error ${this.isEditMode() ? 'updating' : 'creating'} campaign:`, error);
-           this.isLoading = false;
+          this.isLoading = false;
         },
         complete: () => {
-           this.isLoading = false;
+          this.isLoading = false;
         }
       });
+    } else {
+      this.snackBarService.error('Por favor, completa todos los campos requeridos');
     }
   }
 
