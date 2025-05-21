@@ -13,7 +13,14 @@ $light-border: #ececec;
   margin: 0;
   padding: 16px;
 }
-
+.option-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+  vertical-align: middle;
+}
 .header {
   display: flex;
   justify-content: space-between;
@@ -155,6 +162,19 @@ $light-border: #ececec;
       &::placeholder {
         color: #adb5bd;
       }
+    }
+  }
+  .filter-tag {
+    &.has-active-options {
+      background-color: rgba(99, 102, 241, 0.1);
+      border: 1px solid #6366F1;
+    }
+    
+    .option-selected {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
   
@@ -426,7 +446,16 @@ $light-border: #ececec;
     gap: 12px;
     align-items: flex-start;
   }
+  .filter-dropdown {
+    width: 260px;
+    right: 0;
+    left: auto;
+  }
   
+  .search-container .search-input,
+  .search-container .search-input:focus {
+    width: 100%;
+  }
   .payments-table {
     overflow-x: auto;
     display: block;
@@ -446,14 +475,13 @@ $light-border: #ececec;
   top: calc(100% + 5px);
   left: 0;
   background-color: white;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  width: 250px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 280px;
   z-index: 100;
   overflow: hidden;
   border: 1px solid #e0e0e0;
 }
-
 /* Cabecera del dropdown */
 .dropdown-header {
   padding: 12px 10px 10px 10px;
@@ -469,15 +497,19 @@ $light-border: #ececec;
 /* Cuerpo del dropdown */
 .dropdown-body {
   padding: 8px 16px;
-  max-height: 200px;
+  max-height: 250px;
   overflow-y: auto;
 }
 
 /* Opciones de filtro */
 .filter-option {
-  margin: 8px 0;
+  margin: 10px 0;
+  
+  &:hover {
+    background-color: rgba(99, 102, 241, 0.05);
+    border-radius: 4px;
+  }
 }
-
 /* Estilos para checkbox personalizado */
 .checkbox-container {
   display: flex;
@@ -487,6 +519,10 @@ $light-border: #ececec;
   cursor: pointer;
   font-size: 14px;
   user-select: none;
+  
+  img, .card-brand {
+    margin-right: 8px;
+  }
 }
 
 .checkbox-container input {
