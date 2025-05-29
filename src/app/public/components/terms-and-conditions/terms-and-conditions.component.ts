@@ -25,72 +25,96 @@ termsData: TermsSection[] = [
     id: 'introduccion',
     title: 'Introducción',
     content: [
-      'Bienvenido a SupportMe proporcionado por CodeFlow Systems. Nos complace ofrecerle acceso al Servicio (como se define más abajo), sujeto a estos términos y condiciones (los "Términos de Servicio") y a la Política de Privacidad correspondiente de CodeFlow Systems.',
-      'Al acceder y utilizar el Servicio, usted expresa su consentimiento, acuerdo y entendimiento de los Términos de Servicio y la Política de Privacidad. Si no está de acuerdo con los Términos de Servicio o la Política de Privacidad, no utilice el Servicio.',
-      'Si utiliza el servicio está aceptando las modalidades operativas en vigencia descriptas más adelante, las declara conocer y aceptar, las que se habiliten en el futuro y en los términos y condiciones que a continuación se detallan.'
-    ]
-  },
-  {
-    id: 'operaciones-habilitadas',
-    title: 'Operaciones Habilitadas',
-    content: [
-      'Las operaciones habilitadas son aquellas que estarán disponibles para los clientes, quienes deberán cumplir los requisitos que se encuentren vigentes en su momento para operar el Servicio.',
-      'Las mismas podrán ser ampliadas o restringidas por el proveedor, comunicándolo previamente con una antelación no menor a 60 días, y comprenden entre otras, sin que pueda entenderse taxativamente las que se indican a continuación.'
+      'Bienvenido a SupportMe, un servicio provisto por CodeFlow Systems. Ofrecemos una plataforma para crear y gestionar campañas de recaudación de fondos de forma segura y accesible.',
+      'Al acceder y utilizar el Servicio, usted acepta estar sujeto a estos Términos y Condiciones y a la Política de Privacidad correspondiente.',
+      'Si no está de acuerdo con los Términos y Condiciones o la Política de Privacidad, le solicitamos no utilizar el Servicio.',
+      'Al usar el Servicio, acepta todas las funcionalidades actuales y futuras, y se compromete a cumplir con las reglas aquí establecidas.'
     ]
   },
   {
     id: 'transacciones',
     title: 'Transacciones',
     content: [
-      'En ningún caso debe entenderse que la solicitud de un producto o servicio implica obligación alguna para el Acceso y uso del Servicio.',
-      'Para operar el Servicio se requerirá siempre que se trate de clientes de SupportMe, quienes podrán acceder mediante cualquier dispositivo con conexión a la Red Internet.',
-      'El cliente deberá proporcionar el número de documento de identidad y la clave personal, que será provista por la aplicación como requisito previo a la primera operación, en la forma que le sea requerida.',
-      'La clave personal y todo o cualquier otro mecanismo adicional de autenticación personal provisto por el Banco tiene el carácter de secreto e intransferible, y por lo tanto asumo las consecuencias de su divulgación a terceros, liberando a SupportMe de toda responsabilidad que de ello se derive.',
-      'En ningún caso SupportMe requerirá que le suministre la totalidad de los datos, ni enviará mail requiriendo información personal alguna.'
+      'El usuario es responsable del uso y resguardo de sus credenciales. SupportMe no se responsabiliza por el uso indebido por parte de terceros.',
+      'SupportMe nunca solicitará sus datos completos de acceso ni enviará correos electrónicos solicitando información confidencial.',
+      'Las donaciones se procesan mediante pasarelas de pago seguras, cumpliendo con los estándares internacionales de protección de datos financieros.'
+    ]
+  },
+  {
+    id: 'contenido-campanas',
+    title: 'Contenido de Campañas',
+    content: [
+      'El contenido de cada campaña es responsabilidad exclusiva del usuario que la crea.',
+      'Está prohibido publicar campañas fraudulentas, engañosas, que inciten al odio, violencia o que infrinjan derechos de terceros.',
+      'SupportMe podrá suspender o eliminar campañas que incumplan estos Términos, sin necesidad de notificación previa.',
+      'El uso de imágenes, textos o materiales protegidos por derechos de autor debe contar con autorización expresa de sus titulares.'
     ]
   },
   {
     id: 'costo-servicio',
     title: 'Costo del Servicio',
     content: [
-      'La empresa CodeFlow Systems podrá cobrar comisiones por el mantenimiento y/o uso de este Servicio o los que en el futuro implemente, entendiéndose facultado expresamente para efectuar los correspondientes débitos en mis cuentas, aún en descubierto, por lo que presto para ello mi expresa conformidad.',
-      'En caso de cualquier modificación a la presente previsión, lo comunicará con al menos 60 días de antelación.'
+      'CodeFlow Systems podrá cobrar comisiones por el mantenimiento, procesamiento y uso del Servicio.',
+      'Estas comisiones estarán claramente informadas al momento de realizar donaciones.',
+      'La empresa se encuentra autorizada a debitar dichos importes directamente de los fondos recaudados en las campañas.',
+      'Cualquier modificación será comunicada con al menos 60 días de antelación.'
     ]
   },
   {
     id: 'vigencia',
     title: 'Vigencia',
     content: [
-      'El Usuario podrá dejar sin efecto la relación que surja de la presente, en forma inmediata, sin otra responsabilidad que la derivada de los gastos originados hasta ese momento.',
-      'Si el cliente incumpliera cualquiera de las obligaciones asumidas en su relación contractual con empresa CodeFlow Systems, o de los presentes Términos y Condiciones, el Banco podrá decretar la caducidad del presente Servicio en forma inmediata, sin que ello genere derecho a indemnización o compensación alguna.',
-      'La empresa CodeFlow Systems podrá dejar sin efecto la relación que surja de la presente, con un preaviso mínimo de 60 días, sin otra responsabilidad.'
+      'El uso del servicio es voluntario y puede discontinuarse en cualquier momento por parte del usuario simplemente dejando de utilizarlo.',
+      'En caso de incumplimiento de los Términos, CodeFlow Systems podrá dar de baja la cuenta sin necesidad de preaviso y sin derecho a indemnización.'
     ]
   },
   {
     id: 'validez-operaciones',
     title: 'Validez de Operaciones y Notificaciones',
     content: [
-      'Los registros emitidos por la app serán prueba suficiente de las operaciones cursadas por dicho canal. Renuncio expresamente a cuestionar la idoneidad o habilidad de ese medio de prueba.',
-      'A los efectos del cumplimiento de disposiciones legales o contractuales, se otorga a las notificaciones por este medio el mismo alcance de las notificaciones mediante documento escrito.'
+      'Todas las operaciones realizadas dentro de la plataforma serán consideradas válidas y vinculantes para el usuario.',
+      'Los registros emitidos por la app serán prueba suficiente de dichas operaciones.',
+      'Las notificaciones enviadas mediante medios digitales (correo electrónico) tendrán el mismo valor legal que las enviadas por medios físicos.'
     ]
   },
   {
     id: 'propiedad-intelectual',
     title: 'Propiedad Intelectual',
     content: [
-      'El software en Argentina está protegido por la ley 11.723, que regula la propiedad intelectual y los derechos de autor de todos aquellos creadores de obras artísticas, literarias y científicas.'
+      'El software, diseño, marcas y contenido de SupportMe están protegidos por la Ley 11.723 de Propiedad Intelectual.',
+      'Está prohibida su reproducción total o parcial, modificación o distribución sin autorización expresa de CodeFlow Systems.',
+      'El incumplimiento de estas disposiciones podrá dar lugar a acciones legales.'
     ]
   },
   {
     id: 'privacidad-informacion',
     title: 'Privacidad de la Información',
     content: [
-      'Para utilizar los Servicios ofrecidos por CodeFlow Systems, los Usuarios deberán facilitar determinados datos de carácter personal.',
-      'Su información personal se procesa y almacena en servidores o medios magnéticos que mantienen altos estándares de seguridad y protección tanto física como tecnológica.',
-      'Para mayor información sobre la privacidad de los Datos Personales y casos en los que será revelada la información personal, se pueden consultar nuestras políticas de privacidad.'
+      'Para utilizar los Servicios, los usuarios deberán facilitar ciertos datos personales que serán almacenados y tratados conforme a altos estándares de seguridad.',
+      'SupportMe protege la información de sus usuarios mediante cifrado, control de acceso y monitoreo constante.',
+      'Para más información, consulte la Política de Privacidad disponible en la plataforma.'
+    ]
+  },
+  {
+    id: 'limitacion-responsabilidad',
+    title: 'Limitación de Responsabilidad',
+    content: [
+      'SupportMe actúa como intermediario tecnológico y no garantiza el uso correcto de los fondos por parte de los organizadores de campañas.',
+      'No se responsabiliza por contenidos falsos, errores en campañas, ni por daños directos o indirectos derivados del uso del Servicio.',
+      'Los usuarios donan bajo su propio criterio y asumen el riesgo que ello conlleva.'
+    ]
+  },
+  {
+    id: 'modificaciones',
+    title: 'Modificaciones a los Términos',
+    content: [
+      'CodeFlow Systems podrá modificar estos Términos en cualquier momento.',
+      'Las modificaciones serán publicadas en la plataforma y se entenderán aceptadas por el usuario si continúa utilizando el servicio pasados 15 días desde su publicación.',
+      'Es responsabilidad del usuario revisar periódicamente los Términos y Condiciones.'
     ]
   }
 ];
+
 
   scrollToSection(sectionId: string): void {
     const element = document.getElementById(sectionId);

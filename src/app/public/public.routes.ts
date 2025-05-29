@@ -7,6 +7,7 @@ import { FaqComponent } from './components/faq/faq.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { RecoveryPasswordComponent } from './components/recovery-password/recovery-password.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 
 export const PUBLIC_ROUTES: Routes = [
     {path : '', loadComponent: () => import('./components/landing/landing.component').then(m => m.LandingComponent)},
@@ -20,5 +21,6 @@ export const PUBLIC_ROUTES: Routes = [
     {path : 'password/forgot', component: ForgotPasswordComponent},
     {path : 'forgot', component: RecoveryPasswordComponent},
     {path : 'terms-and-conditions', component: TermsAndConditionsComponent},
+    {path : 'privacy-policies', component: PrivacyPolicyComponent},
     {path : 'payment/form', loadComponent: () => import('./components/payment-form/payment-form.component').then(m => m.PaymentFormComponent)},
 ];

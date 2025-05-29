@@ -1,0 +1,53 @@
+<div class="terms-container">
+  <!-- Header -->
+  <div class="terms-header">
+    <h1 class="terms-title">Políticas de Seguridad</h1>
+    <p class="terms-subtitle">
+      Tu seguridad y privacidad son nuestra prioridad. Conoce cómo protegemos tu información en SupportMe
+    </p>
+  </div>
+
+  <!-- Quick Navigation -->
+  <div class="quick-nav">
+    <h3 class="quick-nav-title">Ir a sección:</h3>
+    <div class="nav-pills">
+      @for (section of securityData; track section.id) {
+        <button 
+          class="nav-pill"
+          (click)="scrollToSection(section.id)">
+          {{ section.title }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Terms Content -->
+  <div class="terms-content">
+    @for (section of securityData; track section.id; let i = $index) {
+      <div class="terms-card" [id]="section.id">
+        <div class="card-header">
+          <span class="section-number">{{ i + 1 }}</span>
+          <h2 class="section-title">{{ section.title }}</h2>
+        </div>
+        
+        <div class="card-content">
+          @for (paragraph of section.content; track $index) {
+            <p class="section-paragraph">{{ paragraph }}</p>
+          }
+
+          @if (section.subsections) {
+            @for (subsection of section.subsections; track $index) {
+              <div class="subsection">
+                <h3 class="subsection-title">{{ subsection.title }}</h3>
+                @for (paragraph of subsection.content; track $index) {
+                  <p class="subsection-paragraph">{{ paragraph }}</p>
+                }
+              </div>
+            }
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+</div>
