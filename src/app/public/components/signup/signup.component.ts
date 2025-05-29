@@ -20,6 +20,7 @@ export class SignupComponent {
   showConfirmPassword = false;
   isLoading = false;
   router = inject(Router);
+  
   ngOnInit() {
     this.form = new FormGroup({
       email: new FormControl('', 
@@ -35,6 +36,7 @@ export class SignupComponent {
       lastName: new FormControl('', [Validators.required]),
       dateOfBirth: new FormControl('', [Validators.required,
         this.ageValidator(18)]),
+      acceptTerms: new FormControl(false, [Validators.requiredTrue])
     }, { validators: this.passwordMatchValidator });
   }
   
@@ -61,6 +63,7 @@ export class SignupComponent {
       return age >= minAge ? null : { minAge: { required: minAge, actual: age } };
     };
   }
+  
   togglePasswordVisibility(field: string) {
     if (field === 'password') {
       this.showPassword = !this.showPassword;

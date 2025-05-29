@@ -106,6 +106,20 @@
           }
           <div id="passwordError" class="text-danger" style="display: none;">Las contraseñas no coinciden</div>
           
+          <!-- Checkbox para términos y condiciones -->
+          <div class="terms-checkbox">
+            <label class="checkbox-container">
+              <input type="checkbox" formControlName="acceptTerms">
+              <span class="checkmark"></span>
+              <span class="checkbox-text">
+                Acepto los <a href="https://supportme.site/terms-and-conditions" target="_blank" class="terms-link">términos y condiciones</a>
+              </span>
+            </label>
+          </div>
+          @if(form.get('acceptTerms')?.errors?.['required'] && form.get('acceptTerms')?.touched){
+            <span class="text-danger">Debes aceptar los términos y condiciones</span>
+          }
+          
           <button type="submit" class="btn-continue">Registrarme</button>
           <div class="sign-up">
             <p>¿Ya tienes una cuenta? <a routerLink="/login">Iniciar sesión</a></p>
@@ -116,4 +130,3 @@
   </div>
 
   <app-loading-snipper [isLoading]="isLoading"></app-loading-snipper>
-

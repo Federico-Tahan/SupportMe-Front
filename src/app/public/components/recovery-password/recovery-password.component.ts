@@ -37,20 +37,22 @@ export class RecoveryPasswordComponent implements OnInit {
     validators: this.passwordMatchValidator
   });
 
-  ngOnInit(): void {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    this.rawToken = urlParams.get('token') || '';
-    this.token = this.rawToken;
-    
-    if (!this.rawToken) {
-      this.error = true;
-      this.errorMessage = 'Token no válido o expirado';
-      return;
-    }
-    
-    this.loadUserData();
+ngOnInit(): void {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const tokenFromUrl = urlParams.get('token') || '';
+  
+  if (!tokenFromUrl) {
+    this.error = true;
+    this.errorMessage = 'Token no válido o expirado';
+    return;
   }
+  
+  this.rawToken = encodeURIComponent(tokenFromUrl);
+  this.token = this.rawToken;
+  
+  this.loadUserData();
+}
 
   loadUserData(): void {
     this.isLoading = true;
