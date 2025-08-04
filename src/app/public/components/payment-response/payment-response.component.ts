@@ -17,7 +17,7 @@ export class PaymentResponseComponent implements OnInit {
   amount: number = 0;
   emailSent: boolean = true;
   donationPurpose: string = '';
-  logoUrl: string = 'https://supportme2.s3.sa-east-1.amazonaws.com/Selection+(1).png';
+  logoUrl: string = 'https://supportme.site:9000/supporme/campaigns/assets/e8f26311-191b-4c7a-93c4-fd39031fd62f.jpg';
   
   loading: boolean = true;
   error: boolean = false;
